@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/shipping_type"
+        android:title="Add Shipping Types" />
+    <item
+        android:id="@+id/shipping_types_list"
+        android:title="Shipping Types List" />
+    <item
+        android:id="@+id/add_vendor_area"
+        android:title="Vendor Service Business/Areas" />
+    <item
+        android:id="@+id/buyer_network"
+        android:title="Buyer Network" />
+
+    <item
+        android:id="@+id/custom_invoice"
+        android:title="Custom Invoice" />
+
+
+</menu>

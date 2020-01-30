@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sustowns.sustownsapp.Activities.AboutUsActivity">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.PopupOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/appcolor"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="#ffffff">
+
+            <ImageView
+                android:id="@+id/backarrow"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="15dp"
+                android:padding="10dp"
+                android:src="@drawable/back_arrow_white" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Terms and Conditions"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/ll_contracts"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/terms_conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_weight="1"
+            android:textAllCaps="false"
+            android:background="@drawable/backgroundapp_transparent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center"
+            android:text="Terms and Conditions"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/privacy_policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:padding="5dp"
+            android:background="@drawable/rounded_square_edges"
+            android:layout_gravity="center"
+            android:text="Privacy Policy"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_terms_conditions">
+    <LinearLayout
+        android:id="@+id/ll_quote_my_quote"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TERMS AND CONDITIONS"
+                    android:textColor="@color/appcolor"
+                    android:textSize="16sp" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="These Website Standard Terms and Conditions written on this webpage shall manage your use of this website and chat application. These terms will be applied fully and affect to your use of this website. By using this website, you agreed to accept all terms and conditions written in here. You must not use this website if you disagree with any of these Website Standard Terms and Conditions.
+
+Contract
+All commercial/contractual terms are offered by and agreed to between Buyers and Sellers alone. Sustowns does not have any control or does not determine or advise or in any way involve itself in the offering or acceptance of such commercial/contractual terms between the Buyers and Sellers.
+
+Representation
+Sustowns does not make any representation or Warranty as to specifics (such as quality, value, saleability, etc) of the products or services proposed to be sold or offered to be sold or purchased on the Website. Sustowns does not implicitly or explicitly support or endorse the sale or purchase of any products or services on the Website. Sustowns accepts no liability for any errors or omissions, whether on behalf of itself or third parties.
+
+Breach of Contract
+Sustowns is not responsible for any non-performance or breach of any contract entered into between Buyers and Sellers. Sustowns cannot and does not guarantee that the concerned Buyers and/or Sellers will perform any transaction concluded on the Website. Sustowns shall not and is not required to mediate or resolve any dispute or disagreement between Buyers and Sellers.
+
+Warranty
+Sustowns does not make any representation or warranty as to the item-specifics (such as legal title, creditworthiness, identity, etc.) of any of its Users. Sustowns advises to independently verify the bona fides of any particular.
+
+Right, Title or Interest over product
+Sustowns does not hold any right, title or interest, nor have any obligations or liabilities in respect of any contracts entered into between buyers and sellers. Sustowns does not take any responsibility for unsatisfactory or delayed performance of services or damages or delays as a result of products which are out of stock, unavailable or back ordered.
+
+Limitation of Liability
+Sustowns shall not be liable in any special, incidental, direct or consequential damages in connection to terms of use, even if the concerned user has informed in advance about the possibility of damages.
+
+Restrictions
+You are specifically restricted from all of the following
+
+• Publishing any website material in any other media
+
+• Selling, sublicensing and/or otherwise commercializing any website material
+
+• Publicly performing and/or showing any website material
+
+• Using this website in any way that is or may be damaging to this website
+
+• Using this website in any way that impacts user access to this website
+
+• Using this website contrary to applicable laws and regulations, or in any way may cause harm to the website, or to any person or business entity
+
+•	Engaging in any data mining, data harvesting, data extracting or any other similar activity in relation to this website.
+
+•	Using this website to engage in any advertising or marketing.
+
+Certain areas of this website are restricted from being access by you and Sustowns Pte Limited may further restrict access by you to any areas of this website, at any time, in absolute discretion. Any user ID and password you may have for this website are confidential and you must maintain confidentiality as well.
+
+Indemnification
+You hereby indemnify to the fullest extent Sustowns Pte Limited from and against any and/or all liabilities, costs, demands, causes of action, damages and expenses arising in any way related to your breach of any of the provisions of these terms.
+
+Severability
+If any provision of these terms is found to be invalid under any applicable law, such provisions shall be deleted without affecting the remaining provisions herein.
+
+Variation of Terms
+Sustowns Pte Ltd is permitted to revise these terms at any time as it sees fit, and by using this website you are expected to review these terms on a regular basis.
+
+Assignment
+SustownsPte Ltd is allowed to assign, transfer, and subcontract its rights and/or obligations under these terms without any notification. However, you are not allowed to assign, transfer, or subcontract any of your rights and/or obligations under these terms
+
+Payment
+While availing any of the payment method/s available on the Website, Sustowns will not be responsible or assume any liability, whatsoever in respect of any loss or damage arising directly or indirectly because of:
+
+•	Lack of authorization for any transaction/s, or
+
+•	Exceeding the present limit mutually agreed by You and between “Bank/s”, or
+
+•	Any payment issues arising out of the transaction, or
+
+•	Decline of transaction for any other reasons
+
+There are various types of payment modes in Sustowns. They are
+
+•	Advance Payment: The buyer pays in advance for the goods
+
+• Part Payment: Buyer pays part of total transaction value initially and after receiving the goods remaining part of the transaction value will be paid.
+
+• Escrew Payment: In this payment, the Bank will play as nodal agency between the parties, for the agreed contracts terms and conditions in realising payment or reconciling payments.
+
+Governing Law and Jurisdiction
+These terms will be governed by and interpreted in accordance with the laws of the Singapore, and you submit to the exclusive jurisdiction of the courts located in Singapore for the resolution of any disputes.
+
+Grievance officer
+In accordance with Information Technology Act 2000 and rules made there under, the name and contact details of the Grievance Officer are provided below:
+
+GRIEVANCE OFFICER
+
+106 JURONG EAST STREET 13
+
+#17-216
+
+JURONG EAST VILLE
+
+SINGAPORE (600106)
+"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_privacy_policy"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="PRIVACY POLICY"
+                        android:textColor="@color/appcolor"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="Sustowns is anelectronic commerce platform predominantly used by business entities to facilitate electronic commerce and such business use does not generally involve the collection of personal information of individuals. Sustowns recognizes the importance of privacy as well as the importance of maintaining the confidentiality of personal information. This Privacy Policy applies to all products and services provided by us and sets out how we may collect, use and disclose information in relation to users of the Sites.privacy policy is subject to change at any time without notice
+
+1.	Collection Of Information
+Your privacy is important to us and we have taken steps to ensure that we do not collect more information from you than is necessary for us to provide you with our services and to protect your account. Information including user name, address, phone number,and email address, will be collected at the time of userregistration on the Sites.
+
+•	If you are registered as a seller or service provider, in addition to the information mentioned above, we may also collect your identity information, tax registration number and information about your business, such as the information about your business license. If you contact our customer service, we may record yourconversation with us and collect additional information toverify your identity.
+
+•	In connection with any transaction and payment services, orservices under our buyer protection schemes, information,including but not limited to, bank account numbers, billingand delivery information, credit/debit card numbers,expiration dates and security code and tracking informationfrom cheques or money orders may be collected to facilitatethe sale and purchase as well as the settlement of purchaseprice of the products or services transacted on or procuredthrough the Sites.
+
+•	We record details of users' activities on the Sites. Information relating to such transactions (including, but not limited to, the types and specifications of the goods, pricing and delivery information, any dispute records and any information disclosed in any discussion form) may be collected when transactions are conducted on or facilitated through the Sites.
+
+•	We record users' buying and browsing activities on our platform including but not limited to IP addresses, browsing patterns, buyer behavioural patterns and products information. In addition, we gather statistical information about the Sites and visitors to the Sites including, but not limited to, IP addresses, browser software, operating system, software and hardware attributes, pages viewed, number of sessions and unique visitors. Certain data we collect may be defined as personal data under applicable data protection law (personal data). To use our services and products, users need to provide certain categories of data (which may include Personal Data), such as user name, address, phone number, and email address. If certain data is required, we will let you know at the time of collection. In the event that users do not provide sufficient data marked as necessary, we may not be able to complete the registration process or provide certain products or services.
+
+2.	Use Of Personal Data
+We collect and use your Personal Data for the following purposes:
+
+•	Verifying your identity.
+
+•	Verifying your eligibility to register as a user of the Sites processing your registration as a user, providing you with a log-in ID for the Sites and maintaining and managing your registration.
+
+•	Providing you with customer service and responding to your queries, feedback, claims or disputes.
+
+•	Facilitating communication between buyers and sellers on the Sites, processing transactions and payments, assessing advance withdrawal requests from sellers and providing delivery services.
+
+•	Assessing account security and transaction risks of members, detecting and preventing fraud and other security incidents
+
+3.	Sharing Of Personal Information
+We may share personal information with our other corporate entities and affiliates. These entities and affiliates may market to you as a result of such sharing unless you explicitly opt-out.
+
+
+We may disclose personal information to third parties. This disclosure may be required for us to provide you access to our Services, to comply with our legal obligations, to enforce our User Agreement, to facilitate our marketing and advertising activities, or to prevent, detect, mitigate, and investigate fraudulent or illegal activities related to our Services. We do not disclose your personal information to third parties for their marketing and advertising purposes without your explicit consent.
+
+
+We may disclose personal information if required to do so by law or in the good faith belief that such disclosure is reasonably necessary to respond to subpoenas, court orders, or other legal process. We may disclose personal information to law enforcement offices, third party rights owners, or others in the good faith belief that such disclosure is reasonably necessary to: enforce our Terms or Privacy Policy; respond to claims that an advertisement, posting or other content violates the rights of a third party; or protect the rights, property or personal safety of our users or the general public.
+
+
+We and our affiliates will share / sell some or all of your personal information with another business entity should we (or our assets) plan to merge with, or be acquired by that business entity, or re-organization, amalgamation, restructuring of business. Should such a transaction occur that other business entity (or the new combined entity) will be required to follow this privacy policy with respect to your personal information.
+
+4.	Cookies
+We use cookies to store specific information about you and track your visits to the Sites, either through a compute or via a mobile device. It is not uncommon for websites to use cookies to enhance identification of their visitors.
+
+
+A cookie is a small piece of information stored by a web server on a web browser so it can be later read back from that browser. Cookies are useful for enabling the browser to remember information specific to a given user. We place both permanent and temporary cookies in your computer's hard drive. The cookies do not contain any of your personally identifiable information.
+
+
+In addition, we use cookies to manage the security of our Sites, to gather information about usage by users; to research visiting patterns and conduct interest-based advertising; to assist our partners to track user visits to the Sites and process orders; and to track progress and participation in promotions
+
+5.	Security Precautions
+Our Website has stringent security measures in place to protect the loss, misuse, and alteration of the information under our control. Whenever you change or access your account information, we offer the use of a secure server. Once your information is in our possession, we adhere to strict security guidelines, protecting it against unauthorized access.
+
+6.	Advertisements On Sustowns
+We use third-party advertising companies to serve ads when you visit our Website. These companies may use information (not including your name, address, email address, or telephone number) about your visits to this and other websites in order to provide advertisements about goods and services of interest to you.
+
+7.	Your Consent
+By using the Website and/ or by providing your information, your consent to the collection and use of the information you disclose on the Website in accordance with this Privacy Policy, including but not limited to Your consent for sharing your information as per this privacy policy.
+
+
+If we decide to change our privacy policy, we will post those changes on this page so that you are always aware of what information we collect, how we use it, and under what circumstances we disclose it.
+
+8.	Grievience Officer
+In accordance with Information Technology Act 2000 and rules made there under, the name and contact details of the Grievance Officer are provided below:
+
+GRIEVIENCE OFFICER
+
+106 JURONG EAST STREET 13
+
+#17-216
+
+JURONG EAST VILLE
+
+SINGAPORE (600106)
+
+9. QUESTIONS ?
+Please contact us regarding any questions regarding this statement:info@sustowns.com
+"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

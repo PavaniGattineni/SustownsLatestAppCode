@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sustowns.sustownsapp.Activities.AboutUsActivity">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.PopupOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/appcolor"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="#ffffff">
+
+            <ImageView
+                android:id="@+id/backarrow"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="15dp"
+                android:padding="10dp"
+                android:src="@drawable/back_arrow_white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="About Us"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="About Sustowns"
+        android:id="@+id/about_us_tv"
+        android:textColor="@color/appcolor"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/about_data"
+        android:layout_marginRight="10dp"
+        android:text="Sustowns is a Global community/marketplace for sustainable and natural products/services. It provides a range of services for online marketplace and social network for sustainable industry through website and mobile app. Provides integrated platform for varied services brought under one roof and seamless delivery of sustainable products services to customers. It has various features encompassing sustainable communities social network, news portal, sustainable products/services marketplace, e-commerce site, product sourcing and bidding network."
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Listing Categories"
+        android:id="@+id/aboutbusiness"
+        android:textColor="@color/appcolor"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="B2B Listing:"
+        android:id="@+id/about_us_goal"
+        android:textColor="@color/appcolor"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/about_goal"
+        android:layout_marginRight="10dp"
+        android:text="Sustowns is great platform to find business leads and sales, it is also very helpful in doing sourcing to fulfill your existing orders. We have various tools and systems to enable your trade like payment gateway, escrow payment, financing markets, logistics integration, social media promotion. Buyers can shop for supplies from vendors, request proposals and, in some cases, request quotes to make a purchase at a desired specifications and price."
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+</LinearLayout>

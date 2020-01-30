@@ -1,0 +1,1054 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/ll_logistics_tems_conditions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/button_square_edges_drawable"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="#ffffff">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Terms and Conditions"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/close_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="right"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/close_black_icon" />
+
+        </android.support.v7.widget.Toolbar>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TERMS AND CONDITIONS FOR LOGISTICS"
+                    android:textColor="@color/appcolor"
+                    android:textSize="16sp" />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Acceptance of Goods for Transit:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sustowns Pte Ltd. (“The Company”) undertakes to arrange for any or all of the following services (The Services): packing, handling, loading, unloading, storage or transport of goods for the Customer. The Services shall be performed under the following terms and conditions which the Company has made available to the Customer on the Company’s web site, www.sustowns.com, under which Customer, as a condition of Company providing services, accepts."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Duties of the Company when acting as a Broker:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="a.The Company shall procure the Services from third parties in the name, and on behalf of, the Customer.
+
+b.There shall be a direct relationship between the Customer and those third parties. The Company shall be permitted to act in any reasonably necessary manner and shall perform its duties using a reasonable degree of care and diligence.
+
+c.The Company shall perform its services within a reasonable time, taking all reasonable steps to perform the transaction in accordance with the Customer's instructions.
+
+d.The Company shall be permitted to depart from any instruction from the Customer if the Company deems it necessary to do so in order to protect the Customer's interests.
+
+e.The Company shall seek further instructions from the Customer if it becomes impossible at any time for the Company to fulfill its duties.
+
+f.The Company shall not be liable for loss of or damage to the goods while the goods are in the custody, possession or control of third parties."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Duties of the Customer:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="a.The Customer warrants that it is either the owner or the authorized agent of the owner of the goods.
+
+b.The Customer authorizes the Company to contract in the name of the Customer with third parties to perform any or all of the Services on behalf of the Customer.
+
+c.The Customer shall provide a full and accurate description of the goods to be transported.
+
+d.The Customer shall pay all freight charges, duties, or other sums connected with the handling and transportation of the goods.
+
+e.The Customer shall pay to the Company all sums immediately when due, without reduction or deferment on account of any claim.
+
+f.The Customer shall remain responsible for the payment of all charges when the Services are to be provided upon instructions to collect freight, duties, charges or any other expenses from another.
+
+g.The confiscation or detention of the goods by any governmental authority shall not affect or diminish the liability of the Customer to pay all charges or other sums due promptly on demand.
+
+h.The Customer shall not deliver any goods which are dangerous, flammable, radioactive, or hazardous except under special arrangements in which prior notice is given to the Company.
+
+i.The Customer shall not deliver any bank notes, bonds, negotiable instruments, securities, bullion, coins, precious stones, jewelry, valuables, antiques, human remains, livestock or plants except under special arrangements in which notice is given to the Company.
+
+j.The Customer shall advise Company if any goods are liable to taint or affect other goods or are likely to harbor or encourage vermin or other pests."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Less than Truckload."
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Freight charge estimates will be furnished by Company as a convenience to you and represent an approximation of the freight charges for those goods that you prepare to ship. All transportation charges will be assessed on the basis of third party published tariff provisions in effect at the time of the shipment as applicable to the actual origin, destination, commodity, packaging, weight, class, and accessorial services performed. All charges are subject to the fuel surcharge in effect on the date of the shipment. The level of the applicable fuel surcharge is based upon the U.S. National Average Diesel Fuel Index and is adjusted every week. Any charges incurred above and beyond the Company’s estimate are the sole financial responsibility of Customer and in no way will the Company be held responsible."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Indemnification by the Customer:."
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="The Customer shall indemnify and hold the Company harmless for
+a.All duties, taxes, fines, third party carrier freight charges, or other expenses incurred by the Company caused by the Customer or any party acting on his behalf.
+
+b.Any claim for general average and/or salvage, and the Customer shall provide such security as may be required.
+
+c.Where the Customer himself has prepared the goods for transport, for any claim by a third party for bodily injury or property damage arising out of the Customer's failure to pack, load, stow or otherwise adequately prepare the goods for shipment."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Company’s Lien on Cargoes:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="a.The Company shall have a general lien on any and all goods tendered by Customer in its possession or control, for any claim for charges, expenses or advances incurred by the Company in connection with any of the services rendered to the Customer including similar charges or expenses in relation to other goods, wherever deposited or located.
+
+b.The Company may suspend property delivery until all Customers’ obligations are paid.
+
+c.If such claim remains unsatisfied for fifteen 15 days after demand is made, the Company may sell the goods at public auction or private sale on ten 10 days' written notice to the Customer in satisfaction of the sum due to the Company.
+
+d.Any surplus from such sale, after the payment of any applicable expenses, shall be transmitted to the Customer.
+
+e.	The Customer shall remain liable for any deficiency in the sale. The distance and price calculation is based on google maps location service"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Presentation of Claims and Liabilities:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="In the event that the goods are lost, damaged, delayed or otherwise received in a manner inconsistent with its intended delivery, the Customer shall give notice to the Company, immediately after it learns of the condition, but not later than seven 7 days thereafter. On receipt of such notice, the Company shall arrange on Customer’s behalf an investigation of the circumstances surrounding the matter."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Indemnity:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Company and Customer shall each defend, indemnify and hold harmless the other party from and against all loss, damage, expense, including injury resulting in death, and damage to property arising out of or in connection with the indemnifying party’s or its agents’ and employees’ failure to observe and/or enforce the duties and responsibilities set forth herein, including loading, handling, transportation, unloading or delivery of any Shipment hereunder or in any other way related to the indemnified party’s or its agents’ and employees’ negligent acts, omissions or performance of their obligations hereunder, unless such injury is caused by the sole negligence of the indemnifying party."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Force Majeure."
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Neither Company nor Carrier shall be liable for any delay in the performance of the Transportation Services resulting directly or indirectly from or contributed to by any force majeure, including, but not limited to, act of God, acts of government or other civil or military authorities, fires, accidents, floods, strikes, lockouts, war, riot or other circumstances beyond their reasonable control."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Waiver of Certain Damages:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="IN NO EVENT SHALL COMPANY OR CARRIER BE LIABLE FOR ANY CONSQUENTIAL, INCIDENTAL OR SPECIAL DAMAGES WHICH MAY ARISE FROM LOSS, DAMAGE, NON DELIVERY OR DELAY OF ANY SHIPMENT. THIS LIMITATION SHALL APPLY TO AND INCLUDE, BUT NOT LIMITED TO DAMAGES FOR LOSS OF PROFIT, LOSS OF INCOME OR LOSS OF BUISNESS OPPORTUNITY"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Law and Jurisdiction:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="The terms and conditions of the Services to be provided shall be construed in accordance with the laws of India. Jurisdiction and venue, if any dispute, shall be with a court residing within Hyderabad India."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="Close"
+                        android:textColor="@color/white"
+                        android:background="@drawable/backgroundapp_transparent"
+                        android:textSize="16sp"
+                        android:layout_margin="10dp"
+                        android:paddingBottom="5dp"
+                        android:textAllCaps="false"
+                        android:layout_gravity="right"
+                        android:gravity="center"
+                        android:id="@+id/close_dialog"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_vendor_tems_conditions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/button_square_edges_drawable"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="#ffffff">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Terms and Conditions"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/close_icon1"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="right"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/close_black_icon" />
+
+        </android.support.v7.widget.Toolbar>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="VENDOR’S TERMS AND CONDITIONS"
+                    android:textColor="@color/appcolor"
+                    android:textSize="16sp" />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="These Vendor terms and Conditions written on this webpage shall manage your use of this website and chat application. These terms will be applied fully and affect to your use of this website. By enrolling as Vendor, you agreed to accept all terms and conditions written in here. You must not use this website if you disagree with any of these Vendors Standard Terms and Conditions."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Registration/use of services"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Registration is required to use Sustowns services. To register, the vendor must fill out the application form available on the Sustowns website. Upon registration, the vendor agrees to these General Terms and Conditions.
+
+
+With his/her application, the vendor confirms that all his/her entered details are accurate, complete and truthful. The vendor undertakes to keep the information provided in his/her registration form up to date. If such information is found to be false, incorrect or out of date, Sustowns may block or discontinue the vendor’s access to Sustowns services.
+
+
+Upon successfully completing the registration process, the e-mail provided by the vendor must be verified. To this end, an e-mail containing a link will be sent to the address provided, the receipt of which the vendor shall confirm by clicking on this link. After registration has been validated, the vendor’s account will be activated and he/she will be able to use Sustowns services.
+
+
+The vendor is personally responsible for keeping his/her login data (login, password) private. Should an unauthorized third party gain knowledge of the vendor’s data, Sustowns must be notified immediately.
+
+
+The vendor shall not be entitled to demand any authorisation to use Sustowns services. Sustowns has the right to change or even discontinue the operation of its services at any time."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Products:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="a. The Vendor shall offer its Products to the Company for the purpose of sale by the Vendor on the Portal. Based on market analysis conducted by the Company, the Company may make recommendations to the Vendor from time to time on the specific Products and the quantities thereof, from the entire range/collection that are to be displayed, advertised and offered for sale by the Vendor through the Portal. The Vendor shall make its final decision on the Products and their quantities to be displayed on the Portal on the basis of such recommendations. Notwithstanding the foregoing, the Company has the right to refuse to display, or withdraw from the Portal, any Product for sale on the Portal.
+
+b. The Vendor shall exclusively offer for display, advertising and sale certain Products, as specifically agreed in the Vendor Agreement, through the Portal only (“Specified Product Lines”). The Vendor shall not, in respect of the Specified Product Lines, seek, accept from or appoint any other entity to provide any services similar to the Services without first obtaining the prior written approval of the Company."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Services to be provided by the Company"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="As part and parcel of the Services, the Company shall carry out the following functions for and on behalf of the Vendor for consideration as agreed under the Vendor Agreement.
+
+
+a. Facilitation of Sale of Products through the Portal:
+
+
+i. The Vendor authorizes the Company to, on behalf of the Vendor, provide to Customers or users of the portal
+
+
+(a). Information and assistance in relation to the listed Products and sales thereof,
+
+
+(b). Information in relation to status of the order placed by Customers, and
+
+
+(c). Operating a customer helpdesk for other inquiries in relation to Products and orders, customer complaints and grievances.
+
+
+ii. The Vendor agrees and undertakes to fully co-operate with the Company as reasonably required, in connection with any customer-service functions undertaken by the Company. Such services can be provided by the Vendor either on its own or through the Suppliers, as the case may be.
+
+
+iii. The Vendor authorizes the Company to place;
+
+
+(a). Description of the Vendor (including but not limited to description of Suppliers, where so directed by the Vendor) and
+
+
+(b). Description of each of its Products (including but not limited to the technical description of the Products, brand name of the Product, the price of the Product and any applicable warranty terms) on the Portal.
+
+
+(c). Vendor rating based on vendor performance and customer reviews."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="b. Advertising"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="i. Sustowns shall advertise / display, on behalf of the Vendor, the Products on the Portal based on the preference opted for by the Vendor in the Vendor Agreement.
+
+
+ii. The costs of such advertisement shall be borne by the Vendor as mutually agreed between Sustowns and the Vendor as per terms of the Vendor Agreement.
+
+
+iii. Sustowns shall inform the Vendor of the date(s) that have been assigned for the shoot of the Products in relation to display of the Products on the Portal and the advertisements. It shall be the obligation of the Vendor to provide samples of the products."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="c. Quality and Quantity Assurance:"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="i. Prior to the advertising of a Product on the Website, the Company shall carry out a quality assessment of the samples provided by the Vendor based on the relevant quality parameters prescribed by the Vendor (“Quality Parameters”).
+
+
+ii. Where sample Products do not satisfy the Quality Parameters, the Company shall inform the Vendor as soon as possible and the Vendor shall thereafter replace, repair or improve or upgrade all the relevant Products so as to make them comply with the Quality Parameters. The Vendor shall thereafter provide fresh sample Products to the Company out of such replaced, repaired or improved or upgraded Products and the process of assessing the quality thereof shall be carried out again.
+
+
+iii. Where the Products are sourced by the Vendor from Suppliers, the Vendor shall ensure that such Supplier repairs or improves or upgrades or replaces all the relevant Products so as to make them comply with the Quality Parameters. Such repaired or improved or upgraded or replaced Products shall also be subject to assessment based on the Quality Parameters.
+
+
+iv. Prior to the Product(s) being displayed / advertised on the Portal, the Vendor shall, within 2 (two) business days, ensure the availability of the Products (the samples of which have satisfied the Quality Parameters as stated above) for servicing customer orders, and provide the stock summary to be uploaded on the site (“Stock Statement”).
+
+
+v. Further provided that in the event that due to any reason the Product(s) in respect of which the Stock Statement has been furnished become unavailable in the stated quantities, the Vendor shall immediately, from such Product(s) or stated quantities thereof becoming unavailable, update the inventory on site."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Title and Risk in relation to the Products"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="a. No risk or title to the Products shall pass to the Company at any point of time for any reason whatsoever. The title and risks to the Products shall be deemed to pass directly from the Vendor to the Customer upon delivery of the Products to the Customer and payment of the consideration for the Products by the Customer.
+
+
+b. Notwithstanding anything to the contrary contained herein, it is clarified and agreed that any and all liabilities arising in connection with any defect, fault or shortcoming in the Product(s)
+
+
+shall be of the Vendor or its Supplier alone and this provision shall survive the termination of the Vendor Agreement together with these Terms and Conditions."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Confidentiality"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="The Parties shall keep all negotiations confidential and maintain the contents of these Terms and Conditions together with Vendor Agreement in strict confidence and shall make no announcement or disclosure without the prior written approval of the other Party save in respect of
+
+(i) disclosures necessary to be made to each Party’s consultants, advisors, employees / directors on a need-to-know basis and provided that such third parties are bound by obligations of confidentiality; and
+
+(ii) disclosures required by law."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Right to complain"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="If the vendor discovers discrepancies in connection with the respective assignment, he/she shall inform Right to complain
+
+If the vendor discovers discrepancies in connection with the respective assignment, he/she shall inform Right to complain
+
+If the vendor discovers discrepancies in connection with the respective assignment, he/she shall inform Sustowns of this immediately. This may, for example, concern the scope of the assignment as well as the quality and other conditions which may affect the vendor’s ability to carry out the assignment at a level satisfactory to the client.
+
+In accordance with the terms and conditions of sale and delivery, the customer is entitled to lodge a complaint within 14 days from receipt of the translated document.
+
+Should it transpire that the customer’s complaint is justified, the vendor shall in the first instance be responsible for correcting the translation free of charge. Moreover, the vendor shall bear the cost of this up to the value of the corresponding fee for the unsatisfactory translation."
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Granting of rights / Confidentiality"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Information that the vendor receives from a customer or from Sustowns in connection with a service that has been provided shall be treated as strictly confidential. Documents, reference texts and information may at no time be passed on without the express consent of Sustowns. Any violation of these guidelines shall lead to the vendor being immediately excluded from further use of Sustowns services and may even result in legal proceedings."
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Representation and Warranties of the Vendor"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="a. The Vendor has all rights (including all Intellectual Property rights), approvals and consents from any third parties (including Suppliers) required to enter into and perform the Vendor Agreement together with Terms and Conditions and to supply and sell the Products as contemplated hereunder.
+
+b. The Vendor has procured all necessary registrations/permits as required under applicable laws for sale of Products through the Portal (including without limitation registration under applicable laws pertaining to sales tax and VAT of the relevant states). The Vendor further represents that the Vendor shall be solely responsible for collection and payment of applicable taxes with respect to the sale of the Products to the relevant government authorities in a timely manner and the Company shall not be responsible nor held liable for any non-compliance/contravention of applicable tax laws by the Vendor. The Vendor hereby agrees to keep the Company harmless and indemnified in this regard. The indemnity obligations of the Vendor contained herein shall survive the termination of the Vendor Agreement together with these Terms and Conditions.
+
+c. The Vendor has a valid, clear and marketable title to all the Products being displayed, advertised and sold through the Portal under the terms of the Vendor Agreement.
+
+d. All the Products are genuine, merchantable, marketable and of the quality and nature as described by the Vendor to the Company and displayed on the Portal. The Products are genuine, new and are not counterfeit products.
+
+e. The Vendor has valid, clear and full rights / entitlement to use the trademarks, designs, copyrights of or related to the Products or its packaging used in connection with display and advertising of the Products by the Company.
+
+iii. infringes any patent, trademark, copyright or other proprietary rights;
+
+iv. violates any law for the time being in force;
+
+v. deceives or misleads the addressee about the origin of such messages;
+
+vi. communicates any information which is grossly offensive or menacing in nature;
+
+vii. impersonate another person;
+
+viii. contains software viruses or any other computer code, files or programs designed to interrupt, destroy or limit the functionality of the Company’s Website or Portal; or
+
+ix. threatens the unity, integrity, defence, security or sovereignty of India, friendly relations with foreign states, or public order or causes incitement to the commission of any cognisable offence or prevents investigation of any offence or is insulting any other nation."
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Indemnity"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="Each Party (the “Indemnifying Party”) shall promptly on demand indemnify and hold harmless the other Party and the other Party’s officers, directors, employees and agents ( collectively, the “Indemnified Party”) for and against all liabilities, costs and expenses (including reasonable attorney’s fees) incurred or suffered, or to be incurred or suffered, by the Indemnified Party that arise out of or in any way relate to, or result from any breach by the Indemnifying Party of any of the provisions of the Vendor Agreement together with the Terms and Conditions (including, without limitation, any of the representations or warranties of the Indemnifying Party set forth herein), or negligence, fraud or willful misconduct of Indemnifying Party, or any claim, demand, suit, action or proceeding brought by a third party that involves, relates to or concerns a violation or other breach by the Indemnifying Party of any of the provisions of the Vendor Agreement together with Terms and Conditions (including, without limitation, any of the representations or warranties of the Indemnifying Party set forth herein) or the negligence, fraud or willful misconduct of the Indemnifying Party. The Indemnified Party shall give prompt notice to the Indemnifying Party of the existence and specifics of any such claims."
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Limitation of Liability"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="In no event shall either Party be liable to the other Party for any incidental, indirect, remote special, consequential or punitive damages, loss of goodwill or business profits, regardless of the nature of the claim, even if such Party knew or should have known of the possibility of such damages or claims. Company’s total liability (including for its indemnity obligations), whether in contract, tort, or otherwise, arising out of or in connection with the Vendor Agreement or Terms and Conditions shall not exceed the total Margin received by the Company in the preceding 6 months under the Vendor Agreement."
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="General Clauses"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="a. The Parties hereby agree that for the purposes of providing the Services and carrying out related functions in accordance with the provisions of Terms and Conditions, the Company is hereby authorized as the agent of the Vendor to act in accordance with the terms herein and other instructions of the Vendor.
+
+b. These Terms and Conditions together with Vendor Agreement is the complete and binding agreement of the Parties with respect to the subject matter hereof.
+
+c. These Terms and Conditions are applicable for all Vendors and may be modified by the Company from time to time with prior intimation to the Vendors. Vendors hereby agree to be bound by such amended Terms and Conditions, as may be notified by the Company.
+
+d. The Vendor shall not assign or sub-contract any of its rights, obligations, or responsibilities under the Vendor Agreement or Terms and Conditions without the prior written consent of the Company.
+
+e. The Parties agree that, having regard to all the circumstances, the covenants contained herein are reasonable and necessary for the protection of the Parties. If any such covenant is held to be void as going beyond what is reasonable in all the circumstances, but would be valid if amended as to scope or duration or both, the covenant shall apply with such minimum modifications regarding its scope and duration as may be necessary to make it valid and effective.
+
+f. If any provision of these Terms and Conditions is held to be invalid or unenforceable in any respect, such provision shall be modified to the extent necessary to render it, as modified, valid and enforceable under applicable laws and such invalidity or unenforceability shall not affect the other provisions contained herein.
+
+g. Except as expressly provided in this Terms and Conditions, no waiver of any provision shall be effective unless set forth in a written instrument signed by the Party waiving such provision.
+
+No failure or delay by a Party in exercising any right, power or remedy under this Terms and Conditions shall operate as a waiver thereof.
+
+h. Each Party shall co-operate with the other Party and execute and deliver to the other Party such instruments and documents and take such other actions as may be reasonably requested from time to time in order to carry out, evidence and confirm their rights hereunder and the intended purpose of these Terms and Conditions and to ensure the complete and prompt fulfillment, observance and performance of the provisions contained herein and generally that full effect is given to the provisions of the Vendor Agreement together with the Terms and Conditions."
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Governing Law and Jurisdiction"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="All disputes arising out of or in relation to these Terms and Conditions and/or the Vendor Agreement shall be subject to the exclusive jurisdiction of courts at Hyderabad, India."
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="Close"
+                        android:textColor="@color/white"
+                        android:background="@drawable/backgroundapp_transparent"
+                        android:textSize="16sp"
+                        android:layout_margin="10dp"
+                        android:paddingBottom="5dp"
+                        android:textAllCaps="false"
+                        android:layout_gravity="right"
+                        android:gravity="center"
+                        android:id="@+id/close_dialog2"/>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_payment_gateway_temscond"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/button_square_edges_drawable"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="#ffffff">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Terms and Conditions"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <!--
+            <ImageView
+                android:id="@+id/close_buy_sample"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="right"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/delete_icon" />
+-->
+
+        </android.support.v7.widget.Toolbar>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="General Terms and Conditions for Online Payments and payment gateway"
+                    android:textColor="@color/appcolor"
+                    android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="1.	In these Terms and Conditions, the term “Charge Back” shall mean, approved and settled credit card or net banking purchase transaction(s) which are at any time refused, debited or charged back to merchant account (and shall also include similar debits to Payment Service Provider's accounts, if any) by the acquiring bank or credit card company for any reason whatsoever, together with the bank fees, penalties and other charges incidental thereto.
+2.	Server Slow Down/Session Timeout: In case the Website or Payment Service Provider’s webpage, that is linked to the Website, is experiencing any server related issues like ‘slow down’ or ‘failure’ or ‘session timeout’, the User shall, before initiating the second payment,, check whether his/her Bank Account has been debited or not and accordingly resort to one of the following options:
+o	In case the Bank Account appears to be debited, ensure that he/ she does not make the payment twice and immediately thereafter contact  the Institute via e-mail or any other mode of contact as provided by  the Institute to confirm payment.
+o	 In case the Bank Account is not debited, the User may initiate a fresh transaction to make payment.
+o	However, the User agrees that under no circumstances the Payment Gateway Service Provider shall be held responsible for such fraudulent/duplicate transactions and hence no claims should be raised to Payment Gateway Service Provider  No communication received by the Payment Service Provider(s) in this regards  shall be entertained by the Payment Service Provider(s).
+3.	The Institute and the Payment Service Provider(s) assume no liability whatsoever for any monetary or other damage suffered by the User on account of:
+•	The delay, failure, interruption, or corruption of any data or other information transmitted in connection with use of the Payment Gateway or Services in connection thereto; and/ or
+•	Any interruption or errors in the operation of the Payment Gateway.
+4.	The User agrees, understands and confirms that his/ her personal data including without limitation details relating to debit card/ credit card transmitted over the Internet may be susceptible to misuse, hacking, theft and/ or fraud and that the Institute or the Payment Service Provider(s) have no control over such matters.
+5.	Although all reasonable care has been taken towards guarding against unauthorized use of any information transmitted by the User, the Institute does not represent or guarantee that the use of the Services provided by/ through it will not result in theft and/or unauthorized use of data over the Internet.
+6.	The Institute, the Payment Service Provider(s) and its affiliates and associates shall not be liable, at any time, for any failure of performance, error, omission, interruption, deletion, defect, delay in operation or transmission, computer virus, communications line failure, theft or destruction or unauthorized access to, alteration of, or use of information contained on the Website.
+7.	The User will be required to login his/ her own User ID and Password, given by the Institute in order to register and/ or use the Services provided by Institute on the Website. By accepting these Terms and Conditions the User aggress that his/ her User ID and Password are very important pieces of information and it shall be the User’s own responsibility to keep them secure and confidential. In furtherance hereof, the User agrees to;
+•	Choose a new password, whenever required for security reasons.
+•	Keep his/ her User ID and Password strictly confidential.
+•	Be responsible for any transactions made by User under such User ID and Password.
+"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="Close"
+                        android:textColor="@color/white"
+                        android:background="@drawable/backgroundapp_transparent"
+                        android:textSize="16sp"
+                        android:layout_margin="10dp"
+                        android:paddingBottom="5dp"
+                        android:textAllCaps="false"
+                        android:layout_gravity="right"
+                        android:gravity="center"
+                        android:id="@+id/close_dialog1"/>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

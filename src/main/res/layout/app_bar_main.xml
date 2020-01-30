@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/tools"
+    android:id="@+id/lin_lay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/appcolor"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:titleTextColor="#ffffff">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/logo"
+                android:visibility="gone"
+                android:layout_gravity="left"
+                android:layout_marginRight="20dp"/>
+            <TextView
+                android:id="@+id/title123"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Home"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+            <FrameLayout
+                style="?attr/actionButtonStyle"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_gravity="right"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="7dp"
+                    android:id="@+id/cart_img"
+                    android:padding="5dp"
+                    android:src="@drawable/cart_icon"/>
+
+                <TextView
+                    android:id="@+id/cart_count"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/badge_circle"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    />
+
+            </FrameLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:layout_below="@id/header"
+        android:layout_marginBottom="45dp"
+        android:paddingBottom="10dp"
+        android:layout_above="@+id/navigation"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:id="@+id/rl_view_pager">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="0dp" />
+
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/indicator1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:padding="5dp"
+                    android:layout_alignParentBottom="true"
+                    app:centered="true"
+                    android:layout_marginBottom="5dp"
+                    app:fillColor="@color/appcolor"
+                    app:pageColor="#fff"
+                    app:snap="false" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/rl_view_pager"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_products"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Featured Items"
+                    android:textColor="@color/appcolor"
+                    android:textSize="18sp" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_grid_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    shimmer:duration="300">
+
+                    <!-- Adding 4 rows of placeholders -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/shimmer_grid_layout" />
+
+                        <include layout="@layout/shimmer_grid_layout" />
+
+                        <include layout="@layout/shimmer_grid_layout" />
+
+                        <include layout="@layout/shimmer_grid_layout" />
+
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipeToRefresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/gridview"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:layout_below="@+id/ll_products"
+                    android:layout_margin="10dp"
+                    android:verticalSpacing="10dp"
+                    android:nestedScrollingEnabled="true"
+                    android:horizontalSpacing="10dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:footerDividersEnabled="false"
+                    android:numColumns="2"
+                    android:padding="1dp">
+
+                </android.support.v7.widget.RecyclerView>
+                </android.support.v4.widget.SwipeRefreshLayout>
+                <GridView
+                    android:id="@+id/gridview1"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:visibility="gone"
+                    android:layout_below="@+id/ll_products"
+                    android:layout_margin="10dp"
+                    android:verticalSpacing="10dp"
+                    android:nestedScrollingEnabled="true"
+                    android:horizontalSpacing="10dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:footerDividersEnabled="false"
+                    android:numColumns="2"
+                    android:padding="1dp">
+
+                </GridView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/hsv"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="Advertisements"
+                    android:textColor="@color/appcolor"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:id="@+id/rl_view_pager1">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewpager1"
+                        android:padding="1dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_alignParentTop="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+    <include
+        layout="@layout/bottom_navigation"/>
+
+
+</RelativeLayout>

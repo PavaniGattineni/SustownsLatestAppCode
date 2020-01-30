@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "955037726968",
+    "firebase_url": "https://sustowns-eb42e.firebaseio.com",
+    "project_id": "sustowns-eb42e",
+    "storage_bucket": "sustowns-eb42e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955037726968:android:8f36b6b6786c09aae8230d",
+        "android_client_info": {
+          "package_name": "com.sustowns.sustownsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "955037726968-ckjjn179abdg8j5em5mtdkpr8u595s1c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sustowns.sustownsapp",
+            "certificate_hash": "9983d1d32a8bbc6b46f5d05716b11c2f66fb5989"
+          }
+        },
+        {
+          "client_id": "955037726968-sk2fjr0i6ti8q0ggcktskb0hjvcnjc6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCemlQs1J0N6Qn2gOWFDb8mElR7aO-q2rg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955037726968-sk2fjr0i6ti8q0ggcktskb0hjvcnjc6l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

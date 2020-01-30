@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp">
+    <ImageView
+        android:id="@+id/phone_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:src="@android:drawable/ic_menu_gallery"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/delete_icon"
+        android:id="@+id/remove_image"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="right"/>
+    </FrameLayout>
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Primary"
+        android:textSize="16sp"
+        android:layout_gravity="bottom"
+        android:textColor="@color/black"
+        android:id="@+id/primary_radiobtn"/>
+
+</LinearLayout>

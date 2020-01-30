@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="6dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="7dp"
+        android:background="@drawable/button_square_edges_drawable"
+        android:id="@+id/ll_review">
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:id="@+id/review_image"
+            android:src="@drawable/no_image_available"
+            android:scaleType="fitCenter"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:progressTint="@color/yellow"
+                    android:padding="5dp"
+                    android:stepSize="0.1" />
+
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/reply_icon"
+                        android:id="@+id/reply_image"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="16sp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/reviews_date"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="7dp"
+                android:id="@+id/review_text"
+                android:layout_marginTop="5dp"
+                android:maxLines="2"
+                android:text="Review : "
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:layout_marginBottom="5dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="7dp"
+                android:id="@+id/review_by"
+                android:text="Review by : "
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"/>
+
+            </LinearLayout>
+<!--
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:id="@+id/ll_reply"
+                android:visibility="gone"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/reply"
+                    android:text="Reply"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="10dp"/>
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/reply_icon"
+                    />
+            </LinearLayout>
+-->
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:id="@+id/ll_send_review"
+        android:layout_below="@+id/ll_review">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_square_edges_drawable"
+        android:padding="10dp"
+        android:layout_marginRight="10dp"
+        android:maxLines="50"
+        android:id="@+id/review_et"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:textSize="16sp"
+            android:layout_margin="7dp"
+            android:layout_gravity="right"
+            android:id="@+id/send_reply"
+            android:textColor="@color/white"
+            android:background="@drawable/backgroundapp_transparent_blue"
+            android:text="Send Reply"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+</RelativeLayout>

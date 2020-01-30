@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/menu"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/home_nav"
+            android:title="Home"
+            android:icon="@drawable/ic_home_black_24dp"/>
+
+        <item
+            android:id="@+id/store_nav"
+            android:title="Store"
+            android:icon="@drawable/store_icon"/>
+        <item
+            android:id="@+id/contracts_nav"
+            android:title="Contracts"
+            android:icon="@drawable/contracts"/>
+        <item
+            android:id="@+id/logistics_nav"
+            android:title="Logistics"
+            android:icon="@drawable/logistics_icon"/>
+
+        <item
+            android:id="@+id/account_nav"
+            android:title="Account"
+            android:visible="false" />
+        <item
+            android:id="@+id/service_management_nav"
+            android:title="Service Management"
+            android:icon="@drawable/store"
+            android:visible="false"/>
+        <item
+            android:id="@+id/trade_management_nav"
+            android:title="Trade Management"
+            android:icon="@drawable/rupees"/>
+        <item
+            android:id="@+id/storemanagement_nav"
+            android:title="Store Management"
+            android:icon="@drawable/store"/>
+
+        <item
+            android:id="@+id/customizations_nav"
+            android:title="Customizations"
+            android:visible="false"/>
+        <item
+            android:id="@+id/trade_nav"
+            android:visible="false"
+            android:title="Trade"/>
+        <item
+            android:id="@+id/cart_nav"
+            android:title="Cart"
+            android:visible="false"
+            android:icon="@drawable/cart_icon"/>
+        <item
+            android:id="@+id/wishlist_nav"
+            android:title="WishList"
+            android:visible="false"/>
+        <item
+            android:id="@+id/offers_nav"
+            android:title="Offers"
+            android:visible="false"/>
+        <item
+            android:id="@+id/contactus_nav"
+            android:title="Support"
+            android:icon="@drawable/support"/>
+
+        <item
+            android:id="@+id/settings_nav"
+            android:title="Settings"
+            android:icon="@drawable/settings"/>
+     <!--   <item
+            android:id="@+id/career_nav"
+            android:title="Career" />
+-->
+     m
+   <!--     <ite
+            android:id="@+id/vend_management_nav"
+            android:title="Vendor Management" />
+        <item
+            android:id="@+id/vend_payment_nav"
+            android:title="Vendor pay payment" />-->
+        <item
+            android:id="@+id/aboutus_nav"
+            android:title="About Us"
+            android:icon="@drawable/aboutus"/>
+
+    <!--    <item
+            android:id="@+id/terms_conditions_nav"
+            android:title="Terms and Conditions" />
+
+        <item
+            android:id="@+id/privacy_policy_nav"
+            android:title="Privacy Policy" />
+        <item
+            android:id="@+id/shipping_nav"
+            android:title="Shipping Return and Refund Policy" />
+
+
+        <item
+            android:id="@+id/notification_nav"
+            android:title="Notifications" />-->
+
+
+        <item
+            android:id="@+id/signin_nav"
+            android:title="Sign In"
+            android:visible="false"/>
+        <!--<item
+            android:id="@+id/signout_nav"
+            android:title="Sign Out" />-->
+    </group>
+
+
+</menu>
