@@ -244,5 +244,4 @@
             android:name=".Activities.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
     </application>
-
 </manifest>
