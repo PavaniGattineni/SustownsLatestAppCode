@@ -69,12 +69,15 @@ public class StoreReceivedOrdersAdapter extends RecyclerView.Adapter<StoreReceiv
             viewHolder.order_no.setText(orderModels.get(position).getInvoice_no());
             viewHolder.orderDate.setText(orderModels.get(position).getOrder_date());
             viewHolder.order_price.setText(orderModels.get(position).getTotalprice());
-            if(order_status.equalsIgnoreCase("0")){
+            if(order_status.equalsIgnoreCase("0") && orderModels.get(position).getPayu_status().equalsIgnoreCase("success")){
                 viewHolder.orderStatus.setText("Pending");
                // viewHolder.add_payment_btn.setVisibility(View.GONE);
                // viewHolder.add_transport_btn.setVisibility(View.GONE);
                // viewHolder.ll_paymentstatus.setVisibility(View.GONE);
-            }else if(order_status.equalsIgnoreCase("1")){
+            }else  if(order_status.equalsIgnoreCase("0") && orderModels.get(position).getPayu_status().equalsIgnoreCase("failure")) {
+                viewHolder.orderStatus.setText("Payment Failed");
+            }
+            else if(order_status.equalsIgnoreCase("1")){
                // viewHolder.add_payment_btn.setVisibility(View.GONE);
                 if(orderModels.get(position).getShipamount().equalsIgnoreCase("")||orderModels.get(position).getShipamount().equalsIgnoreCase("null")) {
                     viewHolder.add_transport_btn.setVisibility(View.VISIBLE);

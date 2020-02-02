@@ -65,7 +65,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     LinearLayout ll_description, ll_reviews, ll_product_details,ll_shipping_services,ll_discount;
     ImageView backarrow, image_product_details, image_full;
     EditText name_review, edit_quantity;
-    String pro_id,status,user_id, image, quantity,service_charge, pr_title,userid, pr_price, pr_currency, makeoffer, pr_weight, weight_unit, review, sample_pro_id;
+    String Strquantity,pro_id,status,user_id, image, quantity,service_charge, pr_title,userid, pr_price, pr_currency, makeoffer, pr_weight, weight_unit, review, sample_pro_id;
     Intent intent;
     Spinner spinner_shipping_services,spinner_thirdparty_shipping;
     PreferenceUtils preferenceUtils;
@@ -215,16 +215,17 @@ public class ProductDetailsActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(discount.equalsIgnoreCase("") || discount.equalsIgnoreCase("null")){
                     if(service_charge.equalsIgnoreCase("0.00")||service_charge.equalsIgnoreCase("0")||service_charge.equalsIgnoreCase("")) {
-                        if(!edit_quantity.getText().toString().isEmpty()) {
-                            String quantity = edit_quantity.getText().toString();
+                        if (!edit_quantity.getText().toString().isEmpty()) {
+                            quantity = edit_quantity.getText().toString();
                             Double quantityInt = Double.parseDouble(quantity);
                             Double priceInt = Double.parseDouble(pr_price);
                             Double ProdPriceStrFloat = priceInt * quantityInt;
                             ProdPriceStr = String.valueOf(ProdPriceStrFloat);
                             product_price.setText(ProdPriceStr);
-                        }else{
+                        }
+                    }else{
                             if(!edit_quantity.getText().toString().isEmpty()) {
-                                String quantity = edit_quantity.getText().toString();
+                                quantity = edit_quantity.getText().toString();
                                 Double quantityInt = Double.parseDouble(quantity);
                                 pr_price = String.valueOf(SerChargeFinal);
                                 Double priceInt = Double.parseDouble(pr_price);
@@ -232,12 +233,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                 ProdPriceStr = String.valueOf(ProdPriceStrFloat);
                                 product_price.setText(ProdPriceStr);
                             }
-                        }
                     }
                 }else {
                     if(service_charge.equalsIgnoreCase("0.00")||service_charge.equalsIgnoreCase("0")||service_charge.equalsIgnoreCase("")) {
                         if (!edit_quantity.getText().toString().isEmpty()) {
-                            String quantity = edit_quantity.getText().toString();
+                            quantity = edit_quantity.getText().toString();
                             Double quantityInt = Double.parseDouble(quantity);
                             String TotalPriceStrDouble = String.valueOf(TotalPriceStr);
                             Double TotalPriceDouble = Double.parseDouble(TotalPriceStrDouble);
@@ -247,7 +247,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         }
                     }else{
                         if (!edit_quantity.getText().toString().isEmpty()) {
-                            String quantity = edit_quantity.getText().toString();
+                            quantity = edit_quantity.getText().toString();
                             Double quantityInt = Double.parseDouble(quantity);
                             String TotalPriceStrDouble = String.valueOf(SerChargeFinal);
                             Double TotalPriceDouble = Double.parseDouble(TotalPriceStrDouble);

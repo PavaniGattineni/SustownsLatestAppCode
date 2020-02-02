@@ -150,7 +150,6 @@ public class AddTransportActivity extends AppCompatActivity {
 
                 }
             });
-
             ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, type);
             aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner_freight_type.setAdapter(aa);

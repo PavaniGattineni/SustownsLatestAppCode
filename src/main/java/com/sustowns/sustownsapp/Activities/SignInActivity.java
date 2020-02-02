@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,13 +37,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignInActivity extends AppCompatActivity {
     TextView franchise_signup, vendor_signup, forgot_password,transport_vendor_signup;
     CheckBox checkbox;
+    ImageView eye_img;
     Button signinbtn;
     EditText login_username, login_password;
     String username, password, emailPattern,refreshedToken,device_id;
     PreferenceUtils preferenceUtils;
     ProgressDialog progressDialog;
     LinearLayout ll_sign_up;
-
+    boolean texttype = false;
     public static boolean isConnectingToInternet(android.content.Context context) {
         android.net.ConnectivityManager connectivity =
                 (android.net.ConnectivityManager) context.getSystemService(
@@ -79,6 +82,7 @@ public class SignInActivity extends AppCompatActivity {
         login_password = (EditText) findViewById(R.id.login_password);
         forgot_password = (TextView) findViewById(R.id.forgot_password);
         ll_sign_up = (LinearLayout) findViewById(R.id.ll_sign_up);
+        eye_img = (ImageView) findViewById(R.id.eye_img);
         login_username.setFocusableInTouchMode(false);
         login_username.setOnTouchListener(new View.OnTouchListener() {
 
@@ -130,6 +134,19 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(SignInActivity.this, "Enter Valid Password", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+        eye_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (texttype) {
+                    login_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    texttype = false;
+                } else {
+                    login_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    texttype = true;
+
+                }
             }
         });
         ll_sign_up.setOnClickListener(new View.OnClickListener() {

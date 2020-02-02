@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -57,25 +59,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignUpVendorActivity extends AppCompatActivity {
     TextView registered;
     Spinner spin_selector;
+    ArrayList<String> statesList = new ArrayList<>();
+    ArrayList<String> citiesList = new ArrayList<>();
     String[] selector = {"select sector","General","Poultry","Transport"};
     EditText name_signup,bus_name_signup,mobile_signup,user_name,email_vendor,password_signup,confirm_password_signup,pincode_signup;
     Button signup_rural_producer,close_dialog2,close_dialog;
     ProgressDialog progressDialog;
-    String business,fullname,mobile,userName,email,password,emailPattern,confirm_password,selectedSector,countryId="",categoryId = "",selectedString="";
+    String business,fullname,mobile,userName,email,password,emailPattern,confirm_password,selectedSector,countryId="IN",stateId="",cityId = "",categoryId = "",selectedString="";
     PreferenceUtils preferenceUtils;
     CheckBox checkbox_agree;
-    ImageView close_icon,close_icon1;
-    TextView terms_conditions_text,sp_country,tv_sign_in,spinner_vendor_category;
+    ImageView close_icon,close_icon1,eye_img,eye_img1;
+    TextView terms_conditions_text,sp_country,tv_sign_in,spinner_vendor_category,address_state, address_town;
     LinearLayout ll_vendor_category,ll_payment_gateway_temscond,ll_registersucessmsg,ll_logistics_tems_conditions,ll_vendor_tems_conditions,ll_register_details,linear_login;
     AlertDialog alertDialog;
     ArrayList<String> countryList = new ArrayList<>();
     ArrayList<String> CategoriesList = new ArrayList<>();
     Helper helper;
-    String clickedSearch,refreshedToken,device_id;
+    String clickedSearch,refreshedToken,device_id,coutry;
     int textlength = 0;
     ArrayList<String> selectedCountryList = new ArrayList<String>();
     ArrayList<String> selectedCountryIdList = new ArrayList<String>();
     ArrayList<String> selectedCategoryList = new ArrayList<String>();
+    boolean texttype = false;
+    Spinner spinner_country_reg;
+    String[] Country = {"India"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,13 +114,43 @@ public class SignUpVendorActivity extends AppCompatActivity {
                     startActivity(i);
                 }
             });
+            address_state = (TextView) findViewById(R.id.address_state);
+            address_state.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getStatesList();
+                }
+            });
+            address_town = (TextView) findViewById(R.id.address_town);
+            address_town.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getCityList();
+                }
+            });
+            eye_img = (ImageView) findViewById(R.id.eye_img);
+            eye_img1 = (ImageView) findViewById(R.id.eye_img1);
             checkbox_agree = (CheckBox) findViewById(R.id.checkbox_agree);
             ll_vendor_category = (LinearLayout) findViewById(R.id.ll_vendor_category);
             sp_country = (TextView) findViewById(R.id.spinner_country);
-            sp_country.setOnClickListener(new View.OnClickListener() {
+          /*  sp_country.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     getCountryList();
+                }
+            });*/
+            spinner_country_reg = (Spinner) findViewById(R.id.spinner_country_reg);
+            ArrayAdapter country = new ArrayAdapter(SignUpVendorActivity.this, android.R.layout.simple_spinner_item, Country);
+            country.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            //Setting the ArrayAdapter data on the Spinner
+            spinner_country_reg.setAdapter(country);
+            spinner_country_reg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    coutry = parent.getItemAtPosition(position).toString();
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
                 }
             });
             spinner_vendor_category = (TextView) findViewById(R.id.spinner_vendor_category);
@@ -299,6 +336,32 @@ public class SignUpVendorActivity extends AppCompatActivity {
                     customdialog.show();
                 }
             });
+            eye_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (texttype) {
+                        password_signup.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        texttype = false;
+                    } else {
+                        password_signup.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        texttype = true;
+
+                    }
+                }
+            });
+            eye_img1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (texttype) {
+                        confirm_password_signup.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        texttype = false;
+                    } else {
+                        confirm_password_signup.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        texttype = true;
+
+                    }
+                }
+            });
             name_signup.setFocusableInTouchMode(false);
             name_signup.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -419,6 +482,339 @@ public class SignUpVendorActivity extends AppCompatActivity {
         progressDialog.setCancelable(true);
         progressDialog.show();
     }
+    private void getStatesList() {
+        progressdialog();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DZ_URL.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        UserApi service = retrofit.create(UserApi.class);
+
+        Call<JsonElement> callRetrofit = null;
+       // callRetrofit = service.getStates(countryId);
+        callRetrofit = service.getStates("IN");
+        callRetrofit.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        progressDialog.dismiss();
+                        Log.d("Success Call", ">>>>" + call);
+                        Log.d("Success Call ", ">>>>" + response.body().toString());
+
+                        System.out.println("----------------------------------------------------");
+                        Log.d("Call request", call.request().toString());
+                        Log.d("Call request header", call.request().headers().toString());
+                        Log.d("Response raw header", response.headers().toString());
+                        Log.d("Response raw", String.valueOf(response.raw().body()));
+                        Log.d("Response code", String.valueOf(response.code()));
+                        System.out.println("----------------------------------------------------");
+
+                        if (response.body().toString() != null) {
+                            JSONObject root = null;
+                            try {
+                                root = new JSONObject(response.body().toString());
+                                String success = root.getString("success");
+                                if (success.equalsIgnoreCase("1")) {
+                                    JSONArray jsonArray = root.getJSONArray("states");
+                                    statesList = new ArrayList<>();
+                                    List<String> idList = new ArrayList<>();
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                        statesList.add(jsonObject.getString("subdivision_1_name"));
+                                        idList.add(jsonObject.getString("subdivision_1_iso_code"));
+                                    }
+                                    //In response data
+                                    progressDialog.dismiss();
+                                    showAlertDialogState(statesList, idList);
+                                } else {
+
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+            }
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                Log.d("Error Call", ">>>>" + call.toString());
+                Log.d("Error", ">>>>" + t.toString());
+                progressDialog.dismiss();
+            }
+        });
+    }
+    private void getCityList() {
+        progressdialog();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DZ_URL.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        UserApi service = retrofit.create(UserApi.class);
+
+        Call<JsonElement> callRetrofit = null;
+        callRetrofit = service.getCities("IN",stateId);
+
+        callRetrofit.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        progressDialog.dismiss();
+                        Log.d("Success Call", ">>>>" + call);
+                        Log.d("Success Call ", ">>>>" + response.body().toString());
+
+                        System.out.println("----------------------------------------------------");
+                        Log.d("Call request", call.request().toString());
+                        Log.d("Call request header", call.request().headers().toString());
+                        Log.d("Response raw header", response.headers().toString());
+                        Log.d("Response raw", String.valueOf(response.raw().body()));
+                        Log.d("Response code", String.valueOf(response.code()));
+                        System.out.println("----------------------------------------------------");
+
+                        if (response.body().toString() != null) {
+                            JSONObject root = null;
+                            try {
+                                root = new JSONObject(response.body().toString());
+                                String success = root.getString("success");
+                                if (success.equalsIgnoreCase("1")) {
+                                    JSONArray jsonArray = root.getJSONArray("cities");
+                                    citiesList = new ArrayList<>();
+                                    List<String> idList = new ArrayList<>();
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                        idList.add(jsonObject.getString("city_id"));
+                                        citiesList.add(jsonObject.getString("city_name"));
+                                    }
+                                    //In response data
+                                    progressDialog.dismiss();
+                                    showAlertDialogCity(citiesList, idList);
+                                } else {
+
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                Log.d("Error Call", ">>>>" + call.toString());
+                Log.d("Error", ">>>>" + t.toString());
+                //  Toast.makeText(ProductsActivity.this, "Please login again", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+    }
+    private void showAlertDialogState(final List<String> cityList,
+                                     final List<String> idList){
+        try {
+            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SignUpVendorActivity.this);
+            LayoutInflater inflater = this.getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.custom_list_layout_register, null);
+            dialogBuilder.setView(dialogView);
+
+            TextView title = (TextView) dialogView.findViewById(R.id.customDialogTitle);
+            title.setText("Choose State");
+
+            final ListView categoryListView = (ListView) dialogView.findViewById(R.id.categoryList);
+            final EditText inputSearch = (EditText) dialogView.findViewById(R.id.inputSearch);
+            final ShimmerFrameLayout shimmerFrameLayout = dialogView.findViewById(R.id.shimmer_list_item);
+            shimmerFrameLayout.startShimmerAnimation();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    helper.stopShimmer(shimmerFrameLayout);
+                }
+            }, 3000);
+            alertDialog = dialogBuilder.create();
+            if (cityList.size() == 0) {
+                if (alertDialog != null)
+                    alertDialog.dismiss();
+            }
+            try {
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                Window window = alertDialog.getWindow();
+                lp.copyFrom(window.getAttributes());
+                // This makes the dialog take up the full width
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+                window.setAttributes(lp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SignUpVendorActivity.this,
+                    R.layout.simple_list_item, R.id.list_item_txt, cityList);
+            // Assign adapter to ListView
+            categoryListView.setAdapter(adapter);
+            inputSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+                    clickedSearch = "clicked";
+                    textlength = inputSearch.getText().length();
+                    selectedCountryList.clear();
+                    selectedCountryIdList.clear();
+                    for (int i = 0; i < cityList.size(); i++) {
+                        if (textlength <= cityList.get(i).length()) {
+                            Log.d("ertyyy", cityList.get(i).toLowerCase().trim());
+                            if (cityList.get(i).toLowerCase().trim().contains(
+                                    inputSearch.getText().toString().toLowerCase().trim())) {
+                                selectedCountryList.add(cityList.get(i));
+                                selectedCountryIdList.add(idList.get(i));
+                            }
+                        }
+                    }
+                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(SignUpVendorActivity.this,
+                            R.layout.simple_list_item, R.id.list_item_txt, selectedCountryList);
+                    // Assign adapter to ListView
+                    categoryListView.setAdapter(adapter);
+                }
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                              int arg3) {
+                    // TODO Auto-generated method stub
+                }
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                    // TODO Auto-generated method stub
+                }
+            });
+            clickedSearch = "not clicked";
+            // ListView Item Click Listener
+            categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    if (clickedSearch.equalsIgnoreCase("clicked")) {
+                        String itemValue = selectedCountryList.get(position);
+                        address_state.setText(itemValue);
+                        stateId = selectedCountryIdList.get(position);
+                        alertDialog.dismiss();
+                    }else{
+                        String itemValue = statesList.get(position);
+                        address_state.setText(itemValue);
+                        stateId = idList.get(position);
+                        alertDialog.dismiss();
+                    }
+                }
+            });
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void showAlertDialogCity(final List<String> cityList,
+                                     final List<String> idList){
+        try {
+            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SignUpVendorActivity.this);
+            LayoutInflater inflater = this.getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.custom_list_layout_register, null);
+            dialogBuilder.setView(dialogView);
+
+            TextView title = (TextView) dialogView.findViewById(R.id.customDialogTitle);
+            title.setText("Choose City");
+
+            final ListView categoryListView = (ListView) dialogView.findViewById(R.id.categoryList);
+            final EditText inputSearch = (EditText) dialogView.findViewById(R.id.inputSearch);
+            final ShimmerFrameLayout shimmerFrameLayout = dialogView.findViewById(R.id.shimmer_list_item);
+            shimmerFrameLayout.startShimmerAnimation();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    helper.stopShimmer(shimmerFrameLayout);
+                }
+            }, 3000);
+            alertDialog = dialogBuilder.create();
+            if (cityList.size() == 0) {
+                if (alertDialog != null)
+                    alertDialog.dismiss();
+            }
+            try {
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                Window window = alertDialog.getWindow();
+                lp.copyFrom(window.getAttributes());
+                // This makes the dialog take up the full width
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+                window.setAttributes(lp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SignUpVendorActivity.this,
+                    R.layout.simple_list_item, R.id.list_item_txt, cityList);
+            // Assign adapter to ListView
+            categoryListView.setAdapter(adapter);
+            inputSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+                    clickedSearch = "clicked";
+                    textlength = inputSearch.getText().length();
+                    selectedCountryList.clear();
+                    selectedCountryIdList.clear();
+                    for (int i = 0; i < cityList.size(); i++) {
+                        if (textlength <= cityList.get(i).length()) {
+                            Log.d("ertyyy", cityList.get(i).toLowerCase().trim());
+                            if (cityList.get(i).toLowerCase().trim().contains(
+                                    inputSearch.getText().toString().toLowerCase().trim())) {
+                                selectedCountryList.add(cityList.get(i));
+                                selectedCountryIdList.add(idList.get(i));
+                            }
+                        }
+                    }
+                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(SignUpVendorActivity.this,
+                            R.layout.simple_list_item, R.id.list_item_txt, selectedCountryList);
+                    // Assign adapter to ListView
+                    categoryListView.setAdapter(adapter);
+                }
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                              int arg3) {
+                    // TODO Auto-generated method stub
+                }
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                    // TODO Auto-generated method stub
+                }
+            });
+            clickedSearch = "not clicked";
+            // ListView Item Click Listener
+            categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    if (clickedSearch.equalsIgnoreCase("clicked")) {
+                        String itemValue = selectedCountryList.get(position);
+                        address_town.setText(itemValue);
+                        cityId = selectedCountryIdList.get(position);
+                        alertDialog.dismiss();
+                    }else{
+                        String itemValue = cityList.get(position);
+                        address_town.setText(itemValue);
+                        cityId = idList.get(position);
+                        alertDialog.dismiss();
+                    }
+                }
+            });
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+/*
     private void getCountryList() {
         progressdialog();
         Retrofit retrofit = new Retrofit.Builder()
@@ -482,6 +878,7 @@ public class SignUpVendorActivity extends AppCompatActivity {
             }
         });
     }
+*/
     private void getVendorCategoryList() {
         progressdialog();
         Retrofit retrofit = new Retrofit.Builder()
@@ -545,7 +942,7 @@ public class SignUpVendorActivity extends AppCompatActivity {
             }
         });
     }
-    private void showAlertDialog(final List<String> countryList, final List<String> idList){
+    private void showAlertDialog(final List<String> idList){
         try {
             final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SignUpVendorActivity.this);
             LayoutInflater inflater = this.getLayoutInflater();
@@ -553,7 +950,7 @@ public class SignUpVendorActivity extends AppCompatActivity {
             dialogBuilder.setView(dialogView);
 
             TextView title = (TextView) dialogView.findViewById(R.id.customDialogTitle);
-                title.setText("Choose Country");
+            title.setText("Choose State");
             final ListView categoryListView = (ListView) dialogView.findViewById(R.id.categoryList);
             final EditText inputSearch = (EditText) dialogView.findViewById(R.id.inputSearch);
             final ShimmerFrameLayout shimmerFrameLayout = dialogView.findViewById(R.id.shimmer_list_item);
@@ -756,7 +1153,7 @@ public class SignUpVendorActivity extends AppCompatActivity {
         email = email_vendor.getText().toString().trim();
         password = password_signup.getText().toString().trim();
         Call<JsonElement> callRetrofit = null;
-        callRetrofit = service.vendorSignup(fullname,userName,mobile,email,business,password,selectedString,countryId,pincode_signup.getText().toString(),categoryId);
+        callRetrofit = service.vendorSignup(fullname,userName,mobile,email,business,password,selectedString,countryId,stateId,cityId,pincode_signup.getText().toString(),categoryId);
         callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {

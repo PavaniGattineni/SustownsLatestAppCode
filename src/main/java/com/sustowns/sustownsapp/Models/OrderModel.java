@@ -61,6 +61,7 @@ public class OrderModel {
     private String payment_status;
     private String address;
     private String shipamount;
+    private String payu_status;
 
     public String getId() {
         return id;
@@ -532,5 +533,13 @@ public class OrderModel {
 
     public void setShipamount(String shipamount) {
         this.shipamount = shipamount;
+    }
+
+    public String getPayu_status() {
+        return payu_status;
+    }
+
+    public void setPayu_status(String payu_status) {
+        this.payu_status = payu_status;
     }
 }

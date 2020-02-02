@@ -29,6 +29,7 @@ import com.sustowns.sustownsapp.Models.OrderDetailsModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrderDetailsActivity extends AppCompatActivity {
 
-    TextView order_no,price_order_details,price_order,status_order,date_order,shipping_charge_tv,customer_email;
+    TextView order_no,price_order_details,price_order,status_order,date_order,shipping_charge_tv,customer_email,customer_phone;
     PreferenceUtils preferenceUtils;
     ImageView image_orders_details,backarrow;
     ProgressDialog progressDialog;
@@ -50,7 +51,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     ArrayList<OrderDetailsModel> orderDetailsModels;
     OrderDetailsAdapter orderDetailsAdapter;
     LinearLayout ll_shipping_charge;
-    TextView order_id_tv,total_amount_shipping,name_tv,shipping_name,address_shipping,quantity_tv,customer_name_tv,address_customer_tv,total_amount_tv,address_customer;
+    TextView order_id_tv,total_amount_shipping,name_tv,shipping_mobile,shipping_email,shipping_name,address_shipping,quantity_tv,customer_name_tv,address_customer_tv,total_amount_tv,address_customer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +77,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
         shipping_charge_tv = (TextView) findViewById(R.id.shipping_charge);
         ll_shipping_charge = (LinearLayout) findViewById(R.id.ll_shipping_charge);
         shipping_name = (TextView) findViewById(R.id.shipping_name);
+        shipping_email = (TextView) findViewById(R.id.shipping_email);
+        shipping_mobile = (TextView) findViewById(R.id.shipping_mobile);
         address_shipping = (TextView) findViewById(R.id.address_shipping);
         customer_email = (TextView) findViewById(R.id.customer_email);
+        customer_phone = (TextView) findViewById(R.id.customer_phone);
         total_amount_shipping = (TextView) findViewById(R.id.total_amount_shipping);
         backarrow = (ImageView) findViewById(R.id.backarrow);
         recyclerview_orderdetails = (RecyclerView) findViewById(R.id.recyclerview_orderdetails);
@@ -224,12 +228,16 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                             }
                                             customer_name_tv.setText("Name : "+bill_fname);
                                             customer_email.setText(bill_email);
+                                            customer_phone.setText("Mobile : "+bill_phone);
                                             shipping_name.setText(pay_fname+" "+pay_lname);
+                                            shipping_email.setText(pay_email);
+                                            shipping_mobile.setText("Mobile : "+pay_phone);
                                             address_shipping.setText(pay_address1+","+pay_city+","+pay_state+","+pay_country);
                                             address_customer_tv.setText(bill_address1+","+bill_city+","+bill_state+","+bill_country);
                                             total_amount_tv.setText(currency_code +" "+totalprice);
                                             if(shipamount.equalsIgnoreCase("null")){
                                                 ll_shipping_charge.setVisibility(View.GONE);
+                                                total_amount_shipping.setText(currency_code +" "+totalprice);
                                             }else  {
                                                 shipping_charge_tv.setText(shipamount);
                                                 int shipInt = Integer.parseInt(shipamount);
@@ -276,7 +284,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
         LayoutInflater inflater;
         String user_email,pro_id,user_id,user_role,order_status,order_id,pay_method;
         PreferenceUtils preferenceUtils;
-        String[] order;
         ArrayList<OrderDetailsModel> orderModels;
         ProgressDialog progressDialog;
         public OrderDetailsAdapter(Context context, ArrayList<OrderDetailsModel> orderModels) {
@@ -290,7 +297,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
             //  product_sale_activity.onItemClick(i);
             return new OrderDetailsAdapter.ViewHolder(view);
         }
-
         @Override
         public void onBindViewHolder(final OrderDetailsAdapter.ViewHolder viewHolder, final int position) {
             viewHolder.status.setText("Order Id");
@@ -305,13 +311,13 @@ public class OrderDetailsActivity extends AppCompatActivity {
         }
         public void removeAt(int position) {
             //  notifyDataSetChanged();
-
         }
         @Override
         public int getItemCount() {
             return orderModels.size();
         }
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder
+        {
             ImageView imageView,remove_product,increase;
             TextView orderName,orderQuantity,orderDate,orderStatus,date_text,status;
             Button add_payment_btn,add_transport_btn;

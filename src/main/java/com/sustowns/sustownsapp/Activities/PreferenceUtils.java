@@ -27,7 +27,7 @@ public class PreferenceUtils {
     public static final String GALLERY_TITLE = "gal_image";
     public static final String GALLERY_DESCRIPTION = "gal_description";
     public static final String Buss_ID = "buss_id";
-    public static final String RowIdCart = "rowid";
+    public static final String AddressMap = "mapAddress";
     public static final String JOB_ID = "job_id";
     public static final String ORDER_ID = "order_id";
     public static final String VIDEO = "video";

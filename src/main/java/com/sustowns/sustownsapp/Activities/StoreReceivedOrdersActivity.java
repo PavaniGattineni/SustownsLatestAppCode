@@ -167,7 +167,7 @@ public class StoreReceivedOrdersActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(StoreReceivedOrdersActivity.this, TradeManagementActivity.class);
-       //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
@@ -187,7 +187,7 @@ public class StoreReceivedOrdersActivity extends AppCompatActivity {
         OrdersApi service = retrofit.create(OrdersApi.class);
         Call<JsonElement> callRetrofit = null;
         callRetrofit = service.myOrders(user_id);
-       // callRetrofit = service.myOrders("453");
+        // callRetrofit = service.myOrders("453");
         callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -249,6 +249,7 @@ public class StoreReceivedOrdersActivity extends AppCompatActivity {
                                                 String bank_thr_ran_id = jsonObject.getString("bank_thr_ran_id");
                                                 String complete_amount_status = jsonObject.getString("complete_amount_status");
                                                 String payment_status = jsonObject.getString("payment_status");
+                                                String payu_status = jsonObject.getString("payu_status");
                                                 preferenceUtils.saveString(PreferenceUtils.ORDER_ID, order_id);
                                                 preferenceUtils.saveString(PreferenceUtils.TRANSACTION_ID, bank_thr_ran_id);
                                                 OrderModel orderModel = new OrderModel();
@@ -275,6 +276,7 @@ public class StoreReceivedOrdersActivity extends AppCompatActivity {
                                                 orderModel.setComplete_amount_status(complete_amount_status);
                                                 orderModel.setPayment_status(payment_status);
                                                 orderModel.setZipcode(zipcode);
+                                                orderModel.setPayu_status(payu_status);
                                                 orderModel.setAddress(address);
                                                 orderModels.add(orderModel);
 
@@ -394,6 +396,7 @@ public class StoreReceivedOrdersActivity extends AppCompatActivity {
                                                 String zipcode = jsonObject.getString("zipcode");
                                                 String fullname = jsonObject.getString("fullname");
                                                 String phone = jsonObject.getString("phone");
+                                                String payu_status = jsonObject.getString("payu_status");
 
                                                 preferenceUtils.saveString(PreferenceUtils.ORDER_ID, order_id);
                                                 preferenceUtils.saveString(PreferenceUtils.TRANSACTION_ID, bank_thr_ran_id);
@@ -422,6 +425,7 @@ public class StoreReceivedOrdersActivity extends AppCompatActivity {
                                                 orderModel.setZipcode(zipcode);
                                                 orderModel.setFullname(fullname);
                                                 orderModel.setPhone(phone);
+                                                orderModel.setPayu_status(payu_status);
                                                 orderModels.add(orderModel);
                                             }
                                             // Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
@@ -495,17 +499,21 @@ public class StoreReceivedOrdersActivity extends AppCompatActivity {
                 viewHolder.orderDate.setText(orderModels.get(position).getOrder_date());
                 viewHolder.order_price.setText(orderModels.get(position).getTotalprice());
                 if(orderModels.get(position).getBank_thr_ran_id().equalsIgnoreCase("")||orderModels.get(position).getBank_thr_ran_id().equalsIgnoreCase("null")) {
-                    if (order_status.equalsIgnoreCase("0")) {
+                    if (order_status.equalsIgnoreCase("0") && orderModels.get(position).getPayu_status().equalsIgnoreCase("success")) {
                         viewHolder.confirm_order_btn.setVisibility(View.VISIBLE);
-                        viewHolder.cancel_orderbtn.setVisibility(View.VISIBLE);
+                        //  viewHolder.cancel_orderbtn.setVisibility(View.VISIBLE);
                         viewHolder.ll_status.setVisibility(View.GONE);
                         // viewHolder.orderStatus.setText("Pending");
-                    } else if (order_status.equalsIgnoreCase("1")) {
+                    } else if (order_status.equalsIgnoreCase("0") && orderModels.get(position).getPayu_status().equalsIgnoreCase("failure")) {
+                        viewHolder.ll_status.setVisibility(View.VISIBLE);
+                        viewHolder.orderStatus.setText("Payment Failed");
+                        viewHolder.orderStatus.setTextColor(getResources().getColor(R.color.red));
+                    }else if (order_status.equalsIgnoreCase("1")) {
                         viewHolder.confirm_order_btn.setVisibility(View.GONE);
                         viewHolder.cancel_orderbtn.setVisibility(View.GONE);
                         viewHolder.ll_status.setVisibility(View.GONE);
                         viewHolder.deliver_orderbtn.setVisibility(View.VISIBLE);
-                       // viewHolder.orderStatus.setText("Completed");
+                        // viewHolder.orderStatus.setText("Completed");
                     } else if (order_status.equalsIgnoreCase("2")) {
                         viewHolder.confirm_order_btn.setVisibility(View.GONE);
                         viewHolder.cancel_orderbtn.setVisibility(View.GONE);
@@ -521,7 +529,7 @@ public class StoreReceivedOrdersActivity extends AppCompatActivity {
                         viewHolder.confirm_order_btn.setVisibility(View.GONE);
                         viewHolder.cancel_orderbtn.setVisibility(View.GONE);
                         viewHolder.ll_status.setVisibility(View.VISIBLE);
-                         viewHolder.orderStatus.setText("Payment Pending");
+                        viewHolder.orderStatus.setText("Payment Pending");
                     } else if (order_status.equalsIgnoreCase("1")) {
                         viewHolder.confirm_order_btn.setVisibility(View.GONE);
                         viewHolder.cancel_orderbtn.setVisibility(View.GONE);
@@ -535,7 +543,7 @@ public class StoreReceivedOrdersActivity extends AppCompatActivity {
                         viewHolder.orderStatus.setText("Cancelled");
                     } else if (order_status.equalsIgnoreCase("3")) {
                         viewHolder.confirm_order_btn.setVisibility(View.VISIBLE);
-                        viewHolder.cancel_orderbtn.setVisibility(View.VISIBLE);
+                        // viewHolder.cancel_orderbtn.setVisibility(View.VISIBLE);
                         viewHolder.ll_status.setVisibility(View.GONE);
                         // viewHolder.orderStatus.setText("Pending");
                     }else if(order_status.equalsIgnoreCase("4")){

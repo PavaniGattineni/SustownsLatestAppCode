@@ -15,8 +15,10 @@
     <color name="light_blue">#3455aefa</color>
     <color name="polyline">#3394e9</color>
     <color name="radius_color">#a0c3fc49</color>
-
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
     <color name="textColor">#7f7f7f</color>
     <color name="placeholder_bg">#dddddd</color>
+    <color name="red">#e22222</color>
 
 </resources>

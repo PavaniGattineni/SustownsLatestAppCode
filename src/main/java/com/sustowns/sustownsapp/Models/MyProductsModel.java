@@ -41,6 +41,7 @@ public class MyProductsModel {
     private String country;
     private String state;
     private String city;
+    private String zipcode;
 
     private String eggs_type;
     private String quality_st;
@@ -357,6 +358,14 @@ public class MyProductsModel {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     public String getQuality_st() {

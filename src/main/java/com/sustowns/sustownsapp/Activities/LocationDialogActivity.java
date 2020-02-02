@@ -63,7 +63,7 @@ public class LocationDialogActivity extends AppCompatActivity {
     RecyclerView recyclerview_saved_addresses;
     Helper helper;
     public static TextView address_txt_map_dialog;
-    TextView saved_address_text,title_address_change,spinner_countrydialog,address_state, address_town;
+    TextView add_new_address,cart_total_amount,saved_address_text,title_address_change,spinner_countrydialog,address_state, address_town;
     String nameAddress="",companyAddress="", emailAddress="", firstnameAddress="", lastnameAddress="", address2Address="", addressState="", addressTown="", mobileAddress="", pincodeAddress="", faxAddress="";
     EditText name_address,company_address, email_address, first_name_address,last_name_address, address1_address, address2_address,mobile_address, pincode_address, fax_address;
     ArrayList<String> countryList = new ArrayList<>();
@@ -75,11 +75,11 @@ public class LocationDialogActivity extends AppCompatActivity {
     PreferenceUtils preferenceUtils;
     String user_email,pro_id,user_id,user_role,order_status,pay_method,orderid,contractLocationStr="",InvoiceNoStr="",RandIdStr = "",clickedSearch = "";
     public static String Address = "";
-    LinearLayout ll_shipping_details,ll_existing_address;
+    LinearLayout ll_shipping_details,ll_existing_address,ll_progress;
     RadioButton existing_radiobtn, new_radiobtn;
     RadioGroup radioGroup;
     Button save_address_btn,save_address,close_drop_dialog;
-    String actionValue = "",countryId="",stateId="",cityId="",selectedAddress = "",UserId,productZipcode;
+    String actionValue = "",countryId="",stateId="",cityId="",selectedAddress = "",UserId,productZipcode,totalAmount="";
     ArrayList<GetAddressModel> getAddressModels;
     ExistingAddressAdapterContract existingAddressAdapter;
     ProgressDialog progressDialog;
@@ -92,7 +92,7 @@ public class LocationDialogActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.drop_location_dialog);
+        setContentView(R.layout.activity_location_dialog);
         try {
             initializeValues();
             initializeUI();
@@ -110,8 +110,15 @@ public class LocationDialogActivity extends AppCompatActivity {
         RandIdStr = getIntent().getStringExtra("RandId");
         UserId = getIntent().getStringExtra("UserId");
         productZipcode = getIntent().getStringExtra("productZipcode");
+        totalAmount = getIntent().getStringExtra("TotalAmount");
     }
     private void initializeUI() {
+        ll_progress = (LinearLayout) findViewById(R.id.ll_progress);
+        if(contractLocationStr.equalsIgnoreCase("3")){
+            ll_progress.setVisibility(View.VISIBLE);
+        }
+        cart_total_amount = (TextView) findViewById(R.id.cart_total_amount);
+        cart_total_amount.setText("Amount : "+"INR "+totalAmount);
         ll_shipping_details = (LinearLayout) findViewById(R.id.ll_shipping_details);
         ll_existing_address = (LinearLayout) findViewById(R.id.ll_existing_address);
         recyclerview_saved_addresses = (RecyclerView) findViewById(R.id.recyclerview_saved_addresses);
@@ -165,31 +172,8 @@ public class LocationDialogActivity extends AppCompatActivity {
         pincode_address = (EditText) findViewById(R.id.pincode_address);
         fax_address = (EditText) findViewById(R.id.fax_address);
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        existing_radiobtn = (RadioButton) findViewById(R.id.existing_radiobtn);
-        existing_radiobtn.setChecked(true);
-        ll_existing_address.setVisibility(View.VISIBLE);
-        ll_shipping_details.setVisibility(View.GONE);
         getExistingAddresses();
-        new_radiobtn = (RadioButton) findViewById(R.id.new_radiobtn);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.existing_radiobtn:
-                        actionValue = "existing";
-                        ll_existing_address.setVisibility(View.VISIBLE);
-                        ll_shipping_details.setVisibility(View.GONE);
-                        getExistingAddresses();
-                        // do operations specific to this selection
-                        break;
-                    case R.id.new_radiobtn:
-                        actionValue = "new";
-                        ll_shipping_details.setVisibility(View.VISIBLE);
-                        ll_existing_address.setVisibility(View.GONE);
-                        // do operations specific to this selection
-                        break;
-                }
-            }
-        });
+       // add_new_address = (TextView) findViewById(R.id.add_new_address);
         save_address = (Button) findViewById(R.id.save_address);
         save_address.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,7 +196,18 @@ public class LocationDialogActivity extends AppCompatActivity {
                     }else {
                         submitConfirmTransportAddress();
                     }
+                }else if(contractLocationStr.equalsIgnoreCase("3")){
+                    Intent i = new Intent(LocationDialogActivity.this,ShippingAddressActivity.class);
+                    startActivity(i);
                 }
+            }
+        });
+        add_new_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll_existing_address.setVisibility(View.GONE);
+                ll_shipping_details.setVisibility(View.VISIBLE);
+                save_address.setVisibility(View.GONE);
             }
         });
         save_address_btn.setOnClickListener(new View.OnClickListener() {
@@ -273,14 +268,6 @@ public class LocationDialogActivity extends AppCompatActivity {
                 }
             }
         });
-        close_drop_dialog = (Button) findViewById(R.id.close_drop_dialog);
-        close_drop_dialog.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
         backarrow_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -436,11 +423,9 @@ public class LocationDialogActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         TransportApi service = retrofit.create(TransportApi.class);
-
         Call<JsonElement> callRetrofit = null;
         // callRetrofit = service.productDetails(user_id, pro_id);
         callRetrofit = service.getExistingAddress(user_id);
-
         callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -1171,7 +1156,7 @@ public class LocationDialogActivity extends AppCompatActivity {
         super.onResume();
         address_txt_map_dialog.setText(Address);
     }
-    public class ExistingAddressAdapterContract extends RecyclerView.Adapter<LocationDialogActivity.ExistingAddressAdapterContract.ViewHolder> {
+    public class ExistingAddressAdapterContract extends RecyclerView.Adapter<ExistingAddressAdapterContract.ViewHolder> {
         Context context;
         LayoutInflater inflater;
         String user_email, user_id;
@@ -1192,13 +1177,13 @@ public class LocationDialogActivity extends AppCompatActivity {
             //Empty Constructor
         }
         @Override
-        public LocationDialogActivity.ExistingAddressAdapterContract.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.markets_item, viewGroup, false);
             //  product_sale_activity.onItemClick(i);
-            return new LocationDialogActivity.ExistingAddressAdapterContract.ViewHolder(view);
+            return new ViewHolder(view);
         }
         @Override
-        public void onBindViewHolder(final LocationDialogActivity.ExistingAddressAdapterContract.ViewHolder viewHolder, final int position) {
+        public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
             viewHolder.ll_existing_addresses.setVisibility(View.VISIBLE);
             viewHolder.ll_markets.setVisibility(View.GONE);
             viewHolder.name_address.setText(getAddressModels.get(position).getName());

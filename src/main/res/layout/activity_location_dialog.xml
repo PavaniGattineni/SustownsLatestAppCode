@@ -42,24 +42,47 @@
 
     </android.support.v7.widget.Toolbar>
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/ll_progress"
+        android:padding="10dp">
+
+        <com.kofigyan.stateprogressbar.StateProgressBar
+            android:id="@+id/stateprogressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:spb_currentStateNumber="two"
+            app:spb_maxStateNumber="three"
+            app:spb_stateBackgroundColor="@color/colorWhite"
+            app:spb_stateForegroundColor="@color/colorWhite"
+            app:spb_stateNumberBackgroundColor="@color/colorBlack"
+            app:spb_stateNumberForegroundColor="@color/colorBlack"
+            app:spb_currentStateDescriptionColor="@color/colorWhite"
+            app:spb_stateDescriptionColor="@color/colorWhite"
+            app:spb_animateToCurrentProgressState="true"
+            app:spb_checkStateCompleted="true"
+            app:spb_stateLineThickness="2dp"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ll_quote_my_quote"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:padding="10dp"
         android:orientation="vertical">
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:gravity="center"
+            android:visibility="gone"
             android:id="@+id/title_address_change"
             android:text="Product Drop Location"
             android:textColor="@color/black"
             android:textSize="15sp" />
-
         <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="match_parent"
@@ -68,6 +91,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <RadioButton
@@ -296,12 +320,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:layout_marginTop="8dp"
                             android:orientation="vertical">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="State"
+                                android:text="Choose State *"
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
                             <TextView
@@ -322,12 +347,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:layout_marginTop="8dp"
                             android:orientation="vertical">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Choose City"
+                                android:text="Choose City *"
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
                             <TextView
@@ -413,7 +439,7 @@
                         android:layout_marginTop="25dp"
                         android:background="@color/appcolor"
                         android:padding="10dp"
-                        android:text="Save Address"
+                        android:text="Add Address"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -426,15 +452,29 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="3dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
+                    android:orientation="vertical">
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Saved Addresses"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Saved Addresses"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add New Address"
+                            android:layout_marginRight="10dp"
+                            android:textColor="@color/appcolor"
+                            android:textStyle="bold"
+                            android:id="@+id/add_new_address"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -448,44 +488,66 @@
                         android:id="@+id/recyclerview_saved_addresses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="10dp"
                         android:overScrollMode="never">
                     </android.support.v7.widget.RecyclerView>
+                    <!--
+                                    <Button
+                                        android:id="@+id/save_address"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="40dp"
+                                        android:layout_gravity="right"
+                                        android:layout_marginBottom="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:layout_marginTop="25dp"
+                                        android:background="@color/appcolor"
+                                        android:padding="10dp"
+                                        android:text="Save"
+                                        android:textAllCaps="false"
+                                        android:textColor="@color/white"
+                                        android:textSize="16sp" />
+                    -->
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/ll_checkout"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/cart_total_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="7dp"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:text=""
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
                     <Button
                         android:id="@+id/save_address"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="43dp"
                         android:layout_gravity="right"
-                        android:layout_marginBottom="20dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="25dp"
                         android:background="@color/appcolor"
-                        android:padding="10dp"
-                        android:text="Save"
+                        android:text="Continue"
+                        android:padding="7dp"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
-
-
                 </LinearLayout>
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
-
-        <Button
-            android:id="@+id/close_drop_dialog"
-            android:layout_width="wrap_content"
-            android:layout_height="37dp"
-            android:layout_gravity="right"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/backgroundapp_transparent_blue"
-            android:text="Close"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-
-
     </LinearLayout>
-
-
 </LinearLayout>

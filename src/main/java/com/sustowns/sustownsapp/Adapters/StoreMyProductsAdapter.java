@@ -134,6 +134,7 @@ public class StoreMyProductsAdapter extends RecyclerView.Adapter<StoreMyProducts
                 i.putExtra("WeightUnit",myProductsModels.get(position).getWeight_unit());
                 i.putExtra("SampleWeightUnit",myProductsModels.get(position).getSweight_unit());
                 i.putExtra("SampleGrossWeightUnit",myProductsModels.get(position).getSgweight_unit());
+                i.putExtra("Zipcode",myProductsModels.get(position).getZipcode());
                 i.putExtra("Image",myProductsModels.get(position).getProd_image());
                // i.putParcelableArrayListExtra("images", (ArrayList<? extends Parcelable>) myProductsModels.get(position).getImageModelList());
                 context.startActivity(i);

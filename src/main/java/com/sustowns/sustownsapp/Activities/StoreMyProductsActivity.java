@@ -589,6 +589,7 @@ public class StoreMyProductsActivity extends AppCompatActivity {
                                                 String country = jsonObject.getString("country");
                                                 String state = jsonObject.getString("state");
                                                 String city = jsonObject.getString("city");
+                                                String zipcode = jsonObject.getString("zipcode");
                                                 JSONArray travelsArray = jsonObject.getJSONArray("travels");
                                                 for (int j = 0; j < travelsArray.length(); j++){
                                                     JSONObject Object = travelsArray.getJSONObject(j);
@@ -640,6 +641,7 @@ public class StoreMyProductsActivity extends AppCompatActivity {
                                                 myProductsModel.setCountry(country);
                                                 myProductsModel.setState(state);
                                                 myProductsModel.setCity(city);
+                                                myProductsModel.setZipcode(zipcode);
                                                 myProductsModel.setImageModelList(imageModelList);
                                                 myProductsModelList.add(myProductsModel);
                                                 progressDialog.dismiss();

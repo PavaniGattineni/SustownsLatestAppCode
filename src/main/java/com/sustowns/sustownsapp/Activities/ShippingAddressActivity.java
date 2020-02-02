@@ -402,12 +402,10 @@ public class ShippingAddressActivity extends AppCompatActivity {
         UserApi service = retrofit.create(UserApi.class);
         Call<JsonElement> callRetrofit = null;
         callRetrofit = service.getBankDetails();
-
         callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                 Log.d("Success Call ", ">>>>" + response.body().toString());
-
                 System.out.println("----------------------------------------------------");
                 Log.d("Call request", call.request().toString());
                 Log.d("Call request header", call.request().headers().toString());
@@ -416,13 +414,10 @@ public class ShippingAddressActivity extends AppCompatActivity {
                 Log.d("Response code", String.valueOf(response.code()));
                 System.out.println("----------------------------------------------------");
                 Log.d("Success Call", ">>>>" + call);
-
                 if (response.body().toString() != null) {
-
                     if (response != null) {
                         String searchResponse = response.body().toString();
                         Log.d("Reg", "Response  >>" + searchResponse.toString());
-
                         if (searchResponse != null) {
                             JSONObject root = null;
                             try {
@@ -515,7 +510,6 @@ public class ShippingAddressActivity extends AppCompatActivity {
                         }
                         progressDialog.dismiss();
                     }
-
                     @Override
                     public void onError(ANError error) {
                         Log.d("Error", "ANError : " + error);
@@ -637,10 +631,10 @@ public class ShippingAddressActivity extends AppCompatActivity {
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("userid", user_id);
-            jsonObj.put("txnid",txnid);
+            jsonObj.put("txnid",transactionId);
             jsonObj.put("orderid",PayUorderid);
-            jsonObj.put("amount",amount);
-            jsonObj.put("mode","");
+            jsonObj.put("amount",totalAmount);
+            jsonObj.put("mode","DC");
             jsonObj.put("mihpayid","");
             jsonObj.put("discount","");
             jsonObj.put("net_amount",net_amount_debit);
@@ -649,7 +643,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
             jsonObj.put("phone",preferenceUtils.getStringFromPreference(PreferenceUtils.MOBILE,""));
             jsonObj.put("PG_TYPE","");
             jsonObj.put("bank_ref_num","");
-            jsonObj.put("bankcode","");
+            jsonObj.put("bankcode","CC");
             androidNetworkingPayUFailure(jsonObj);
         } catch (Exception e) {
             e.printStackTrace();
@@ -672,7 +666,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
                             String success = responseObj.getString("success");
                             if (success.equalsIgnoreCase("1")) {
                                 progressDialog.dismiss();
-                                Toast.makeText(ShippingAddressActivity.this, message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ShippingAddressActivity.this, "Payment fail", Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(ShippingAddressActivity.this, ShippingAddressActivity.class);
                                 startActivity(i);
                             } else {
@@ -720,7 +714,6 @@ public class ShippingAddressActivity extends AppCompatActivity {
         mPaymentParams.setUdf3("udf3");
         mPaymentParams.setUdf4("udf4");
         mPaymentParams.setUdf5("udf5");
-
         /**
          * These are used for store card feature. If you are not using it then user_credentials = "default"
          * user_credentials takes of the form like user_credentials = "merchant_key : user_id"
@@ -750,17 +743,14 @@ public class ShippingAddressActivity extends AppCompatActivity {
         checksum.setUdf3(mPaymentParams.getUdf3());
         checksum.setUdf4(mPaymentParams.getUdf4());
         checksum.setUdf5(mPaymentParams.getUdf5());
-
         postData = checksum.getHash();
         if (postData.getCode() == PayuErrors.NO_ERROR) {
             payuHashes.setPaymentHash(postData.getResult());
         }
-
         // checksum for payemnt related details
         // var1 should be either user credentials or default
         String var1 = mPaymentParams.getUserCredentials() == null ? PayuConstants.DEFAULT : mPaymentParams.getUserCredentials();
         String key = mPaymentParams.getKey();
-
         if ((postData = calculateHash(key, PayuConstants.PAYMENT_RELATED_DETAILS_FOR_MOBILE_SDK, var1, salt)) != null && postData.getCode() == PayuErrors.NO_ERROR) // Assign post data first then check for success
             payuHashes.setPaymentRelatedDetailsForMobileSdkHash(postData.getResult());
         //vas
@@ -785,18 +775,15 @@ public class ShippingAddressActivity extends AppCompatActivity {
             if ((postData = calculateHash(key, PayuConstants.EDIT_USER_CARD, var1, salt)) != null && postData.getCode() == PayuErrors.NO_ERROR)
                 payuHashes.setEditCardHash(postData.getResult());
         }
-
         if (mPaymentParams.getOfferKey() != null) {
             postData = calculateHash(key, PayuConstants.OFFER_KEY, mPaymentParams.getOfferKey(), salt);
             if (postData.getCode() == PayuErrors.NO_ERROR) {
                 payuHashes.setCheckOfferStatusHash(postData.getResult());
             }
         }
-
         if (mPaymentParams.getOfferKey() != null && (postData = calculateHash(key, PayuConstants.CHECK_OFFER_STATUS, mPaymentParams.getOfferKey(), salt)) != null && postData.getCode() == PayuErrors.NO_ERROR) {
             payuHashes.setCheckOfferStatusHash(postData.getResult());
         }
-
         // we have generated all the hases now lest launch sdk's ui
         launchSdkUI(payuHashes);
     }
@@ -857,7 +844,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
                             }
                         });
             } else {
-                  setPayUFailure();
+                setPayUFailure();
                 // Toast.makeText(this, getString(R.string.could_not_receive_data), Toast.LENGTH_LONG).show();
             }
         }

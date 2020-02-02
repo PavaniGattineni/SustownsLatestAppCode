@@ -21,7 +21,7 @@ public interface UserApi {
 
     @POST(DZ_URL.VENDOR_SIGNUP)
     Call<JsonElement> vendorSignup(@Query("name") String name, @Query("username") String username, @Query("phone") String phone, @Query("email") String email,
-                                   @Query("businessname") String businessname, @Query("password") String password, @Query("role") String role, @Query("country") String country,@Query("pincode") String pincode,@Query("vendorsubcat") String vendorsubcat);
+                                   @Query("businessname") String businessname, @Query("password") String password, @Query("role") String role, @Query("country") String country,@Query("state") String state,@Query("city") String city,@Query("pincode") String pincode,@Query("vendorsubcat") String vendorsubcat);
 
     @GET(DZ_URL.STORE_POULTRY)
     Call<JsonElement> StorePoultryProducts();

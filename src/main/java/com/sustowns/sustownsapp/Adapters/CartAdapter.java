@@ -115,9 +115,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 viewHolder.prod_price1.setVisibility(View.GONE);
                 viewHolder.dollar.setText("Price : INR "+cartServerModelList.get(position).getPrice_qty());
             }else{
-                viewHolder.prod_price1.setVisibility(View.VISIBLE);
+               // viewHolder.prod_price1.setVisibility(View.VISIBLE);
                 int OriginalPrice = Integer.parseInt(cartServerModelList.get(position).getMrp())*Integer.parseInt(cartServerModelList.get(position).getQty());
-                viewHolder.prod_price1.setText(String.valueOf(OriginalPrice));
+                int cartPrice = OriginalPrice + Integer.parseInt(cartServerModelList.get(position).getProductser_chargeAmount());
+                viewHolder.prod_price1.setText(String.valueOf(cartPrice));
                 viewHolder.dollar.setText("Price : INR "+cartServerModelList.get(position).getPrice_qty());
             }
             viewHolder.cart_prod_code.setText("Product Code : "+cartServerModelList.get(position).getPro_code());

@@ -57,6 +57,31 @@
                 android:src="@drawable/save_icon"/>
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/ll_progress"
+        android:visibility="gone"
+        android:padding="10dp">
+
+        <com.kofigyan.stateprogressbar.StateProgressBar
+            android:id="@+id/stateprogressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:spb_currentStateNumber="three"
+            app:spb_maxStateNumber="three"
+            app:spb_stateBackgroundColor="@color/colorWhite"
+            app:spb_stateForegroundColor="@color/colorWhite"
+            app:spb_stateNumberBackgroundColor="@color/colorBlack"
+            app:spb_stateNumberForegroundColor="@color/colorBlack"
+            app:spb_currentStateDescriptionColor="@color/colorWhite"
+            app:spb_stateDescriptionColor="@color/colorWhite"
+            app:spb_animateToCurrentProgressState="true"
+            app:spb_checkStateCompleted="true"
+            app:spb_stateLineThickness="2dp"/>
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -327,7 +352,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pay By Bank(Ex : Cheque/Online Netbanking Transaction ID)"
+                android:text="Pay By Bank(Ex : Cheque)"
                 android:id="@+id/paybank_radiobtn"
                 android:checked="false"
                 android:paddingBottom="5dp"

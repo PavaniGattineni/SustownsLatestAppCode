@@ -83,7 +83,7 @@ public class CartActivity extends AppCompatActivity implements DataListener {
             //getCartlist();
             //getCartFromServer();
             getCartListItems();
-           // getQuantityStr();
+            // getQuantityStr();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -201,7 +201,7 @@ public class CartActivity extends AppCompatActivity implements DataListener {
     @Override
     public void onBackPressed() {
         finish();
-        }
+    }
     private void initializeValues() {
         preferenceUtils = new PreferenceUtils(CartActivity.this);
         username = preferenceUtils.getStringFromPreference(PreferenceUtils.UserName, "");
@@ -241,7 +241,7 @@ public class CartActivity extends AppCompatActivity implements DataListener {
 
     private void getCartFromServer() {
         helper.showLoader(CartActivity.this, "Loading.", "Please wait while we fetch your cart.");
-       // webServices.getJsonObjectURL("http://sustowns.com/Sustownsservice/viewcart/?userid="+ user_id);
+        // webServices.getJsonObjectURL("http://sustowns.com/Sustownsservice/viewcart/?userid="+ user_id);
         webServices.getJsonObjectURL("https://www.sustowns.com/Sustownsservice/viewcart/?userid="+ user_id);
 
     }
@@ -252,79 +252,79 @@ public class CartActivity extends AppCompatActivity implements DataListener {
         progressDialog.setCancelable(true);
         progressDialog.show();
     }
-/*
-    public void removeDataRealm(String itemId, int position) {
-        realm.executeTransaction(new Realm.Transaction() {
+    /*
+        public void removeDataRealm(String itemId, int position) {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.deleteAll();
+                }
+            });
+           // Toast.makeText(CartActivity.this, "Product is removed!", Toast.LENGTH_SHORT).show();
+        }
+    */
+    public void cartCount() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(DZ_URL.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        UserApi service = retrofit.create(UserApi.class);
+
+        Call<JsonElement> callRetrofit = null;
+        callRetrofit = service.cartCount(user_id);
+
+        callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
-            public void execute(Realm realm) {
-                realm.deleteAll();
-            }
-        });
-       // Toast.makeText(CartActivity.this, "Product is removed!", Toast.LENGTH_SHORT).show();
-    }
-*/
-public void cartCount() {
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(DZ_URL.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-    UserApi service = retrofit.create(UserApi.class);
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        Log.d("Success Call", ">>>>" + call);
+                        Log.d("Success Call ", ">>>>" + response.body().toString());
 
-    Call<JsonElement> callRetrofit = null;
-    callRetrofit = service.cartCount(user_id);
+                        System.out.println("----------------------------------------------------");
+                        Log.d("Call request", call.request().toString());
+                        Log.d("Call request header", call.request().headers().toString());
+                        Log.d("Response raw header", response.headers().toString());
+                        Log.d("Response raw", String.valueOf(response.raw().body()));
+                        Log.d("Response code", String.valueOf(response.code()));
+                        System.out.println("----------------------------------------------------");
 
-    callRetrofit.enqueue(new Callback<JsonElement>() {
-        @Override
-        public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-            try {
-                if (response.isSuccessful()) {
-                    Log.d("Success Call", ">>>>" + call);
-                    Log.d("Success Call ", ">>>>" + response.body().toString());
+                        if (response.body().toString() != null) {
+                            if (response != null) {
+                                String searchResponse = response.body().toString();
+                                Log.d("Reg", "Response  >>" + searchResponse.toString());
 
-                    System.out.println("----------------------------------------------------");
-                    Log.d("Call request", call.request().toString());
-                    Log.d("Call request header", call.request().headers().toString());
-                    Log.d("Response raw header", response.headers().toString());
-                    Log.d("Response raw", String.valueOf(response.raw().body()));
-                    Log.d("Response code", String.valueOf(response.code()));
-                    System.out.println("----------------------------------------------------");
+                                if (searchResponse != null) {
+                                    JSONObject root = null;
+                                    try {
+                                        root = new JSONObject(searchResponse);
+                                        String success = root.getString("success");
+                                        //   message = root.getString("message");
+                                        if (success.equalsIgnoreCase("1")) {
+                                            String cartcount = root.getString("cartcount");
+                                            cart_title.setText("Cart"+"("+cartcount+")");
+                                        }else{
 
-                    if (response.body().toString() != null) {
-                        if (response != null) {
-                            String searchResponse = response.body().toString();
-                            Log.d("Reg", "Response  >>" + searchResponse.toString());
-
-                            if (searchResponse != null) {
-                                JSONObject root = null;
-                                try {
-                                    root = new JSONObject(searchResponse);
-                                    String success = root.getString("success");
-                                    //   message = root.getString("message");
-                                    if (success.equalsIgnoreCase("1")) {
-                                        String cartcount = root.getString("cartcount");
-                                        cart_title.setText("Cart"+"("+cartcount+")");
-                                    }else{
-
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
                             }
                         }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }
-        @Override
-        public void onFailure(Call<JsonElement> call, Throwable t) {
-            Log.d("Error Call", ">>>>" + call.toString());
-            Log.d("Error", ">>>>" + t.toString());
-            //Toast.makeText(MainActivity.this, "Please login again", Toast.LENGTH_SHORT).show();
-        }
-    });
-}
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                Log.d("Error Call", ">>>>" + call.toString());
+                Log.d("Error", ">>>>" + t.toString());
+                //Toast.makeText(MainActivity.this, "Please login again", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     public void removeFromCart(String itemId, int position) {
         if (realm.isInTransaction())
@@ -405,7 +405,7 @@ public void cartCount() {
                                 );
 */
 
-                               // cartServerList.add(cartServerModel);
+                                // cartServerList.add(cartServerModel);
                             }
                             cartAmountTotal = Double.parseDouble(response.getString("order_total"));
                             cart_total_amount.setText("Total Amount : INR " + response.getString("order_total"));
@@ -428,33 +428,33 @@ public void cartCount() {
                         cart_total_amount.setVisibility(View.GONE);
                     }
                 }
-                        else {
-                        helper.hideLoader();
-                        helper.singleClickAlert(CartActivity.this, SweetAlertDialog.NORMAL_TYPE, "", response.getString("message"),
-                                new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismissWithAnimation();
-                                        cartAmountTotal = cartAmountTotal - Double.parseDouble(cartServerList.get(removePosition).getPrice_qty());
-                                        cart_total_amount.setText("Total Amount : INR " + cartAmountTotal);
-                                        if(cartAmountTotal > 0.0){
-                                            checkout.setVisibility(View.VISIBLE);
-                                            cart_text.setVisibility(View.GONE);
-                                            remove_all_items.setVisibility(View.VISIBLE);
-                                            cart_total_amount.setVisibility(View.VISIBLE);
-                                        }else{
-                                            checkout.setVisibility(View.GONE);
-                                            cart_text.setVisibility(View.VISIBLE);
-                                            recyclerview_cart.setVisibility(View.GONE);
-                                            remove_all_items.setVisibility(View.GONE);
-                                            cart_total_amount.setVisibility(View.GONE);
-                                        }
-
-                                        cartServerList.remove(removePosition);
-                                        cartAdapter.notifyItemRemoved(removePosition);
+                else {
+                    helper.hideLoader();
+                    helper.singleClickAlert(CartActivity.this, SweetAlertDialog.NORMAL_TYPE, "", response.getString("message"),
+                            new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                    cartAmountTotal = cartAmountTotal - Double.parseDouble(cartServerList.get(removePosition).getPrice_qty());
+                                    cart_total_amount.setText("Total Amount : INR " + cartAmountTotal);
+                                    if(cartAmountTotal > 0.0){
+                                        checkout.setVisibility(View.VISIBLE);
+                                        cart_text.setVisibility(View.GONE);
+                                        remove_all_items.setVisibility(View.VISIBLE);
+                                        cart_total_amount.setVisibility(View.VISIBLE);
+                                    }else{
+                                        checkout.setVisibility(View.GONE);
+                                        cart_text.setVisibility(View.VISIBLE);
+                                        recyclerview_cart.setVisibility(View.GONE);
+                                        remove_all_items.setVisibility(View.GONE);
+                                        cart_total_amount.setVisibility(View.GONE);
                                     }
-                                });
-                    }
+
+                                    cartServerList.remove(removePosition);
+                                    cartAdapter.notifyItemRemoved(removePosition);
+                                }
+                            });
+                }
 
             }else {
                 helper.hideLoader();
@@ -488,16 +488,16 @@ public void cartCount() {
         removePosition = position;
         helper.showLoader(CartActivity.this, "Removing..", "Please wait for a while");
         webServices.getJsonObjectURL("http://dev2.sustowns.com/Sustownsservice/remove_cartforsingle?cart_id="+ cartServerList.get(position).getCart_id());
-       // webServices.getJsonObjectURL("https://www.sustowns.com/Sustownsservice/remove_cartforsingle/?cart_id=" + cartServerList.get(position).getCart_id());
-    }
-
-  /*  public void removeShippingItemServer(int position) {
-        removePosition = position;
-        helper.showLoader(CartActivity.this, "Removing..", "Please wait for a while");
-        webServices.getJsonObjectURL("http://dev2.sustowns.com/Sustownsservice/remove_cartforsingle?cart_id="+ cartServerList.get(position).getCart_id());
         // webServices.getJsonObjectURL("https://www.sustowns.com/Sustownsservice/remove_cartforsingle/?cart_id=" + cartServerList.get(position).getCart_id());
     }
-*/
+
+    /*  public void removeShippingItemServer(int position) {
+          removePosition = position;
+          helper.showLoader(CartActivity.this, "Removing..", "Please wait for a while");
+          webServices.getJsonObjectURL("http://dev2.sustowns.com/Sustownsservice/remove_cartforsingle?cart_id="+ cartServerList.get(position).getCart_id());
+          // webServices.getJsonObjectURL("https://www.sustowns.com/Sustownsservice/remove_cartforsingle/?cart_id=" + cartServerList.get(position).getCart_id());
+      }
+  */
     public void progresDialog() {
         progressDialog = new ProgressDialog(CartActivity.this);
         progressDialog.setMessage("Please wait...");
@@ -514,8 +514,8 @@ public void cartCount() {
 
         CartApi service = retrofit.create(CartApi.class);
         Call<JsonElement> callRetrofit = null;
-      //  callRetrofit = service.getCartList("https://www.sustowns.com/Sustownsservice/viewcart/?userid="+user_id);
-         callRetrofit = service.getCartList("https://www.sustowns.com/Sustownsservice/viewcart?userid="+user_id);
+        //  callRetrofit = service.getCartList("https://www.sustowns.com/Sustownsservice/viewcart/?userid="+user_id);
+        callRetrofit = service.getCartList("https://www.sustowns.com/Sustownsservice/viewcart?userid="+user_id);
         callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -611,55 +611,55 @@ public void cartCount() {
                                         }
                                         cartAmountTotal = Double.parseDouble(order_total);
                                         cart_total_amount.setText("Total Amount : INR " + order_total);
-                                        }else{
+                                    }else{
                                         checkout.setVisibility(View.GONE);
                                         cart_text.setVisibility(View.VISIBLE);
                                         recyclerview_cart.setVisibility(View.GONE);
                                         cart_total_amount.setVisibility(View.GONE);
-                                            progressDialog.dismiss();
-                                           // Toast.makeText(CartActivity.this, "Cart is Empty", Toast.LENGTH_SHORT).show();
-                                        }
-                                        if(cartServerList != null){
-                                            progressDialog.dismiss();
-                                            cart_text.setVisibility(View.GONE);
-                                            checkout.setVisibility(View.VISIBLE);
-                                            cart_total_amount.setVisibility(View.VISIBLE);
-                                            remove_all_items.setVisibility(View.VISIBLE);
-                                         //   update_cart.setVisibility(View.VISIBLE);
-                                            cartAdapter = new CartAdapter(CartActivity.this, cartServerList);
-                                            recyclerview_cart.setAdapter(cartAdapter);
-                                            cartAdapter.notifyDataSetChanged();
-                                        }else{
-                                            progressDialog.dismiss();
-                                            checkout.setVisibility(View.GONE);
-                                            cart_text.setVisibility(View.VISIBLE);
-                                            recyclerview_cart.setVisibility(View.GONE);
-                                            cart_total_amount.setVisibility(View.GONE);
-                                            remove_all_items.setVisibility(View.GONE);
-                                           // update_cart.setVisibility(View.GONE);
-                                        }
-                                }catch(JSONException e){
-                                        e.printStackTrace();
+                                        progressDialog.dismiss();
+                                        // Toast.makeText(CartActivity.this, "Cart is Empty", Toast.LENGTH_SHORT).show();
                                     }
-                                    progressDialog.dismiss();
+                                    if(cartServerList != null){
+                                        progressDialog.dismiss();
+                                        cart_text.setVisibility(View.GONE);
+                                        checkout.setVisibility(View.VISIBLE);
+                                        cart_total_amount.setVisibility(View.VISIBLE);
+                                        remove_all_items.setVisibility(View.VISIBLE);
+                                        //   update_cart.setVisibility(View.VISIBLE);
+                                        cartAdapter = new CartAdapter(CartActivity.this, cartServerList);
+                                        recyclerview_cart.setAdapter(cartAdapter);
+                                        cartAdapter.notifyDataSetChanged();
+                                    }else{
+                                        progressDialog.dismiss();
+                                        checkout.setVisibility(View.GONE);
+                                        cart_text.setVisibility(View.VISIBLE);
+                                        recyclerview_cart.setVisibility(View.GONE);
+                                        cart_total_amount.setVisibility(View.GONE);
+                                        remove_all_items.setVisibility(View.GONE);
+                                        // update_cart.setVisibility(View.GONE);
+                                    }
+                                }catch(JSONException e){
+                                    e.printStackTrace();
                                 }
+                                progressDialog.dismiss();
                             }
                         }
-                    } else {
-                        Toast.makeText(CartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
                     }
+                } else {
+                    Toast.makeText(CartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
             }
             @Override
-                public void onFailure(Call<JsonElement> call, Throwable t) {
+            public void onFailure(Call<JsonElement> call, Throwable t) {
                 Log.d("Error Call", ">>>>" + call.toString());
-                    Log.d("Error", ">>>>" + t.toString());
-                    progressDialog.dismiss();
+                Log.d("Error", ">>>>" + t.toString());
+                progressDialog.dismiss();
                 Toast.makeText(CartActivity.this, "Something went wrong!Please try again later", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        public void clearCartItems() {
+            }
+        });
+    }
+    public void clearCartItems() {
         //  user_id = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ID,"");
         progresDialog();
         Retrofit retrofit = new Retrofit.Builder()
@@ -695,12 +695,12 @@ public void cartCount() {
                                     String success = root.getString("success");
                                     if (success.equalsIgnoreCase("1")) {
                                         //getCartListItems();
-                                           Intent i = new Intent(CartActivity.this, CartActivity.class);
-                                           startActivity(i);
-                                           finish();
-                                         progressDialog.dismiss();
+                                        Intent i = new Intent(CartActivity.this, CartActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                        progressDialog.dismiss();
                                         // Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
-                                           // cartAdapter.notifyItemRemoved();
+                                        // cartAdapter.notifyItemRemoved();
                                     }else{
                                         progressDialog.dismiss();
                                         Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
@@ -708,7 +708,7 @@ public void cartCount() {
                                 }catch(JSONException e){
                                     e.printStackTrace();
                                 }
-                               progressDialog.dismiss();
+                                progressDialog.dismiss();
                             }
                         }
                     }
@@ -735,9 +735,9 @@ public void cartCount() {
                 JSONObject quantityObject = new JSONObject();
               /*  quantityObject.put("cart_id","763");
                 quantityObject.put("qty","15");*/
-               quantityObject.put("cart_id",cartServerModel.getCart_id());
-               quantityObject.put("qty",quantity);
-               quantityArray.put(quantityObject);
+                quantityObject.put("cart_id",cartServerModel.getCart_id());
+                quantityObject.put("qty",quantity);
+                quantityArray.put(quantityObject);
             }
             useridObj.put("quantityArray",quantityArray);
             Log.e("ProductDetailsArray", ""+useridObj);
@@ -766,7 +766,7 @@ public void cartCount() {
                             String success = response.getString("success");
                             if(success.equalsIgnoreCase("1")){
                                 getCartListItems();
-                              //  Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
+                                //  Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(CartActivity.this, message, Toast.LENGTH_SHORT).show();
                             }

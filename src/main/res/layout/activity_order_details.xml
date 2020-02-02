@@ -269,7 +269,24 @@
                         android:textAllCaps="false"
                         android:textColor="@color/black"
                         android:textSize="16sp"/>
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/shipping_email"
+                        android:textAllCaps="false"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/shipping_mobile"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -314,6 +331,15 @@
                         android:text="email"
                         android:layout_marginTop="5dp"
                         android:id="@+id/customer_email"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Phone"
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/customer_phone"
                         android:textAllCaps="false"
                         android:textColor="@color/black"
                         android:textSize="16sp"/>
