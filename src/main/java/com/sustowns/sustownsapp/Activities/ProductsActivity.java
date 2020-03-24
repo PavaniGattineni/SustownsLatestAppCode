@@ -113,7 +113,7 @@ public class ProductsActivity extends AppCompatActivity implements SwipeRefreshL
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     HashMap<String, List<String>> subSubCatHash;
-    String cartcount,user_id,catSlug,subCatId,subCatTitle,subCatSlug,subSubCatId,subSubCatTitle,subSubCatSlug,minPrice = "",maxPrice = "";
+    String cartcount,user_role,user_id,catSlug,subCatId,subCatTitle,subCatSlug,subSubCatId,subSubCatTitle,subSubCatSlug,minPrice = "",maxPrice = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +126,7 @@ public class ProductsActivity extends AppCompatActivity implements SwipeRefreshL
         username = preferenceUtils.getStringFromPreference(PreferenceUtils.UserName, "");
         useremail = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_EMAIL, "");
         user_id = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ID,"");
+        user_role = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ROLE,"");
         helper = new Helper(this);
         products_list = (GridView) findViewById(R.id.products_list_grid);
         home = (LinearLayout) findViewById(R.id.ll_home);
@@ -626,8 +627,13 @@ public class ProductsActivity extends AppCompatActivity implements SwipeRefreshL
         UserApi service = retrofit.create(UserApi.class);
 
         Call<JsonElement> callRetrofit = null;
-        callRetrofit = service.StorePoultryProducts();
-
+        if(user_role.equalsIgnoreCase("general")){
+            callRetrofit = service.StoreGeneralProducts(user_id);
+        }else if(user_role.equalsIgnoreCase("poultry")){
+            callRetrofit = service.StorePoultryProducts(user_id);
+        }else{ 
+            callRetrofit = service.StoreGeneralProducts(user_id);
+        }
         callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -715,6 +721,7 @@ public class ProductsActivity extends AppCompatActivity implements SwipeRefreshL
                                                 poultryProductsModel.setPr_price(pr_price);
                                                 poultryProductsModel.setPr_currency(pr_currency);
                                                 poultryProductsModel.setPr_discount(pr_discount);
+                                                poultryProductsModel.setService_charge(service_charge);
                                                 poultryProductsModel.setPr_stocks(pr_stocks);
                                                 poultryProductsModel.setPr_min(pr_min);
                                                 poultryProductsModel.setPr_weight_unit(pr_weight_unit);

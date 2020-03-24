@@ -33,22 +33,17 @@
             android:text="Bank Account Details"
             android:textColor="@color/white"
             android:textSize="16sp" />
-
     </android.support.v7.widget.Toolbar>
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:overScrollMode="never">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingBottom="20sp">
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,8 +99,7 @@
                     android:textColor="#000000"
                     android:textSize="16sp"
                     android:inputType="textPostalAddress" />
-
-
+                
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -126,8 +120,7 @@
                     android:hint="Bank Account Number"
                     android:textSize="16sp"
                     android:inputType="numberDecimal" />
-
-
+                
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

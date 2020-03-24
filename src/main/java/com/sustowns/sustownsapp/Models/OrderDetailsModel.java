@@ -12,6 +12,10 @@ public class OrderDetailsModel {
     private String pr_title;
     private String pr_image;
     private String order_status;
+    private String pr_userid;
+    private String discount;
+    private String service_charge;
+    private String amount;
 
     public String getId() {
         return id;
@@ -91,5 +95,37 @@ public class OrderDetailsModel {
 
     public void setOrder_status(String order_status) {
         this.order_status = order_status;
+    }
+
+    public String getPr_userid() {
+        return pr_userid;
+    }
+
+    public void setPr_userid(String pr_userid) {
+        this.pr_userid = pr_userid;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getService_charge() {
+        return service_charge;
+    }
+
+    public void setService_charge(String service_charge) {
+        this.service_charge = service_charge;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }

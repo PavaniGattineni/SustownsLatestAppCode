@@ -1,5 +1,6 @@
 package com.sustowns.sustownsapp.Activities;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -35,9 +37,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignInActivity extends AppCompatActivity {
-    TextView franchise_signup, vendor_signup, forgot_password,transport_vendor_signup;
+    TextView franchise_signup, vendor_signup, forgot_password,register_text,cluster_register;
     CheckBox checkbox;
-    ImageView eye_img;
+    ImageView eye_img,remove_product;
     Button signinbtn;
     EditText login_username, login_password;
     String username, password, emailPattern,refreshedToken,device_id;
@@ -152,8 +154,38 @@ public class SignInActivity extends AppCompatActivity {
         ll_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SignInActivity.this, SignUpVendorActivity.class);
-                startActivity(i);
+                final Dialog customdialog = new Dialog(SignInActivity.this);
+                customdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                customdialog.setContentView(R.layout.register_dialog);
+                customdialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                customdialog.getWindow().setBackgroundDrawableResource(R.drawable.squre_corner_shape);
+                remove_product = (ImageView) customdialog.findViewById(R.id.remove_product);
+                register_text = (TextView) customdialog.findViewById(R.id.register_text);
+                cluster_register = (TextView) customdialog.findViewById(R.id.cluster_register);
+                remove_product.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        customdialog.dismiss();
+                    }
+                });
+                register_text.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(SignInActivity.this, SignUpVendorActivity.class);
+                        i.putExtra("Cluster","1");// 1 ---- true
+                        startActivity(i);
+                        customdialog.dismiss();
+                    }
+                });
+                cluster_register.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(SignInActivity.this, SignUpClusterActivity.class);
+                        startActivity(i);
+                        customdialog.dismiss();
+                    }
+                });
+                customdialog.show();
             }
         });
         forgot_password.setOnClickListener(new View.OnClickListener() {
@@ -235,16 +267,18 @@ public class SignInActivity extends AppCompatActivity {
                                             String country = jsonObject.getString("country");
                                             String zipcode = jsonObject.getString("zipcode");
                                             String location_id = jsonObject.getString("location_id");
+                                            String user_type = jsonObject.getString("user_type");
 
                                             preferenceUtils.saveString(PreferenceUtils.UserName, username);
                                             preferenceUtils.saveString(PreferenceUtils.USER_EMAIL, email);
                                             preferenceUtils.saveString(PreferenceUtils.MOBILE, phone);
                                             preferenceUtils.saveString(PreferenceUtils.USER_ID, id);
+                                            preferenceUtils.saveString(PreferenceUtils.CITY,city);
                                             preferenceUtils.saveString(PreferenceUtils.FULL_NAME,fullname);
                                             preferenceUtils.saveString(PreferenceUtils.USER_ROLE,access_token);
                                             preferenceUtils.saveString(PreferenceUtils.Cust_Address,address);
                                             preferenceUtils.saveString(PreferenceUtils.ZIPCODE,zipcode);
-
+                                            preferenceUtils.saveString(PreferenceUtils.USER_TYPE,user_type);
                                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                             startActivity(intent);
                                             //  Toast.makeText(SignInActivity.this, message, Toast.LENGTH_SHORT).show();

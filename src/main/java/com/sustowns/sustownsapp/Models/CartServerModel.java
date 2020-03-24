@@ -30,6 +30,7 @@ public class CartServerModel {
     String id;
     String pr_min;
     String pr_stocks;
+    String pr_userid;
 
     public String getCart_id() {
         return cart_id;
@@ -260,5 +261,13 @@ public class CartServerModel {
 
     public void setPr_stocks(String pr_stocks) {
         this.pr_stocks = pr_stocks;
+    }
+
+    public String getPr_userid() {
+        return pr_userid;
+    }
+
+    public void setPr_userid(String pr_userid) {
+        this.pr_userid = pr_userid;
     }
 }

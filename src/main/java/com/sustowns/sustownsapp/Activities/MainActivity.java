@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     RecyclerView gridView;
     TextView home_text,news_text,store_text,contracts_text,market_text,cart_count;
     PreferenceUtils preferenceUtils;
-    public static String userName,userEmail,pro_id,image,fullname,user_role;
+    public static String userName,userEmail,pro_id,image,fullname,user_role,userType;
     LinearLayout home,news,store,bidcontracts,poultryprices;
     ArrayList<GetHomeProducts> getHomeProducts;
     GridAdapter gridAdapter;
@@ -92,24 +92,29 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     public static void hideAndShowItems() {
         Menu navMenu = navigationView.getMenu();
-        if(user_role.equalsIgnoreCase("")){
+        if(user_role.equalsIgnoreCase("general")){
             navMenu.findItem(R.id.service_management_nav).setVisible(false);
             navMenu.findItem(R.id.storemanagement_nav).setVisible(true);
+            navMenu.findItem(R.id.cluster_dashboard_nav).setVisible(false);
+           // navMenu.findItem(R.id.warehouse_management_nav).setVisible(false);
         }
         if (user_role.equalsIgnoreCase("poultry")) {
             navMenu.findItem(R.id.service_management_nav).setVisible(false);
             navMenu.findItem(R.id.storemanagement_nav).setVisible(true);
+            navMenu.findItem(R.id.cluster_dashboard_nav).setVisible(false);
+           // navMenu.findItem(R.id.warehouse_management_nav).setVisible(false);
         } else if(user_role.equalsIgnoreCase("transport")){
             navMenu.findItem(R.id.service_management_nav).setVisible(true);
             navMenu.findItem(R.id.storemanagement_nav).setVisible(false);
-
-        }/*else{
-            navMenu.findItem(R.id.signout_nav).setVisible(true);
-            navMenu.findItem(R.id.signin_nav).setVisible(false);
-            navMenu.findItem(R.id.shop_nav).setVisible(true);
-            navMenu.findItem(R.id.cust_shop_nav).setVisible(false);
-            navMenu.findItem(R.id.dealer_shop_nav).setVisible(false);
-        }*/
+            navMenu.findItem(R.id.cluster_dashboard_nav).setVisible(false);
+            //navMenu.findItem(R.id.warehouse_management_nav).setVisible(false);
+        }
+        if(userType.equalsIgnoreCase("franchise")){
+            navMenu.findItem(R.id.cluster_dashboard_nav).setVisible(true);
+            navMenu.findItem(R.id.service_management_nav).setVisible(false);
+            navMenu.findItem(R.id.storemanagement_nav).setVisible(true);
+           // navMenu.findItem(R.id.warehouse_management_nav).setVisible(true);
+        }
     }
 
     @Override
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         userName = preferenceUtils.getStringFromPreference(PreferenceUtils.UserName,"");
         fullname = preferenceUtils.getStringFromPreference(PreferenceUtils.FULL_NAME,"");
         userEmail = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_EMAIL,"");
+        userType = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_TYPE,"");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         home = (LinearLayout) findViewById(R.id.ll_home);
         news = (LinearLayout) findViewById(R.id.ll_news);
@@ -465,6 +471,9 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             Intent i = new Intent(MainActivity.this, StoreMyProductsActivity.class);
             i.putExtra("Customizations","0");
             startActivity(i);
+        }else if(id == R.id.cluster_dashboard_nav){
+            Intent i = new Intent(MainActivity.this, ClusterDashboardActivity.class);
+            startActivity(i);
         }
         else if (id == R.id.service_management_nav) {
             Intent i = new Intent(MainActivity.this, ServiceManagementActivity.class);
@@ -530,7 +539,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     }
     private void getProducts() {
         shimmer_grid_container.startShimmerAnimation();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(DZ_URL.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -538,8 +546,13 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         UserApi service = retrofit.create(UserApi.class);
 
         Call<JsonElement> callRetrofit = null;
-        callRetrofit = service.getHomeProducts();
-
+        if(user_role.equalsIgnoreCase("general")){
+            callRetrofit = service.getGeneralHomeProducts();
+        }else if(user_role.equalsIgnoreCase("poultry")){
+            callRetrofit = service.getHomeProducts();
+        }else{
+            callRetrofit = service.getGeneralHomeProducts();
+        }
         callRetrofit.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -616,6 +629,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                                                 getHomeProductsModel.setCountry(country);
                                                 getHomeProductsModel.setState(state);
                                                 getHomeProductsModel.setPr_price(pr_price);
+                                                getHomeProductsModel.setService_charge(service_charge);
+                                                getHomeProductsModel.setPr_discount(pr_discount);
                                                 getHomeProductsModel.setPr_currency(pr_currency);
                                                 getHomeProductsModel.setPr_weight(pr_weight);
                                                 getHomeProductsModel.setImagepath(imagepath);
@@ -651,7 +666,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             public void onFailure(Call<JsonElement> call, Throwable t) {
                 Log.d("Error Call", ">>>>" + call.toString());
                 Log.d("Error", ">>>>" + t.toString());
-                //Toast.makeText(MainActivity.this, "Please login again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Something went wrong! please try again", Toast.LENGTH_SHORT).show();
                 helper.stopShimmer(shimmer_grid_container);
             }
         });
@@ -752,7 +767,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-//                Toast.makeText(MainActivity.this, "Service not responding", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Something went wrong! please try again", Toast.LENGTH_SHORT).show();
                 // progressDialog.dismiss();
             }
         });

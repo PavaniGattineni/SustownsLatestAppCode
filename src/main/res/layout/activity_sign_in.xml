@@ -189,6 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/ll_sign_up"
+                android:padding="5dp"
                 android:gravity="center">
 
             <TextView
@@ -208,6 +209,11 @@
                 android:textAlignment="center"
                 android:textColor="@color/appcolor"
                 android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:visibility="gone"
+                    android:src="@drawable/down_arrow__icon" />
             </LinearLayout>
             <TextView
                 android:id="@+id/franchise_signup"

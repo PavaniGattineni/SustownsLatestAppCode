@@ -42,7 +42,15 @@
             android:id="@+id/storemanagement_nav"
             android:title="Store Management"
             android:icon="@drawable/store"/>
-
+        <item
+            android:id="@+id/cluster_dashboard_nav"
+            android:title="Cluster Management"
+            android:icon="@drawable/cluster_img" />
+        <item
+            android:id="@+id/warehouse_management_nav"
+            android:title="Warehouse Management"
+            android:visible="false"
+            android:icon="@drawable/warehouse_img" />
         <item
             android:id="@+id/customizations_nav"
             android:title="Customizations"

@@ -213,12 +213,13 @@
                         android:layout_weight="1"
                         android:id="@+id/ll_paymentstatus"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="87dp"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:layout_height="match_parent"
                             android:text="Bank Status"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

@@ -103,7 +103,6 @@ import static com.sustowns.sustownsapp.Activities.AddProductActivity.myProductsM
 
 public class StoreMyProductsActivity extends AppCompatActivity {
     public static RecyclerView recycler_view_products_store;
-    public static String Product_Address_Map = "";
     ImageView backarrow, three_dots_icon;
     CircleImageView profile_img,imageview;
     boolean isUpdate;
@@ -117,19 +116,10 @@ public class StoreMyProductsActivity extends AppCompatActivity {
     String currency_st, TitleStr = "", shippingId = "",service_id,service_name;
     LinearLayout ll_shipping_type, ll_buyer_network,linearlayout,ll_custom_invoice, ll_customizations, ll_contracts;
     ArrayList<String> currencyCodes;
-    ArrayList<String> countryList = new ArrayList<>();
-    ArrayList<String> statesList = new ArrayList<>();
-    ArrayList<String> citiesList = new ArrayList<>();
     public static LinearLayout ll_prod_list;
     Spinner spinner_eggs_types, spinner_quality, spinner_prod_category, spinner_sector, spinner_list_type, spinner_sample_gross_weight;
     Spinner spinner_unit, spinner_price, spinner_sample_pack_type, spinner_shipping;
     EditText title_add_prod, unit_edit, price_edittext, min_order_et, stock_et, discount_et, sample_unit_edit, pincode_et, gross_weight_et;
-    String[] eggsType = {"Types Of Eggs","Regular/Layer Eggs", "Organic Eggs", "Duck Eggs", "Quail Eggs"};
-    String[] quality = {"select quality", "AA", "A", "B"};
-    String[] prod_category = {"Category","Egg", "Poultry"},EggCat = {"Egg","Poultry"},PoultryCat = {"Poultry","Egg"};
-    String[] sector = {"Sector","B2B(Business to Business)", "Buyer network"},business = {"B2B(Business to Business)", "Buyer network"},buyerSp = {"Buyer network","B2B(Business to Business)"};
-    String[] listingtype = {"Listing Type","Product", "Service"},productSp = {"Product","Service"},serviceSp = {"Service","Product"};
-    String[] unit = {"Units","Crate", "Box"},Crate = {"Crate","Box"},Box = {"Box","Crate"};
     String[] price = {"INR"};
     String[] samplepacktype = {"sample pack type", "12 Pack Crate", "20 Pack Crate", "30 Pack Crate", "210 Pack Box"};
     String[] country = {"India", "Indonesia", "Iceland", "Australia", "Algeria", "Malaysia", "Saudi Arabia", "Singapore", "USA", "UK", "Uganda"};
@@ -193,6 +183,8 @@ public class StoreMyProductsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_store_my_products);
         try {
             preferenceUtils = new PreferenceUtils(StoreMyProductsActivity.this);
+            user_role = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ROLE, "");
+           
             CustomizationKey = getIntent().getStringExtra("Customizations");
             helper = new Helper(this);
             isUpdate = false;
@@ -314,39 +306,44 @@ public class StoreMyProductsActivity extends AppCompatActivity {
             add_product_store.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(StoreMyProductsActivity.this, AddProductActivity.class);
-                    i.putExtra("productid","");
-                    i.putExtra("Update","0");
-                    i.putExtra("Name","");
-                    i.putExtra("CatId","");
-                    i.putExtra("Quality","");
-                    i.putExtra("EggsType","");
-                    i.putExtra("PackType","");
-                    i.putExtra("Country","");
-                    i.putExtra("State","");
-                    i.putExtra("City","");
-                    i.putExtra("Price","");
-                    i.putExtra("Quantity","");
-                    i.putExtra("Discount","");
-                    i.putExtra("Unit","");
-                    i.putExtra("Stocks","");
-                    i.putExtra("SampleUnit","");
-                    i.putExtra("SampleMaxQuantity","");
-                    i.putExtra("SamplePrice","");
-                    i.putExtra("Days","");
-                    i.putExtra("SampleGrossWeight","");
-                    i.putExtra("Address","");
-                    i.putExtra("StartDate","");
-                    i.putExtra("EndDate","");
-                    i.putExtra("SamplePackType","");
-                    i.putExtra("Shipping","");
-                    i.putExtra("MakeOffer","");
-                    i.putExtra("PrType","");
-                    i.putExtra("ListingType","");
-                    i.putExtra("WeightUnit","");
-                    i.putExtra("SampleWeightUnit","");
-                    i.putExtra("SampleGrossWeightUnit","");
-                    startActivity(i);
+                    if (user_role.equalsIgnoreCase("general")) {
+                        Intent i = new Intent(StoreMyProductsActivity.this, GeneralAddProductActivity.class);
+                        startActivity(i);
+                    } else if (user_role.equalsIgnoreCase("poultry")) {
+                        Intent i = new Intent(StoreMyProductsActivity.this, AddProductActivity.class);
+                        i.putExtra("productid", "");
+                        i.putExtra("Update", "0");
+                        i.putExtra("Name", "");
+                        i.putExtra("CatId", "");
+                        i.putExtra("Quality", "");
+                        i.putExtra("EggsType", "");
+                        i.putExtra("PackType", "");
+                        i.putExtra("Country", "");
+                        i.putExtra("State", "");
+                        i.putExtra("City", "");
+                        i.putExtra("Price", "");
+                        i.putExtra("Quantity", "");
+                        i.putExtra("Discount", "");
+                        i.putExtra("Unit", "");
+                        i.putExtra("Stocks", "");
+                        i.putExtra("SampleUnit", "");
+                        i.putExtra("SampleMaxQuantity", "");
+                        i.putExtra("SamplePrice", "");
+                        i.putExtra("Days", "");
+                        i.putExtra("SampleGrossWeight", "");
+                        i.putExtra("AddressStr", "");
+                        i.putExtra("StartDate", "");
+                        i.putExtra("EndDate", "");
+                        i.putExtra("SamplePackType", "");
+                        i.putExtra("Shipping", "");
+                        i.putExtra("MakeOffer", "");
+                        i.putExtra("PrType", "");
+                        i.putExtra("ListingType", "");
+                        i.putExtra("WeightUnit", "");
+                        i.putExtra("SampleWeightUnit", "");
+                        i.putExtra("SampleGrossWeightUnit", "");
+                        startActivity(i);
+                    }
                 }
             });
             swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
@@ -419,12 +416,9 @@ public class StoreMyProductsActivity extends AppCompatActivity {
                     popup.show(); //showing popup menu
                 }
             });
-            recyclerview_shipping_sizes = (RecyclerView) findViewById(R.id.recyclerview_shipping_sizes);
-            LinearLayoutManager layoutManager3 = new LinearLayoutManager(StoreMyProductsActivity.this, LinearLayoutManager.VERTICAL, false);
-            recyclerview_shipping_sizes.setLayoutManager(layoutManager3);
           //  ll_prod_list.setVisibility(View.VISIBLE);
             title_store = (TextView) findViewById(R.id.title_store);
-            profile_img = (CircleImageView) findViewById(R.id.profile_img);
+           // profile_img = (CircleImageView) findViewById(R.id.profile_img);
             // general
             imageview = (CircleImageView) findViewById(R.id.imageview);
             mapRadioGroup = (RadioGroup) findViewById(R.id.mapRadioGroup);
@@ -582,7 +576,7 @@ public class StoreMyProductsActivity extends AppCompatActivity {
                                                 smaxquan = jsonObject.getString("smaxquan");
                                                 sprice = jsonObject.getString("sprice");
                                                 String status = jsonObject.getString("status");
-                                                String address = jsonObject.getString("address");
+                                                String addressStr = jsonObject.getString("address");
                                                 String listing_type = jsonObject.getString("listing_type");
                                                 String days = jsonObject.getString("days");
                                                 shippingStr = jsonObject.getString("shipping");
@@ -620,7 +614,7 @@ public class StoreMyProductsActivity extends AppCompatActivity {
                                                 myProductsModel.setProd_image(prod_image);
                                                 myProductsModel.setIs_primary(is_primary);
                                                 myProductsModel.setStatus(status);
-                                                myProductsModel.setAddress(address);
+                                                myProductsModel.setAddress(addressStr);
                                                 myProductsModel.setListing_type(listing_type);
                                                 myProductsModel.setDays(days);
                                                 myProductsModel.setShippingStr(shippingStr);

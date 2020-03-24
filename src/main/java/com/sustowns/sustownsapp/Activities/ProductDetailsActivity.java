@@ -51,6 +51,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -61,9 +62,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 public class ProductDetailsActivity extends AppCompatActivity {
     public static String Address = "";
-    Button reviews, descriptions, addtocart, make_offer, buy_sample, submit_review_btn;
+    Button reviews, descriptions, addtocart, make_offer, buy_sample, submit_review_btn,buy_now_btn;
     LinearLayout ll_description, ll_reviews, ll_product_details,ll_shipping_services,ll_discount;
-    ImageView backarrow, image_product_details, image_full;
+    ImageView backarrow, image_product_details, image_full,cart_img,close_buy_sample;
     EditText name_review, edit_quantity;
     String Strquantity,pro_id,status,user_id, image, quantity,service_charge, pr_title,userid, pr_price, pr_currency, makeoffer, pr_weight, weight_unit, review, sample_pro_id;
     Intent intent;
@@ -74,11 +75,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
     TextView delivery_time, reviews_text, reviews_count, product_size, vendor_discount,added_tocart,cart_count;
     public static TextView drop_location;
     Realm realm;
-    ImageView close_buy_sample, cart_img;
     Button close_btn, addtocart_sample;
     TextView buysample_title, sample_name, sample_unit, sample_size, sample_pack_type, sample_price, product_price, pick_up_location;
     EditText quantity_et;
-    String sid,ratingStr, shippingStr, discount, transportStr,shipping="",addressDrop,cartcount,getpricekms="";
+    String sid,ratingStr, TotalProdPrice, discount, transportStr,shipping="",addressDrop,cartcount,getpricekms="";
     String weight_sample, weight_unit_sample, pack_type_sample, pr_title_sample, pr_price_sample, pr_currency_sample, pr_min_sample;
     RecyclerView review_recyclerview;
     ArrayList<GetReviewsModel> getReviewsModels;
@@ -213,51 +213,132 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                if(discount.equalsIgnoreCase("") || discount.equalsIgnoreCase("null")){
-                    if(service_charge.equalsIgnoreCase("0.00")||service_charge.equalsIgnoreCase("0")||service_charge.equalsIgnoreCase("")) {
+                if(user_id.equalsIgnoreCase(userid)){
+                if(discount.equalsIgnoreCase("") || discount.equalsIgnoreCase("null")) {
                         if (!edit_quantity.getText().toString().isEmpty()) {
                             quantity = edit_quantity.getText().toString();
                             Double quantityInt = Double.parseDouble(quantity);
                             Double priceInt = Double.parseDouble(pr_price);
                             Double ProdPriceStrFloat = priceInt * quantityInt;
-                            ProdPriceStr = String.valueOf(ProdPriceStrFloat);
-                            product_price.setText(ProdPriceStr);
-                        }
-                    }else{
-                            if(!edit_quantity.getText().toString().isEmpty()) {
-                                quantity = edit_quantity.getText().toString();
-                                Double quantityInt = Double.parseDouble(quantity);
-                                pr_price = String.valueOf(SerChargeFinal);
-                                Double priceInt = Double.parseDouble(pr_price);
-                                Double ProdPriceStrFloat = priceInt * quantityInt;
-                                ProdPriceStr = String.valueOf(ProdPriceStrFloat);
-                                product_price.setText(ProdPriceStr);
-                            }
-                    }
+                            TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                            product_price.setText(TotalProdPrice);
+                            // ProdPriceStr = String.valueOf(ProdPriceStrFloat);
+                            // product_price.setText(ProdPriceStr);
+                    } 
                 }else {
-                    if(service_charge.equalsIgnoreCase("0.00")||service_charge.equalsIgnoreCase("0")||service_charge.equalsIgnoreCase("")) {
                         if (!edit_quantity.getText().toString().isEmpty()) {
                             quantity = edit_quantity.getText().toString();
+                            int OriginalPrice = Integer.parseInt(pr_price);
+                            int DiscountStr = Integer.parseInt(discount);
+                            int DiscountPrice = OriginalPrice * DiscountStr;
+                            float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                            TotalPriceStr = Float.parseFloat(pr_price) - DisPriceStr;
                             Double quantityInt = Double.parseDouble(quantity);
                             String TotalPriceStrDouble = String.valueOf(TotalPriceStr);
                             Double TotalPriceDouble = Double.parseDouble(TotalPriceStrDouble);
                             Double priceStr = TotalPriceDouble * quantityInt;
-                            String ProdPriceString = String.valueOf(priceStr);
-                            product_price.setText(ProdPriceString);
+                            TotalProdPrice = new DecimalFormat("##.##").format(priceStr);
+                            product_price.setText(TotalProdPrice);
+                            /*String ProdPriceString = String.valueOf(priceStr);
+                            product_price.setText(ProdPriceString);*/
                         }
-                    }else{
-                        if (!edit_quantity.getText().toString().isEmpty()) {
-                            quantity = edit_quantity.getText().toString();
+                    }
+                }else{
+                    if (discount.equalsIgnoreCase("null")|| discount.equalsIgnoreCase("")) {
+                        if (service_charge.equalsIgnoreCase("0.00") || service_charge.equalsIgnoreCase("0") || service_charge.equalsIgnoreCase("")) {
+                            if (!edit_quantity.getText().toString().isEmpty()) {
+                                quantity = edit_quantity.getText().toString();
+                                prod_price.setText(pr_currency + " " + pr_price);
+                                float quantityInt = Float.parseFloat(quantity);
+                                float priceInt = Float.parseFloat(pr_price);
+                                float ProdPriceStrFloat = priceInt * quantityInt;
+                                TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                                product_price.setText(TotalProdPrice);
+                            }
+                        } else {
+                            if (!edit_quantity.getText().toString().isEmpty()) {
+                                quantity = edit_quantity.getText().toString();
+                                Float ProdPriceF = Float.valueOf(pr_price);
+                                Float ServiceChargeF = Float.valueOf(service_charge);
+                                Float finalServiceCharge = (ProdPriceF * ServiceChargeF) / 100;
+                                Float ProdPriceFinal = Float.valueOf(pr_price);
+                                SerChargeFinal = ProdPriceFinal + finalServiceCharge;
+                                float quantityInt = Float.parseFloat(quantity);
+                                float ProdPriceStrFloat = quantityInt * SerChargeFinal;
+                                TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                                product_price.setText(TotalProdPrice);
+                            }
+                        }
+                    }else {
+                        if (service_charge.equalsIgnoreCase("0.00") || service_charge.equalsIgnoreCase("0") || service_charge.equalsIgnoreCase("")) {
+                            if (!edit_quantity.getText().toString().isEmpty()) {
+                                quantity = edit_quantity.getText().toString();
+                                int OriginalPrice = Integer.parseInt(pr_price);
+                                int DiscountStr = Integer.parseInt(discount);
+                                int DiscountPrice = OriginalPrice * DiscountStr;
+                                float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                                TotalPriceStr = Float.parseFloat(pr_price) - DisPriceStr;
+                                float quantityInt = Float.parseFloat(quantity);
+                                float ProdPriceStrFloat = quantityInt * TotalPriceStr;
+                                TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                                product_price.setText(TotalProdPrice);
+                            }
+                        } else {
+                            if (!edit_quantity.getText().toString().isEmpty()) {
+                                quantity = edit_quantity.getText().toString();
+                            int OriginalPrice = Integer.parseInt(pr_price);
+                            int DiscountStr = Integer.parseInt(discount);
+                            int DiscountPrice = OriginalPrice * DiscountStr;
+                            float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                            TotalPriceStr = Float.parseFloat(pr_price) - DisPriceStr;
                             Double quantityInt = Double.parseDouble(quantity);
                             String TotalPriceStrDouble = String.valueOf(SerChargeFinal);
                             Double TotalPriceDouble = Double.parseDouble(TotalPriceStrDouble);
                             Double priceStr = TotalPriceDouble * quantityInt;
-                            String ProdPriceString = String.valueOf(priceStr);
-                            product_price.setText(ProdPriceString);
+                            TotalProdPrice = new DecimalFormat("##.##").format(priceStr);
+                            product_price.setText(TotalProdPrice);
+                         /*   prod_price.setText(pr_currency + " " + String.valueOf(SerChargeFinal));
+                            Float ProdPriceFinal = Float.valueOf(pr_price);
+                            Float TProdPrice = ProdPriceFinal + finalServiceCharge;
+                            prod_price1.setText(pr_currency + " " + String.valueOf(TProdPrice));*/
+                        }
+                    }
+                    }
+                }
+/*
+                else{
+                    if(discount.equalsIgnoreCase("") || discount.equalsIgnoreCase("null")) {
+                        if (!edit_quantity.getText().toString().isEmpty()) {
+                            quantity = edit_quantity.getText().toString();
+                            Double quantityInt = Double.parseDouble(quantity);
+                            Double priceInt = Double.parseDouble(pr_price);
+                            Double ProdPriceStrFloat = priceInt * quantityInt;
+                            product_price.setText(new DecimalFormat("##.##").format(ProdPriceStrFloat));
+                            // ProdPriceStr = String.valueOf(ProdPriceStrFloat);
+                            // product_price.setText(ProdPriceStr);
+                        }
+                    }else {
+                        if (!edit_quantity.getText().toString().isEmpty()) {
+                            quantity = edit_quantity.getText().toString();
+                            int OriginalPrice = Integer.parseInt(pr_price);
+                            int DiscountStr = Integer.parseInt(discount);
+                            int DiscountPrice = OriginalPrice * DiscountStr;
+                            float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                            TotalPriceStr = Float.parseFloat(pr_price) - DisPriceStr;
+                            Double quantityInt = Double.parseDouble(quantity);
+                            String TotalPriceStrDouble = String.valueOf(SerChargeFinal);
+                            Double TotalPriceDouble = Double.parseDouble(TotalPriceStrDouble);
+                            Double priceStr = TotalPriceDouble * quantityInt;
+                            product_price.setText(new DecimalFormat("##.##").format(priceStr));
+                            */
+/*String ProdPriceString = String.valueOf(priceStr);
+                            product_price.setText(ProdPriceString);*//*
+
                         }
                     }
                 }
-            }
+*/
+                }
         });
         image_product_details = (ImageView) findViewById(R.id.image_product_details);
         product_name = (TextView) findViewById(R.id.product_name);
@@ -299,6 +380,37 @@ public class ProductDetailsActivity extends AppCompatActivity {
             reviews_count.setVisibility(View.GONE);
         }
         submit_review_btn = (Button) findViewById(R.id.submit_review_btn);
+        buy_now_btn = (Button) findViewById(R.id.buy_now_btn);
+        buy_now_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int number = Integer.parseInt(edit_quantity.getText().toString());
+                int number1 = Integer.parseInt(quantity);
+                if(transportStr.equalsIgnoreCase("Select Shipping Type")){
+                    Toast.makeText(ProductDetailsActivity.this, "Please Select Transport Option", Toast.LENGTH_SHORT).show();
+                }else if(transportStr.equalsIgnoreCase("Vendor Shipping")){
+                    if(ServiceStr.equalsIgnoreCase("null") || ServiceStr.equalsIgnoreCase(""))
+                    {
+                        Toast.makeText(ProductDetailsActivity.this, "Services not avaialble for shipping", Toast.LENGTH_SHORT).show();
+                    }else if(number >= number1){
+                        Intent i = new Intent(ProductDetailsActivity.this,ShippingAddressActivity.class);
+                        i.putExtra("TotalAmount",TotalProdPrice);
+                        i.putExtra("TotalItems","1");
+                        startActivity(i);                   
+                    }else{
+                        Toast.makeText(ProductDetailsActivity.this, "Minimum Quantity Required", Toast.LENGTH_SHORT).show();
+                    }
+                }else if(number >= number1){
+                    Intent i = new Intent(ProductDetailsActivity.this,ShippingAddressActivity.class);
+                    i.putExtra("TotalAmount",TotalProdPrice);
+                    i.putExtra("TotalItems","1");
+                    startActivity(i);               
+                }else{
+                    Toast.makeText(ProductDetailsActivity.this, "Minimum Quantity Required", Toast.LENGTH_SHORT).show();
+                }
+               
+            }
+        });
         image_full = (ImageView) findViewById(R.id.image_full);
         cart_img = (ImageView) findViewById(R.id.cart_img);
         change_address_btn.setOnClickListener(new View.OnClickListener() {
@@ -580,61 +692,100 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                 }
                                                 quantity = jsonObject.getString("pr_min");
                                                 service_charge = jsonObject.getString("service_charge");
-                                                if (discount.equalsIgnoreCase("null")|| discount.equalsIgnoreCase("")) {
-                                                    ll_discount.setVisibility(View.GONE);
-                                                    vendor_discount.setText("No Discount");
-                                                    if(service_charge.equalsIgnoreCase("0.00")||service_charge.equalsIgnoreCase("0")||service_charge.equalsIgnoreCase("")) {
+                                                if(user_id.equalsIgnoreCase(userid)) {
+                                                    if (discount.equalsIgnoreCase("null") || discount.equalsIgnoreCase("")) {
+                                                        ll_discount.setVisibility(View.GONE);
+                                                        vendor_discount.setText("No Discount");
                                                         prod_price.setText(pr_currency + " " + pr_price);
                                                         float quantityInt = Float.parseFloat(quantity);
                                                         float priceInt = Float.parseFloat(pr_price);
-                                                        float ProdPriceStrFloat = priceInt*quantityInt ;
-                                                        ProdPriceStr = String.valueOf(ProdPriceStrFloat);
-                                                        product_price.setText(ProdPriceStr);
-                                                    }else{
-                                                        Float ProdPriceF = Float.valueOf(pr_price);
-                                                        Float ServiceChargeF = Float.valueOf(service_charge);
-                                                        Float finalServiceCharge = (ProdPriceF * ServiceChargeF)/100;
-                                                        Float ProdPriceFinal = Float.valueOf(pr_price);
-                                                        SerChargeFinal = ProdPriceFinal + finalServiceCharge;
-                                                        prod_price.setText(pr_currency + " " + String.valueOf(SerChargeFinal));
+                                                        float ProdPriceStrFloat = priceInt * quantityInt;
+                                                        TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                                                        product_price.setText(TotalProdPrice);
+                                                        /*ProdPriceStr = String.valueOf(ProdPriceStrFloat);
+                                                        product_price.setText(ProdPriceStr);*/
+                                                    } else {
+                                                        ll_discount.setVisibility(View.VISIBLE);
+                                                        vendor_discount.setText(discount + "%");
+                                                        int OriginalPrice = Integer.parseInt(pr_price);
+                                                        int DiscountStr = Integer.parseInt(discount);
+                                                        int DiscountPrice = OriginalPrice * DiscountStr;
+                                                        float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                                                        TotalPriceStr = Float.parseFloat(pr_price) - DisPriceStr;
+                                                        prod_price1.setVisibility(View.VISIBLE);
+                                                        prod_price.setText(pr_currency + " " + String.valueOf(TotalPriceStr));
+                                                        prod_price1.setText(pr_currency + " " + pr_price);
                                                         float quantityInt = Float.parseFloat(quantity);
-                                                        float ProdPriceStrFloat = quantityInt * SerChargeFinal ;
-                                                        ProdPriceStr = String.valueOf(ProdPriceStrFloat);
-                                                        product_price.setText(ProdPriceStr);
+                                                        float ProdPriceStrFloat = quantityInt * TotalPriceStr;
+                                                        TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                                                        product_price.setText(TotalProdPrice);
+                                                       /* ProdPriceStr = String.valueOf(ProdPriceStrFloat);
+                                                        product_price.setText(ProdPriceStr);*/
                                                     }
-
-                                                } else {
-                                                    ll_discount.setVisibility(View.VISIBLE);
-                                                    vendor_discount.setText(discount + "%");
-                                                    int OriginalPrice = Integer.parseInt(pr_price);
-                                                    int DiscountStr = Integer.parseInt(discount);
-                                                    int DiscountPrice = OriginalPrice * DiscountStr;
-                                                    float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice))/100;
-                                                    TotalPriceStr = Float.parseFloat(pr_price)-DisPriceStr;
-                                                    prod_price1.setVisibility(View.VISIBLE);
-                                                    if(service_charge.equalsIgnoreCase("0.00")||service_charge.equalsIgnoreCase("0")||service_charge.equalsIgnoreCase("")) {
-                                                        prod_price.setText(pr_currency+" "+String.valueOf(TotalPriceStr));
-                                                        prod_price1.setText(pr_currency+" "+pr_price);
-                                                        float quantityInt = Float.parseFloat(quantity);
-                                                        float ProdPriceStrFloat = quantityInt * TotalPriceStr ;
-                                                        ProdPriceStr = String.valueOf(ProdPriceStrFloat);
-                                                        product_price.setText(ProdPriceStr);
-                                                    }else{
-                                                        Float ProdPriceF = Float.valueOf(pr_price);
-                                                        Float ServiceChargeF = Float.valueOf(service_charge);
-                                                        Float finalServiceCharge = (ProdPriceF * ServiceChargeF)/100;
-                                                        Float totalProdPriceF = Float.valueOf(TotalPriceStr);
-                                                        SerChargeFinal = totalProdPriceF + finalServiceCharge;
-                                                        float quantityInt = Float.parseFloat(quantity);
-                                                        float ProdPriceStrFloat = quantityInt * SerChargeFinal ;
-                                                        ProdPriceStr = String.valueOf(ProdPriceStrFloat);
-                                                        product_price.setText(ProdPriceStr);
-                                                        prod_price.setText(pr_currency+" "+String.valueOf(SerChargeFinal));
-                                                        Float ProdPriceFinal = Float.valueOf(pr_price);
-                                                        Float TProdPrice = ProdPriceFinal + finalServiceCharge;
-                                                        prod_price1.setText(pr_currency+" "+String.valueOf(TProdPrice));
+                                                }else{
+                                                    buy_now_btn.setVisibility(View.VISIBLE);
+                                                    if (discount.equalsIgnoreCase("null")|| discount.equalsIgnoreCase("")) {
+                                                        ll_discount.setVisibility(View.GONE);
+                                                        vendor_discount.setText("No Discount");
+                                                        if (service_charge.equalsIgnoreCase("0.00") || service_charge.equalsIgnoreCase("0") || service_charge.equalsIgnoreCase("")) {
+                                                            prod_price.setText(pr_currency + " " + pr_price);
+                                                            float quantityInt = Float.parseFloat(quantity);
+                                                            float priceInt = Float.parseFloat(pr_price);
+                                                            float ProdPriceStrFloat = priceInt * quantityInt;
+                                                            TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                                                            product_price.setText(TotalProdPrice);
+                                                        /*ProdPriceStr = String.valueOf(ProdPriceStrFloat);
+                                                        product_price.setText(ProdPriceStr);*/
+                                                        } else {
+                                                            Float ProdPriceF = Float.valueOf(pr_price);
+                                                            Float ServiceChargeF = Float.valueOf(service_charge);
+                                                            Float finalServiceCharge = (ProdPriceF * ServiceChargeF) / 100;
+                                                            Float ProdPriceFinal = Float.valueOf(pr_price);
+                                                            SerChargeFinal = ProdPriceFinal + finalServiceCharge;
+                                                            prod_price.setText(pr_currency + " " + String.valueOf(SerChargeFinal));
+                                                            float quantityInt = Float.parseFloat(quantity);
+                                                            float ProdPriceStrFloat = quantityInt * SerChargeFinal;
+                                                            TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                                                            product_price.setText(TotalProdPrice);
+                                                       /* ProdPriceStr = String.valueOf(ProdPriceStrFloat);
+                                                        product_price.setText(ProdPriceStr);*/
+                                                        }
+                                                    }else {
+                                                        ll_discount.setVisibility(View.VISIBLE);
+                                                        vendor_discount.setText(discount + "%");
+                                                        int OriginalPrice = Integer.parseInt(pr_price);
+                                                        int DiscountStr = Integer.parseInt(discount);
+                                                        int DiscountPrice = OriginalPrice * DiscountStr;
+                                                        float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                                                        TotalPriceStr = Float.parseFloat(pr_price) - DisPriceStr;
+                                                        prod_price1.setVisibility(View.VISIBLE);
+                                                        if (service_charge.equalsIgnoreCase("0.00") || service_charge.equalsIgnoreCase("0") || service_charge.equalsIgnoreCase("")) {
+                                                            prod_price.setText(pr_currency + " " + String.valueOf(TotalPriceStr));
+                                                            prod_price1.setText(pr_currency + " " + pr_price);
+                                                            float quantityInt = Float.parseFloat(quantity);
+                                                            float ProdPriceStrFloat = quantityInt * TotalPriceStr;
+                                                            TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                                                            product_price.setText(TotalProdPrice);
+                                                       /* ProdPriceStr = String.valueOf(ProdPriceStrFloat);
+                                                        product_price.setText(ProdPriceStr);*/
+                                                        } else {
+                                                            Float ProdPriceF = Float.valueOf(pr_price);
+                                                            Float ServiceChargeF = Float.valueOf(service_charge);
+                                                            Float finalServiceCharge = (ProdPriceF * ServiceChargeF) / 100;
+                                                            Float totalProdPriceF = Float.valueOf(TotalPriceStr);
+                                                            SerChargeFinal = totalProdPriceF + finalServiceCharge;
+                                                            float quantityInt = Float.parseFloat(quantity);
+                                                            float ProdPriceStrFloat = quantityInt * SerChargeFinal;
+                                                            TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                                                            product_price.setText(TotalProdPrice);
+                                                       /* ProdPriceStr = String.valueOf(ProdPriceStrFloat);
+                                                        product_price.setText(ProdPriceStr);*/
+                                                            prod_price.setText(pr_currency + " " + String.valueOf(new DecimalFormat("##.##").format(SerChargeFinal)));
+                                                            Float ProdPriceFinal = Float.valueOf(pr_price);
+                                                            Float TProdPrice = ProdPriceFinal + finalServiceCharge;
+                                                            prod_price1.setText(pr_currency + " " + String.valueOf(TProdPrice));
+                                                        }
                                                     }
-
                                                 }
                                                 pr_weight = jsonObject.getString("pr_weight");
                                                 String pr_packtype = jsonObject.getString("pr_packtype");
@@ -933,7 +1084,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             public void onFailure(Call<JsonElement> call, Throwable t) {
                 Log.d("Error Call", ">>>>" + call.toString());
                 Log.d("Error", ">>>>" + t.toString());
-                //  Toast.makeText(ProductsActivity.this, "Please login again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductDetailsActivity.this, "Some thing went wrong!Please try again later", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
@@ -1011,7 +1162,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         if(shipping.equalsIgnoreCase("")){
             shipping = "1";
         }
-        callRetrofit = service.addToCart(user_id,pro_id,quantity,shipping,ProdPriceStr,vendorServiceIdStr,getpricekms);
+        callRetrofit = service.addToCart(user_id,pro_id,quantity,shipping,TotalProdPrice,vendorServiceIdStr,getpricekms);
         callRetrofit.enqueue(new Callback<JsonElement>() {
 
             @Override
@@ -1037,6 +1188,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                         String message = root.getString("message");
                                         String success = root.getString("success");
                                         if (success.equalsIgnoreCase("1")) {
+                                            added_tocart.setVisibility(View.VISIBLE);
+                                            addtocart.setVisibility(View.GONE);
                                             cartCount();
                                             Snackbar snackbar = Snackbar
                                                     .make(relativelayout,message, Snackbar.LENGTH_LONG)
@@ -1074,13 +1227,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-//                Toast.makeText(ProductDetailsActivity.this, "Server not responding", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductDetailsActivity.this, "Some thing went wrong!Please try again later", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
     }
     private void addProductReview() {
-
         progressdialog();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(DZ_URL.BASE_URL)

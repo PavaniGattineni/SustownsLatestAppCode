@@ -694,7 +694,6 @@
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
-
                     <TextView
                         android:id="@+id/choose_sub_category"
                         android:layout_width="match_parent"

@@ -17,6 +17,8 @@ public class GetHomeProducts {
     private String weight_unit;
     private String country_name;
     private String city_name;
+    private String service_charge;
+    private String pr_discount;
 
     public String getId() {
         return id;
@@ -136,5 +138,21 @@ public class GetHomeProducts {
 
     public void setCity_name(String city_name) {
         this.city_name = city_name;
+    }
+
+    public String getService_charge() {
+        return service_charge;
+    }
+
+    public void setService_charge(String service_charge) {
+        this.service_charge = service_charge;
+    }
+
+    public String getPr_discount() {
+        return pr_discount;
+    }
+
+    public void setPr_discount(String pr_discount) {
+        this.pr_discount = pr_discount;
     }
 }

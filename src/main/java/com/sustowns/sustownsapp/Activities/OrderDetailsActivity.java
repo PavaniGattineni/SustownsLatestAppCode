@@ -3,7 +3,10 @@ package com.sustowns.sustownsapp.Activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +34,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -43,14 +51,15 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     TextView order_no,price_order_details,price_order,status_order,date_order,shipping_charge_tv,customer_email,customer_phone;
     PreferenceUtils preferenceUtils;
-    ImageView image_orders_details,backarrow;
+    ImageView image_orders_details,backarrow,share_btn;
     ProgressDialog progressDialog;
-    String image,orderId;
+    String image,orderId,orderStatus,pr_userid,userid;
     Intent intent;
     RecyclerView recyclerview_orderdetails;
     ArrayList<OrderDetailsModel> orderDetailsModels;
     OrderDetailsAdapter orderDetailsAdapter;
-    LinearLayout ll_shipping_charge;
+    LinearLayout ll_shipping_charge,ll_order_amount;
+    File imagePath;
     TextView order_id_tv,total_amount_shipping,name_tv,shipping_mobile,shipping_email,shipping_name,address_shipping,quantity_tv,customer_name_tv,address_customer_tv,total_amount_tv,address_customer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +69,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_order_details);
         preferenceUtils = new PreferenceUtils(OrderDetailsActivity.this);
+        userid = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ID,"");
       //  intent = getIntent();
         orderId = getIntent().getStringExtra("OrderId");
+        orderStatus = getIntent().getStringExtra("OrderStatus");
         order_no = (TextView) findViewById(R.id.order_no);
+        share_btn = (ImageView) findViewById(R.id.share_btn); 
         order_id_tv = (TextView) findViewById(R.id.order_id);
         image_orders_details = (ImageView) findViewById(R.id.image_orders_details);
         name_tv = (TextView) findViewById(R.id.order_name);
@@ -76,6 +88,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         total_amount_tv = (TextView) findViewById(R.id.total_amount);
         shipping_charge_tv = (TextView) findViewById(R.id.shipping_charge);
         ll_shipping_charge = (LinearLayout) findViewById(R.id.ll_shipping_charge);
+        ll_order_amount = (LinearLayout) findViewById(R.id.ll_order_amount);
         shipping_name = (TextView) findViewById(R.id.shipping_name);
         shipping_email = (TextView) findViewById(R.id.shipping_email);
         shipping_mobile = (TextView) findViewById(R.id.shipping_mobile);
@@ -87,7 +100,14 @@ public class OrderDetailsActivity extends AppCompatActivity {
         recyclerview_orderdetails = (RecyclerView) findViewById(R.id.recyclerview_orderdetails);
         LinearLayoutManager layoutManager = new LinearLayoutManager(OrderDetailsActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerview_orderdetails.setLayoutManager(layoutManager);
-
+       /* share_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap bitmap = takeScreenshot();
+                saveBitmap(bitmap);
+                shareIt();
+            }
+        });*/
         backarrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +116,36 @@ public class OrderDetailsActivity extends AppCompatActivity {
         });
         getOrderDetails();
     }
+    public Bitmap takeScreenshot() {
+        View rootView = findViewById(android.R.id.content).getRootView();
+        rootView.setDrawingCacheEnabled(true);
+        return rootView.getDrawingCache();
+    }
 
+    public void saveBitmap(Bitmap bitmap) {
+        imagePath = new File(Environment.getExternalStorageDirectory() + "/screenshot.png");
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.e("GREC", e.getMessage(), e);
+        } catch (IOException e) {
+            Log.e("GREC", e.getMessage(), e);
+        }
+    }
+    private void shareIt() {
+        Uri uri = Uri.fromFile(imagePath);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("image/*");
+        String shareBody = "Order Details";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Tweecher score");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
     public void progressdialog() {
         progressDialog = new ProgressDialog(OrderDetailsActivity.this);
         progressDialog.setMessage("please wait...");
@@ -175,6 +224,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                         String order_status = jsonObject.getString("order_status");
                                         String order_date = jsonObject.getString("order_date");
                                         String on_date = jsonObject.getString("on_date");
+                                        String payment_status = jsonObject.getString("payment_status");
 
                                         JSONArray jsonArray = root.getJSONArray("itemdetail");
                                         orderDetailsModels = new ArrayList<>();
@@ -191,6 +241,10 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                             String pr_title = Obj1.getString("pr_title");
                                             String pr_image = Obj1.getString("pr_image");
                                             String pr_sku = Obj1.getString("pr_sku");
+                                            pr_userid = Obj1.getString("pr_userid");
+                                            String discount = Obj1.getString("discount");
+                                            String service_charge = Obj1.getString("service_charge");
+                                            String amount = Obj1.getString("amount");
                                             image = busdadgesimg + pr_image;
 
                                             OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
@@ -200,6 +254,10 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                             orderDetailsModel.setPrice(price);
                                             orderDetailsModel.setPr_title(pr_title);
                                             orderDetailsModel.setPr_image(image);
+                                            orderDetailsModel.setPr_userid(pr_userid);
+                                            orderDetailsModel.setDiscount(discount);
+                                            orderDetailsModel.setService_charge(service_charge);
+                                            orderDetailsModel.setAmount(amount);
                                             orderDetailsModels.add(orderDetailsModel);
                                             if(image != null || !image.isEmpty()){
                                                 Glide.with(OrderDetailsActivity.this)
@@ -216,9 +274,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                             quantity_tv.setText(quantity);
                                             date_order.setText(order_date);
                                             price_order.setText(currency_code+" "+totalprice);
-
-                                            if(order_status.equalsIgnoreCase("0")){
-                                                status_order.setText("Pending");
+                                            if (order_status.equalsIgnoreCase("0") && payment_status.equalsIgnoreCase("failure")) {
+                                                status_order.setText("Payment Failed");
                                             }else if(order_status.equalsIgnoreCase("1")){
                                                 status_order.setText("Complete");
                                             }else if(order_status.equalsIgnoreCase("2")){
@@ -232,18 +289,33 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                             shipping_name.setText(pay_fname+" "+pay_lname);
                                             shipping_email.setText(pay_email);
                                             shipping_mobile.setText("Mobile : "+pay_phone);
-                                            address_shipping.setText(pay_address1+","+pay_city+","+pay_state+","+pay_country);
-                                            address_customer_tv.setText(bill_address1+","+bill_city+","+bill_state+","+bill_country);
+                                            address_shipping.setText(pay_address1+","+pay_city+","+pay_state+","+pay_country+","+pay_zipcode);
+                                            address_customer_tv.setText(bill_address1+","+bill_city+","+bill_state+","+bill_country+","+bill_zipcode);
                                             total_amount_tv.setText(currency_code +" "+totalprice);
-                                            if(shipamount.equalsIgnoreCase("null")){
-                                                ll_shipping_charge.setVisibility(View.GONE);
-                                                total_amount_shipping.setText(currency_code +" "+totalprice);
-                                            }else  {
-                                                shipping_charge_tv.setText(shipamount);
-                                                int shipInt = Integer.parseInt(shipamount);
-                                                int totalPriceInt = Integer.parseInt(totalprice);
-                                                int TotalShippingAmount = shipInt + totalPriceInt;
-                                                total_amount_shipping.setText(currency_code +" "+String.valueOf(TotalShippingAmount));
+                                            if(userid.equalsIgnoreCase(pr_userid)) {
+                                                if (shipamount.equalsIgnoreCase("null")) {
+                                                    ll_shipping_charge.setVisibility(View.GONE);
+                                                    ll_order_amount.setVisibility(View.GONE);
+                                                    total_amount_shipping.setText(currency_code + " " + totalprice);
+                                                } else {
+                                                    shipping_charge_tv.setText(shipamount);
+                                                    int shipInt = Integer.parseInt(shipamount);
+                                                    int totalPriceInt = Integer.parseInt(totalprice);
+                                                    int TotalShippingAmount = shipInt + totalPriceInt;
+                                                    total_amount_shipping.setText(currency_code + " " + String.valueOf(TotalShippingAmount));
+                                                }
+                                            }else{
+                                                if (shipamount.equalsIgnoreCase("null")) {
+                                                    ll_shipping_charge.setVisibility(View.GONE);
+                                                    ll_order_amount.setVisibility(View.GONE);
+                                                    total_amount_shipping.setText(currency_code + " " + amount);
+                                                } else {
+                                                    shipping_charge_tv.setText(shipamount);
+                                                    int shipInt = Integer.parseInt(shipamount);
+                                                    int totalPriceInt = Integer.parseInt(amount);
+                                                    int TotalShippingAmount = shipInt + totalPriceInt;
+                                                    total_amount_shipping.setText(currency_code + " " + String.valueOf(TotalShippingAmount));
+                                                }
                                             }
                                            // total_amount_shipping.setText(currency_code +" "+totalprice);
                                             if(progressDialog.isShowing())
@@ -282,14 +354,17 @@ public class OrderDetailsActivity extends AppCompatActivity {
     public class OrderDetailsAdapter extends RecyclerView.Adapter<OrderDetailsAdapter.ViewHolder> {
         Context context;
         LayoutInflater inflater;
-        String user_email,pro_id,user_id,user_role,order_status,order_id,pay_method;
+        String user_email,pro_id,user_id,user_role,order_status,order_id,userid,TotalProdPrice;
         PreferenceUtils preferenceUtils;
         ArrayList<OrderDetailsModel> orderModels;
         ProgressDialog progressDialog;
+        float TotalPriceStr,SerChargeFinal;
         public OrderDetailsAdapter(Context context, ArrayList<OrderDetailsModel> orderModels) {
             inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             this.context = context;
             this.orderModels = orderModels;
+            preferenceUtils = new PreferenceUtils(context);
+            userid = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ID,"");
         }
         @Override
         public OrderDetailsAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -305,7 +380,52 @@ public class OrderDetailsActivity extends AppCompatActivity {
             if(orderModels.get(position) != null){
                 viewHolder.orderName.setText(orderModels.get(position).getPr_title());
                 viewHolder.orderQuantity.setText(orderModels.get(position).getQuantity());
-                viewHolder.orderDate.setText(orderModels.get(position).getPrice());
+               // viewHolder.orderDate.setText(orderModels.get(position).getPrice());
+                if(userid.equalsIgnoreCase(orderModels.get(position).getPr_userid())) {
+                    if (orderModels.get(position).getDiscount().equalsIgnoreCase("null") || orderModels.get(position).getDiscount().equalsIgnoreCase("")) {
+                        viewHolder.orderDate.setText(orderModels.get(position).getPrice());
+                    } else {
+                        int OriginalPrice = Integer.parseInt(orderModels.get(position).getPrice());
+                        int DiscountStr = Integer.parseInt(orderModels.get(position).getDiscount());
+                        int DiscountPrice = OriginalPrice * DiscountStr;
+                        float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                        TotalPriceStr = Float.parseFloat(orderModels.get(position).getPrice()) - DisPriceStr;
+                        TotalProdPrice = new DecimalFormat("##.##").format(TotalPriceStr);
+                        viewHolder.orderDate.setText(TotalProdPrice);
+                    }
+                }else{
+                    if (orderModels.get(position).getDiscount().equalsIgnoreCase("null")|| orderModels.get(position).getDiscount().equalsIgnoreCase("")) {
+                        if (orderModels.get(position).getService_charge().equalsIgnoreCase("0.00") || orderModels.get(position).getService_charge().equalsIgnoreCase("0") || orderModels.get(position).getService_charge().equalsIgnoreCase("")) {
+                            viewHolder.orderDate.setText(orderModels.get(position).getPrice());
+                        } else {
+                            Float ProdPriceF = Float.valueOf(orderModels.get(position).getPrice());
+                            Float ServiceChargeF = Float.valueOf(orderModels.get(position).getService_charge());
+                            Float finalServiceCharge = (ProdPriceF * ServiceChargeF) / 100;
+                            Float ProdPriceFinal = Float.valueOf(orderModels.get(position).getPrice());
+                            SerChargeFinal = ProdPriceFinal + finalServiceCharge;
+                            TotalProdPrice = new DecimalFormat("##.##").format(SerChargeFinal);
+                            viewHolder.orderDate.setText(TotalProdPrice);
+                        }
+                    }else {
+                        int OriginalPrice = Integer.parseInt(orderModels.get(position).getPrice());
+                        int DiscountStr = Integer.parseInt(orderModels.get(position).getDiscount());
+                        int DiscountPrice = OriginalPrice * DiscountStr;
+                        float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                        TotalPriceStr = Float.parseFloat(orderModels.get(position).getPrice()) - DisPriceStr;
+                        if (orderModels.get(position).getService_charge().equalsIgnoreCase("0.00") || orderModels.get(position).getService_charge().equalsIgnoreCase("0") || orderModels.get(position).getService_charge().equalsIgnoreCase("")) {
+                            TotalProdPrice = new DecimalFormat("##.##").format(TotalPriceStr);
+                            viewHolder.orderDate.setText(TotalProdPrice);
+                        } else {
+                            Float ProdPriceF = Float.valueOf(orderModels.get(position).getPrice());
+                            Float ServiceChargeF = Float.valueOf(orderModels.get(position).getService_charge());
+                            Float finalServiceCharge = (ProdPriceF * ServiceChargeF) / 100;
+                            Float totalProdPriceF = Float.valueOf(TotalPriceStr);
+                            SerChargeFinal = totalProdPriceF + finalServiceCharge;
+                            TotalProdPrice = new DecimalFormat("##.##").format(SerChargeFinal);
+                            viewHolder.orderDate.setText(TotalProdPrice);
+                        }
+                    }
+                }
                 viewHolder.orderStatus.setText(orderModels.get(position).getProduct_order_id());
             }
         }

@@ -10,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sustowns.sustownsapp.Activities.PreferenceUtils;
 import com.sustowns.sustownsapp.R;
 import com.squareup.picasso.Picasso;
 import com.sustowns.sustownsapp.Activities.ProductDetailsActivity;
 import com.sustowns.sustownsapp.Models.GetHomeProducts;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -23,13 +25,17 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     int images[];
     LayoutInflater inflter;
     LinearLayout grid_view_items;
-    String pro_id,image;
+    String pro_id,image,userid;
     ArrayList<GetHomeProducts> getHomeProducts;
+    PreferenceUtils preferenceUtils;
+    Float TotalPriceStr,SerChargeFinal;
 
     public GridAdapter(Context context, ArrayList<GetHomeProducts> getHomeProducts) {
         this.context = context;
         this.getHomeProducts = getHomeProducts;
         inflter = (LayoutInflater.from(context));
+        preferenceUtils = new PreferenceUtils(context);
+        userid = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ID,"");
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -58,7 +64,42 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
             viewHolder.country_text.setText(getHomeProducts.get(i).getCountry_name());
             viewHolder.location_text.setText(getHomeProducts.get(i).getCity_name());
             viewHolder.pr_currency.setText(getHomeProducts.get(i).getPr_currency());
-            viewHolder.pr_price.setText(getHomeProducts.get(i).getPr_price()+" /");
+            if(userid.equalsIgnoreCase(getHomeProducts.get(i).getPr_userid())){
+                if (getHomeProducts.get(i).getPr_discount().equalsIgnoreCase("null")|| getHomeProducts.get(i).getPr_discount().equalsIgnoreCase("")) {
+                    viewHolder.pr_price.setText(getHomeProducts.get(i).getPr_price()+" /");
+                }else {
+                    int OriginalPrice = Integer.parseInt(getHomeProducts.get(i).getPr_price());
+                    int DiscountStr = Integer.parseInt(getHomeProducts.get(i).getPr_discount());
+                    int DiscountPrice = OriginalPrice * DiscountStr;
+                    float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                    TotalPriceStr = Float.parseFloat(getHomeProducts.get(i).getPr_price()) - DisPriceStr;
+                    String Price = new DecimalFormat("##.##").format(TotalPriceStr);
+                    viewHolder.pr_price.setText(Price+ " /");
+                }
+            }else{
+                if (getHomeProducts.get(i).getPr_discount().equalsIgnoreCase("null")|| getHomeProducts.get(i).getPr_discount().equalsIgnoreCase("")) {
+                    Float ProdPriceF = Float.valueOf(getHomeProducts.get(i).getPr_price());
+                    Float ServiceChargeF = Float.valueOf(getHomeProducts.get(i).getService_charge());
+                    Float finalServiceCharge = (ProdPriceF * ServiceChargeF)/100;
+                    Float ProdPriceFinal = Float.valueOf(getHomeProducts.get(i).getPr_price());
+                    TotalPriceStr = ProdPriceFinal + finalServiceCharge;
+                    String Price = new DecimalFormat("##.##").format(TotalPriceStr);
+                    viewHolder.pr_price.setText(Price+" /");
+                }else {
+                    int OriginalPrice = Integer.parseInt(getHomeProducts.get(i).getPr_price());
+                    int DiscountStr = Integer.parseInt(getHomeProducts.get(i).getPr_discount());
+                    int DiscountPrice = OriginalPrice * DiscountStr;
+                    float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                    TotalPriceStr = Float.parseFloat(getHomeProducts.get(i).getPr_price()) - DisPriceStr;
+                    Float ProdPriceF = Float.valueOf(getHomeProducts.get(i).getPr_price());
+                    Float ServiceChargeF = Float.valueOf(getHomeProducts.get(i).getService_charge());
+                    Float finalServiceCharge = (ProdPriceF * ServiceChargeF)/100;
+                    Float totalProdPriceF = Float.valueOf(TotalPriceStr);
+                    SerChargeFinal = totalProdPriceF + finalServiceCharge;
+                    String Price = new DecimalFormat("##.##").format(SerChargeFinal);
+                    viewHolder.pr_price.setText(Price+" /");
+                } 
+            }
             viewHolder.pr_weight.setText(getHomeProducts.get(i).getPr_weight()+" "+getHomeProducts.get(i).getWeight_unit());
         }else{
             viewHolder.imageView.setImageResource(R.drawable.no_image_available);

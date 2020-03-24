@@ -63,19 +63,19 @@ public class SignUpVendorActivity extends AppCompatActivity {
     ArrayList<String> citiesList = new ArrayList<>();
     String[] selector = {"select sector","General","Poultry","Transport"};
     EditText name_signup,bus_name_signup,mobile_signup,user_name,email_vendor,password_signup,confirm_password_signup,pincode_signup;
-    Button signup_rural_producer,close_dialog2,close_dialog;
+    Button signup_rural_producer,close_dialog2,close_dialog,register_btn;
     ProgressDialog progressDialog;
     String business,fullname,mobile,userName,email,password,emailPattern,confirm_password,selectedSector,countryId="IN",stateId="",cityId = "",categoryId = "",selectedString="";
     PreferenceUtils preferenceUtils;
     CheckBox checkbox_agree;
     ImageView close_icon,close_icon1,eye_img,eye_img1;
     TextView terms_conditions_text,sp_country,tv_sign_in,spinner_vendor_category,address_state, address_town;
-    LinearLayout ll_vendor_category,ll_payment_gateway_temscond,ll_registersucessmsg,ll_logistics_tems_conditions,ll_vendor_tems_conditions,ll_register_details,linear_login;
+    LinearLayout select_sector_ll,ll_vendor_category,ll_payment_gateway_temscond,ll_registersucessmsg,ll_logistics_tems_conditions,ll_vendor_tems_conditions,ll_register_details,linear_login;
     AlertDialog alertDialog;
     ArrayList<String> countryList = new ArrayList<>();
     ArrayList<String> CategoriesList = new ArrayList<>();
     Helper helper;
-    String clickedSearch,refreshedToken,device_id,coutry;
+    String clickedSearch,refreshedToken,device_id,coutry,clusterReg,user_id;
     int textlength = 0;
     ArrayList<String> selectedCountryList = new ArrayList<String>();
     ArrayList<String> selectedCountryIdList = new ArrayList<String>();
@@ -91,10 +91,24 @@ public class SignUpVendorActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_vendor);
         preferenceUtils = new PreferenceUtils(SignUpVendorActivity.this);
+        user_id = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ID,"");
         helper = new Helper(SignUpVendorActivity.this);
+        clusterReg = getIntent().getStringExtra("Cluster");
         try {
             ll_register_details = (LinearLayout) findViewById(R.id.ll_register_details);
             ll_registersucessmsg = (LinearLayout) findViewById(R.id.ll_registersucessmsg);
+            select_sector_ll = (LinearLayout) findViewById(R.id.select_sector_ll);
+            register_btn = (Button) findViewById(R.id.register_btn);
+            signup_rural_producer = (Button) findViewById(R.id.signup_rural_producer);
+            if(clusterReg.equalsIgnoreCase("1")){
+                select_sector_ll.setVisibility(View.VISIBLE);
+            }else if(clusterReg.equalsIgnoreCase("2")){
+                select_sector_ll.setVisibility(View.VISIBLE);
+                register_btn.setVisibility(View.VISIBLE);
+                signup_rural_producer.setVisibility(View.GONE);
+            }else if(clusterReg.equalsIgnoreCase("0")){
+                select_sector_ll.setVisibility(View.GONE);
+            }
             linear_login = (LinearLayout) findViewById(R.id.linear_login);
             tv_sign_in = (TextView) findViewById(R.id.tv_sign_in);
             name_signup = (EditText) findViewById(R.id.name_signup);
@@ -105,7 +119,6 @@ public class SignUpVendorActivity extends AppCompatActivity {
             password_signup = (EditText) findViewById(R.id.password_signup);
             pincode_signup = (EditText) findViewById(R.id.pincode_signup);
             confirm_password_signup = (EditText) findViewById(R.id.confirm_password_signup);
-            signup_rural_producer = (Button) findViewById(R.id.signup_rural_producer);
             registered = (TextView) findViewById(R.id.registered_login);
             registered.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -425,6 +438,57 @@ public class SignUpVendorActivity extends AppCompatActivity {
                     return false;
                 }
             });
+            register_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fullname = name_signup.getText().toString().trim();
+                    business = bus_name_signup.getText().toString().trim();
+                    mobile = mobile_signup.getText().toString().trim();
+                    userName = user_name.getText().toString().trim();
+                    email = email_vendor.getText().toString().trim();
+                    password = password_signup.getText().toString().trim();
+                    confirm_password = confirm_password_signup.getText().toString().trim();
+                    emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+                    if ((fullname.equalsIgnoreCase("")) || (mobile.equalsIgnoreCase("") || (userName.equalsIgnoreCase("")) || (pincode_signup.getText().toString().equalsIgnoreCase(""))||
+                        (email.equalsIgnoreCase("")) || (password.equalsIgnoreCase("")) || (countryId.equalsIgnoreCase("")))) {
+                        Toast.makeText(SignUpVendorActivity.this, "Please Fill Mandatory(*) Fields", Toast.LENGTH_LONG).show();
+                    } else if(fullname.matches("\\d+(?:\\.\\d+)?") || business.matches("\\d+(?:\\.\\d+)?")|| userName.matches("\\d+(?:\\.\\d+)?")){
+                        Toast.makeText(SignUpVendorActivity.this, "Name should be in Alaphabets..(ex:a-z)", Toast.LENGTH_SHORT).show();
+                    }else if(mobile_signup.getText().toString().length() < 10){
+                        Toast.makeText(SignUpVendorActivity.this, "Invalid Mobile Number.Please enter valid number", Toast.LENGTH_SHORT).show();
+                    }else if(pincode_signup.getText().toString().length() < 6 || pincode_signup.getText().toString().length() > 6){
+                        Toast.makeText(SignUpVendorActivity.this, "Invalid Pincode.Please enter valid pincode", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (!password.equalsIgnoreCase(confirm_password)) {
+                        Toast.makeText(SignUpVendorActivity.this, "Please Enter Same Password", Toast.LENGTH_SHORT).show();
+                    }
+                    else if ((email.matches(emailPattern)) && (password.length() > 5) && (password.length() < 15)) {
+                        if(selectedSector.equalsIgnoreCase("select sector")){
+                            checkbox_agree.setVisibility(View.GONE);
+                            terms_conditions_text.setVisibility(View.GONE);
+                            Toast.makeText(SignUpVendorActivity.this, "Please select sector", Toast.LENGTH_SHORT).show();
+                        }else if(selectedSector.equalsIgnoreCase("Poultry")) {
+                            if(categoryId.equalsIgnoreCase("")){
+                                Toast.makeText(SignUpVendorActivity.this,"Please select vendor category", Toast.LENGTH_SHORT).show();
+                            }else{
+                                if (checkbox_agree.isChecked()) {
+                                    vendorRegistrationByCluster();
+                                } else {
+                                    Toast.makeText(SignUpVendorActivity.this, "To continue,you should agree terms and conditions", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }else{
+                            if (checkbox_agree.isChecked()) {
+                                vendorRegistrationByCluster();
+                            } else {
+                                Toast.makeText(SignUpVendorActivity.this, "To continue,you should agree terms and conditions", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } else {
+                        Toast.makeText(SignUpVendorActivity.this, "Invalid email or Check password length must be greater than 5", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
             signup_rural_producer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -441,6 +505,10 @@ public class SignUpVendorActivity extends AppCompatActivity {
                         Toast.makeText(SignUpVendorActivity.this, "Please Fill Mandatory(*) Fields", Toast.LENGTH_LONG).show();
                     } else if(fullname.matches("\\d+(?:\\.\\d+)?") || business.matches("\\d+(?:\\.\\d+)?")|| userName.matches("\\d+(?:\\.\\d+)?")){
                                 Toast.makeText(SignUpVendorActivity.this, "Name should be in Alaphabets..(ex:a-z)", Toast.LENGTH_SHORT).show();
+                            }else if(mobile_signup.getText().toString().length() < 10){
+                                Toast.makeText(SignUpVendorActivity.this, "Invalid Mobile Number.Please enter valid number", Toast.LENGTH_SHORT).show();
+                            }else if(pincode_signup.getText().toString().length() < 6 || pincode_signup.getText().toString().length() > 6){
+                                Toast.makeText(SignUpVendorActivity.this, "Invalid Pincode.Please enter valid pincode", Toast.LENGTH_SHORT).show();
                             }
                     else if (!password.equalsIgnoreCase(confirm_password)) {
                         Toast.makeText(SignUpVendorActivity.this, "Please Enter Same Password", Toast.LENGTH_SHORT).show();
@@ -452,7 +520,7 @@ public class SignUpVendorActivity extends AppCompatActivity {
                             Toast.makeText(SignUpVendorActivity.this, "Please select sector", Toast.LENGTH_SHORT).show();
                         }else if(selectedSector.equalsIgnoreCase("Poultry")) {
                             if(categoryId.equalsIgnoreCase("")){
-                                Toast.makeText(SignUpVendorActivity.this, "Please select vendor category", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUpVendorActivity.this,"Please select vendor category", Toast.LENGTH_SHORT).show();
                             }else{
                                 if (checkbox_agree.isChecked()) {
                                     vendorRegistration();
@@ -489,7 +557,6 @@ public class SignUpVendorActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         UserApi service = retrofit.create(UserApi.class);
-
         Call<JsonElement> callRetrofit = null;
        // callRetrofit = service.getStates(countryId);
         callRetrofit = service.getStates("IN");
@@ -501,7 +568,6 @@ public class SignUpVendorActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         Log.d("Success Call", ">>>>" + call);
                         Log.d("Success Call ", ">>>>" + response.body().toString());
-
                         System.out.println("----------------------------------------------------");
                         Log.d("Call request", call.request().toString());
                         Log.d("Call request header", call.request().headers().toString());
@@ -509,7 +575,6 @@ public class SignUpVendorActivity extends AppCompatActivity {
                         Log.d("Response raw", String.valueOf(response.raw().body()));
                         Log.d("Response code", String.valueOf(response.code()));
                         System.out.println("----------------------------------------------------");
-
                         if (response.body().toString() != null) {
                             JSONObject root = null;
                             try {
@@ -521,7 +586,6 @@ public class SignUpVendorActivity extends AppCompatActivity {
                                     List<String> idList = new ArrayList<>();
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                                         statesList.add(jsonObject.getString("subdivision_1_name"));
                                         idList.add(jsonObject.getString("subdivision_1_iso_code"));
                                     }
@@ -529,7 +593,6 @@ public class SignUpVendorActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                     showAlertDialogState(statesList, idList);
                                 } else {
-
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -1185,6 +1248,78 @@ public class SignUpVendorActivity extends AppCompatActivity {
                                     ll_registersucessmsg.setVisibility(View.VISIBLE);*/
                                   //  registered.setVisibility(View.VISIBLE);
                                     Intent i = new Intent(SignUpVendorActivity.this, SignInActivity.class);
+                                    startActivity(i);
+                                    Toast.makeText(SignUpVendorActivity.this, message, Toast.LENGTH_SHORT).show();
+                                    if(progressDialog.isShowing())
+                                        progressDialog.dismiss();
+                                    preferenceUtils.saveString(PreferenceUtils.USER_EMAIL,email);
+                                }
+                                else if (success.equalsIgnoreCase("0")) {
+                                    if(progressDialog.isShowing())
+                                        progressDialog.dismiss();
+                                    Toast.makeText(SignUpVendorActivity.this, message, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            progressDialog.dismiss();
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                Toast.makeText(SignUpVendorActivity.this, "Something went wrong!please try again later", Toast.LENGTH_SHORT).show();
+                Log.d("Error Call", ">>>>" + call.toString());
+                Log.d("Error", ">>>>" + t.toString());
+                progressDialog.dismiss();
+            }
+        });
+    }
+    private void vendorRegistrationByCluster() {
+        progressdialog();
+        Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
+        Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(DZ_URL.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build();
+        UserApi service = retrofit.create(UserApi.class);
+        business = bus_name_signup.getText().toString().trim();
+        fullname = name_signup.getText().toString().trim();
+        mobile = mobile_signup.getText().toString().trim();
+        userName = user_name.getText().toString().trim();
+        email = email_vendor.getText().toString().trim();
+        password = password_signup.getText().toString().trim();
+        Call<JsonElement> callRetrofit = null;
+        callRetrofit = service.vendorRegByCluster(fullname,userName,mobile,email,business,password,selectedString,countryId,stateId,cityId,pincode_signup.getText().toString(),user_id,categoryId);
+        callRetrofit.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                Log.d("Success Call ", ">>>>" + response.body().toString());
+                System.out.println("----------------------------------------------------");
+                Log.d("Call request", call.request().toString());
+                Log.d("Call request header", call.request().headers().toString());
+                Log.d("Response raw header", response.headers().toString());
+                Log.d("Response raw", String.valueOf(response.raw().body()));
+                Log.d("Response code", String.valueOf(response.code()));
+                System.out.println("----------------------------------------------------");
+                Log.d("Success Call", ">>>>" + call);
+                if (response.body().toString() != null) {
+                    if (response != null) {
+                        String searchResponse = response.body().toString();
+                        Log.d("Reg", "Response  >>" + searchResponse.toString());
+                        if (searchResponse != null) {
+                            JSONObject root = null;
+                            try {
+                                root = new JSONObject(searchResponse);
+                                String success = null,message = null;
+                                success = root.getString("success");
+                                message = root.getString("message");
+                                if (success.equalsIgnoreCase("1")) {
+                                    String email = root.getString("email");
+                                    Intent i = new Intent(SignUpVendorActivity.this,ClusterDashboardActivity.class);
                                     startActivity(i);
                                     Toast.makeText(SignUpVendorActivity.this, message, Toast.LENGTH_SHORT).show();
                                     if(progressDialog.isShowing())

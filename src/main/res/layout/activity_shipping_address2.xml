@@ -239,12 +239,21 @@
                                 android:text="Country *"
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
+                            <Spinner
+                                android:id="@+id/spinner_country_reg"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:layout_weight="1"
+                                android:padding="10dp"
+                                android:spinnerMode="dropdown"></Spinner>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginTop="5dp"
                                 android:id="@+id/spinner_country"
+                                android:visibility="gone"
                                 android:hint="Choose Country"
                                 android:padding="10dp"
                                 android:textColor="@color/black" />

@@ -92,8 +92,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
-
 public class AddProductActivity extends AppCompatActivity {
     public static String Product_Address_Map = "";
     ImageView backarrow;
@@ -120,12 +118,13 @@ public class AddProductActivity extends AppCompatActivity {
     String[] listingtype = {"Listing Type","Product", "Service"},productSp = {"Product","Service"},serviceSp = {"Service","Product"};
     String[] unit = {"Units","Crate", "Box"},Crate = {"Crate","Box"},Box = {"Box","Crate"};
     String[] price = {"INR"};
-    String[] samplepacktype = {"sample pack type", "12 Pack Crate", "20 Pack Crate", "30 Pack Crate", "210 Pack Box"};
+    String[] samplepacktype = {"12 Pack Crate", "20 Pack Crate", "30 Pack Crate", "210 Pack Box"};
     String[] country = {"India", "Indonesia", "Iceland", "Australia", "Algeria", "Malaysia", "Saudi Arabia", "Singapore", "USA", "UK", "Uganda"};
     String[] city = {"Hyderabad", "Mumbai", "Chennai", "Kolkata", "Pune"};
     String[] state = {"Telangana", "AP", "Punjab", "UP", "Kerala", "Delhi"};
     String[] shipping = {"no","yes"};
     String[] shippingEdit = {"yes","no"};
+    String[] Country = {"India"};
     String[] gross_weight_unit = {"weight unit", "Crate", "Box"};
     String[] receivedOffers = {"Select Recevied Offers", "Yes", "No"},accepted={"Yes","No"},rejected = {"No","Yes"};
     String[] packingSize = {"mm", "cm", "in", "ft"};
@@ -138,7 +137,7 @@ public class AddProductActivity extends AppCompatActivity {
     Spinner spinner_sample_unit, spinner_pack_type, spinner_received_offers;
     String sample_weight_unit_sp,UnitIdSample="", packTypeStr, delivery_time, profileString, currency, country_string, received_offers_st, pr_bussid, productId;
     String eggs_type, quality_st, prodCategory, sector_st,ListingTypeId,listingtype_st, unit_sp_st, price_sp_st, sample_packtype="", shipping_st, country_st, state_st, city_st;
-    Spinner spinner_delivery_type;
+    Spinner spinner_delivery_type,spinner_country_reg;
     Button dis_start_date, dis_end_date;
     TextView dis_start_date_text, dis_end_date_text,spinner_shipping_type,sp_country,sp_state, sp_city,address_txt_map;
     Spinner spinner_sample_price, spinner_packing_size_general, spinnersample_packingsize_general, spinner_sample_gross_unit, spinner_country_origin;
@@ -148,6 +147,7 @@ public class AddProductActivity extends AppCompatActivity {
     private int month;
     private int year;
     RadioGroup mapRadioGroup;
+    TextView textview_address,address_get_map;
     LinearLayout ll_my_Product_contracts, ll_choose_shipping_types, ll_vendor_services, ll_shipping_types_list, ll_add_vendor_areas;
     int position,CatIdInt;
     String Pr_Id="",Pr_Catid="",Pr_Name="",Pr_Quality="",Pr_EggsType="",Pr_packType="",Pr_Country="",Pr_State="",Pr_City="",Pr_Price="",Pr_Quantity="",Pr_Discount="",Zipcode,Pr_Image="",
@@ -155,10 +155,11 @@ public class AddProductActivity extends AppCompatActivity {
     protected static final int CAMERA_CAPTURE = 2;
     protected static final int PICK_IMAGE = 1;
     EditText title_general, summary_general, description_general, general_length, general_width, general_height, tax_general, sample_general_min_order,
-            sample_general_length, sample_general_width, sample_general_height, sample_gross_unit_weight;
+     sample_general_length, sample_general_width, sample_general_height, sample_gross_unit_weight;
     String packingSizeStr, sampackingSizeStr, sampleGrossStr, countyOriginStr, deliveryTypeStr,CustomizationKey = "";
     CheckBox checkbox_international, checkbox_domestic;
-    LinearLayout ll_international_freight, ll_domestiic_freight,ll_eggs_type,ll_quality,ll_packtype,ll_samplepacktype,google_maps_img;
+    LinearLayout ll_international_freight, ll_domestiic_freight,ll_eggs_type,ll_quality,ll_packtype,ll_samplepacktype;
+    RelativeLayout google_maps_img;
     ImageButton confirm_add_icon;
     int count = 0;
     List<ImageModel> imagesList = new ArrayList<>();
@@ -168,7 +169,7 @@ public class AddProductActivity extends AppCompatActivity {
     List<Integer> shippingSelectedPosition = new ArrayList<>();
     List<String> shippingSelectedList = new ArrayList<>();
     Helper helper;
-    String imagepath,UpdateStr="",Discount="",AddressMap="",shippingStr="",UnitId,CategoryId,SectorId,countryId = "",clickedSearch = "",stateId = "",cityId = "",clickAction = "",StartDateStr="",EndDateStr="";
+    String imagepath,UpdateStr="",Discount="",AddressMap="",shippingStr="",UnitId,CategoryId,SectorId,countryId = "IN",clickedSearch = "",stateId = "",cityId = "",clickAction = "",StartDateStr="",EndDateStr="";
     int textlength = 0;
     Intent intent;
     ArrayList<String> selectedCountryList = new ArrayList<String>();
@@ -192,9 +193,14 @@ public class AddProductActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_add_product);
-        intent = getIntent();
-        AddressMap = intent.getStringExtra("Address");
         try {
+         /*   AddressMap = getIntent().getStringExtra("AddressStr");
+            textview_address = (TextView) findViewById(R.id.textview_address);
+            if(AddressMap.equalsIgnoreCase("")){
+                textview_address.setText("choose from map");   
+            }else {
+                textview_address.setText(AddressMap);
+            }*/
             initializeValues();
             initializeUI();
         } catch (Exception e) {
@@ -202,7 +208,6 @@ public class AddProductActivity extends AppCompatActivity {
         }
     }
     private void initializeValues() {
-        preferenceUtils = new PreferenceUtils(AddProductActivity.this);
         preferenceUtils = new PreferenceUtils(AddProductActivity.this);
         user_id = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ID, "");
         user_role = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ROLE, "");
@@ -226,7 +231,6 @@ public class AddProductActivity extends AppCompatActivity {
         Pr_SPrice = getIntent().getStringExtra("SamplePrice");
         Pr_Days = getIntent().getStringExtra("Days");
         Pr_SGWeight = getIntent().getStringExtra("SampleGrossWeight");
-       // Pr_Address = getIntent().getStringExtra("Address");
         Pr_StartDate  = getIntent().getStringExtra("StartDate");
         Pr_EndDate = getIntent().getStringExtra("EndDate");
         Pr_SPackType = getIntent().getStringExtra("SamplePackType");
@@ -239,23 +243,23 @@ public class AddProductActivity extends AppCompatActivity {
         Pr_SGWUnit = getIntent().getStringExtra("SampleGrossWeightUnit");
         Pr_Image = getIntent().getStringExtra("Image");
         Zipcode = getIntent().getStringExtra("Zipcode");
-        //imageModelList = (List<ImageModel>) getIntent().getSerializableExtra("images");
-        // imageModelList = (List<ImageModel>) getIntent().getSerializableExtra("images");
     }
     private void initializeUI() {
         isUpdate = false;
-        google_maps_img = (LinearLayout)findViewById(R.id.google_maps_img);
+        AddressMap = getIntent().getStringExtra("AddressStr");
+        textview_address = (TextView) findViewById(R.id.textview_address);
+        if(AddressMap.equalsIgnoreCase("")){
+            textview_address.setText("choose from map");
+        }else {
+            textview_address.setText(AddressMap);
+        }
+        address_txt_map = (TextView)findViewById(R.id.address_get_map);
+        google_maps_img = findViewById(R.id.google_maps_img);
         images_recyclerView = findViewById(R.id.images_recyclerView);
         images_recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayout.HORIZONTAL, false);
         images_recyclerView.setLayoutManager(linearLayoutManager);
         images_recyclerView.setItemAnimator(new DefaultItemAnimator());
-        address_txt_map = (TextView)findViewById(R.id.address_txt_map_product);
-        if(AddressMap.isEmpty()){
-            address_txt_map.setText("Choose From Map");
-        }else{
-            address_txt_map.setText(AddressMap);
-        }
         confirm_add_icon = findViewById(R.id.confirm_add_icon);
         confirm_add_icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,8 +276,6 @@ public class AddProductActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         capture();
                         customdialog.dismiss();
-                        /*imagePath = FileUtils.launchServiceCamera(AddProductActivity.this, count, true);
-                        customdialog.dismiss();*/
                     }
                 });
                 rl_gallery.setOnClickListener(new View.OnClickListener() {
@@ -584,8 +586,6 @@ public class AddProductActivity extends AppCompatActivity {
         spinner_sample_unit = (Spinner) findViewById(R.id.spinner_sample_unit);
         ArrayAdapter sample_unit_weight = new ArrayAdapter(this, android.R.layout.simple_spinner_item, gross_weight_unit);
         sample_unit_weight.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAd
-        // adapter data on the Spinner
         spinner_sample_unit.setAdapter(sample_unit_weight);
         spinner_sample_unit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -621,21 +621,25 @@ public class AddProductActivity extends AppCompatActivity {
         google_maps_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AddressMap = "true";
                 Intent mapIntent = new Intent(AddProductActivity.this, MapsActivity.class);
                 mapIntent.putExtra("activity", "store");
                 mapIntent.putExtra("type", "none");
                 startActivity(mapIntent);
             }
         });
-        sp_country = (TextView) findViewById(R.id.spinner_country);
-        sp_country.setOnClickListener(new View.OnClickListener() {
+        spinner_country_reg = (Spinner) findViewById(R.id.spinner_country_reg);
+        ArrayAdapter countryaa = new ArrayAdapter(AddProductActivity.this, android.R.layout.simple_spinner_item, Country);
+        countryaa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spinner_country_reg.setAdapter(countryaa);
+        spinner_country_reg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                try {
-                    getCountryList();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String country = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
         sp_state = (TextView) findViewById(R.id.spinner_state);
@@ -719,12 +723,13 @@ public class AddProductActivity extends AppCompatActivity {
         ll_samplepacktype = findViewById(R.id.ll_samplepacktype);
         if(UpdateStr.equalsIgnoreCase("1")){
             isUpdate = true;
+            //String MapText = AddressMap;
+            //address_txt_map.setText(MapText);
             TitleStr = "Edit Product";
             title_store.setText(TitleStr);
             ImageModel imageModel = new ImageModel(Pr_Image, "yes");
             imagesList.add(imageModel);
             confirm_add_icon.setVisibility(View.GONE);
-            // imageview.setVisibility(View.VISIBLE);
             editProduct();
         }
         spinner_sample_price = (Spinner) findViewById(R.id.spinner_sample_price);
@@ -749,16 +754,16 @@ public class AddProductActivity extends AppCompatActivity {
         shipping_list_recyclerview = (RecyclerView) findViewById(R.id.shipping_list_recyclerview);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(AddProductActivity.this, LinearLayoutManager.VERTICAL, false);
         shipping_list_recyclerview.setLayoutManager(layoutManager2);
-        recyclerview_shipping_sizes = (RecyclerView) findViewById(R.id.recyclerview_shipping_sizes);
+      /*  recyclerview_shipping_sizes = (RecyclerView) findViewById(R.id.recyclerview_shipping_sizes);
         LinearLayoutManager layoutManager3 = new LinearLayoutManager(AddProductActivity.this, LinearLayoutManager.VERTICAL, false);
-        recyclerview_shipping_sizes.setLayoutManager(layoutManager3);
+        recyclerview_shipping_sizes.setLayoutManager(layoutManager3);*/
         ll_vendor_services = (LinearLayout) findViewById(R.id.ll_vendor_services);
         ll_add_products_store = (LinearLayout) findViewById(R.id.ll_add_products_store);
         //ll_prod_list = (LinearLayout) findViewById(R.id.ll_prod_list);
         ll_addproduct_general = (LinearLayout) findViewById(R.id.ll_addproduct_general);
         ll_shipping_types_list = (LinearLayout) findViewById(R.id.ll_shipping_types_list);
         ll_add_vendor_areas = (LinearLayout) findViewById(R.id.ll_add_vendor_areas);
-        profile_img = (CircleImageView) findViewById(R.id.profile_img);
+      //  profile_img = (CircleImageView) findViewById(R.id.profile_img);
         dis_start_date_text = (TextView) findViewById(R.id.dis_start_date_text);
         dis_end_date_text = (TextView) findViewById(R.id.dis_end_date_text);
         title_general = (EditText) findViewById(R.id.title_general);
@@ -828,7 +833,7 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
         spinner_country_origin = (Spinner) findViewById(R.id.spinner_country_origin);
-        ArrayAdapter country_origin = new ArrayAdapter(this, android.R.layout.simple_spinner_item, country);
+        ArrayAdapter country_origin = new ArrayAdapter(AddProductActivity.this, android.R.layout.simple_spinner_item, country);
         country_origin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         spinner_country_origin.setAdapter(country_origin);
@@ -856,13 +861,9 @@ public class AddProductActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        if (user_role.equalsIgnoreCase("")) {
+       /* if (user_role.equalsIgnoreCase("general")) {
             ll_add_products_store.setVisibility(View.GONE);
             ll_addproduct_general.setVisibility(View.VISIBLE);
-            address_txt_map.setText("Choose From Map");
-           /* address_txt_map.setText("Choose From Map");
-            address_txt_map.setTextColor(getResources().getColor(R.color.appcolor));*/
-            //getCurrencyList();
             TitleStr = "Add Product";
             title_store.setText(TitleStr);
             //  ll_prod_list.setVisibility(View.GONE);
@@ -870,14 +871,14 @@ public class AddProductActivity extends AppCompatActivity {
         } else if (user_role.equalsIgnoreCase("poultry")) {
             ll_add_products_store.setVisibility(View.VISIBLE);
             ll_addproduct_general.setVisibility(View.GONE);
-            address_txt_map.setText("Choose From Map");
-          /*  address_txt_map.setText("Choose From Map");
-            address_txt_map.setTextColor(getResources().getColor(R.color.appcolor));*/
+            //address_txt_map.setText("Choose From Map");
+          *//*  address_txt_map.setText("Choose From Map");
+            address_txt_map.setTextColor(getResources().getColor(R.color.appcolor));*//*
             // getCurrencyList();
             TitleStr = "Add Product";
             title_store.setText(TitleStr);
             // ll_prod_list.setVisibility(View.GONE);
-        }
+        }*/
         checkbox_international.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -933,45 +934,6 @@ public class AddProductActivity extends AppCompatActivity {
         if (requestCode == CAMERA_CAPTURE) {
             if (resultCode == RESULT_OK) {
                 onCaptureImageResult(data);
-/*
-                if (new File(imagePath).exists()) {
-                    helper.showLoader(AddProductActivity.this, "Loading image", "Please wait...");
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                imagePath = FileUtils.processImage(imagePath);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            } finally {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        helper.hideLoader();
-                                        Bitmap bitmapImage = null;
-                                        try {
-                                            bitmapImage = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), Uri.fromFile(new File(imagePath)));
-                                            profileString = getEncodedImage(bitmapImage);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                        try {
-                                            ImageModel imageModel = new ImageModel(
-                                                    profileString,
-                                                    "no");
-                                            imagesList.add(imageModel);
-                                            setUpRecyclerView(imagePath);
-                                        }catch (Exception e){
-                                            e.printStackTrace();
-                                        }
-
-                                    }
-                                });
-                            }
-                        }
-                    }).start();
-                }
-*/
             }
         } else if (requestCode == PICK_IMAGE) {
             if (resultCode == RESULT_OK) {
@@ -1126,47 +1088,6 @@ public class AddProductActivity extends AppCompatActivity {
     }
     public void editProduct() {
         try {
-            title_add_prod.setText(Pr_Name);
-            price_edittext.setText(Pr_Price);
-            min_order_et.setText(Pr_Quantity);
-            discount_et.setText(Pr_Discount);
-            unit_edit.setText(Pr_unit);
-            if(address_txt_map.getText().toString().equalsIgnoreCase("Choose From Map")){
-                address_txt_map.setText(Product_Address_Map);
-            }else {
-                address_txt_map.setText(AddressMap);
-            }
-            pincode_et.setText(Zipcode);
-            delivery_lead_time.setText(Pr_Days);
-            if (!Pr_StartDate.isEmpty() || !Pr_EndDate.isEmpty() || Pr_StartDate != null || Pr_EndDate != null) {
-                dis_start_date.setText(Pr_StartDate);
-                dis_end_date.setText(Pr_EndDate);
-            } else {
-                dis_start_date.setText("Discount Start Date");
-                dis_end_date.setText("Discount End Date");
-            }
-            setUpRecyclerView1(Pr_Image);
-            sp_country.setText(Pr_Country);
-            sp_country.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(AddProductActivity.this, "", Toast.LENGTH_SHORT).show();
-                }
-            });
-            sp_state.setText(Pr_State);
-            sp_state.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(AddProductActivity.this, "", Toast.LENGTH_SHORT).show();
-                }
-            });
-            sp_city.setText(Pr_City);
-            sp_city.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(AddProductActivity.this, "", Toast.LENGTH_SHORT).show();
-                }
-            });
             if (!Pr_EggsType.equalsIgnoreCase("Types Of Eggs")) {
                 ll_eggs_type.setVisibility(View.VISIBLE);
                 spinner_eggs_types.setVisibility(View.GONE);
@@ -1221,34 +1142,6 @@ public class AddProductActivity extends AppCompatActivity {
                     sample_packtype = "210 Pack Crate";
                 }
             }
-            ll_eggs_type.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ll_eggs_type.setVisibility(View.GONE);
-                    spinner_eggs_types.setVisibility(View.VISIBLE);
-                }
-            });
-            ll_quality.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ll_quality.setVisibility(View.GONE);
-                    spinner_quality.setVisibility(View.VISIBLE);
-                }
-            });
-            ll_packtype.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ll_packtype.setVisibility(View.GONE);
-                    spinner_pack_type.setVisibility(View.VISIBLE);
-                }
-            });
-            ll_samplepacktype.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ll_samplepacktype.setVisibility(View.GONE);
-                    spinner_sample_pack_type.setVisibility(View.VISIBLE);
-                }
-            });
             if (Pr_Shipping.equalsIgnoreCase("yes")) {
                 ll_choose_shipping_types.setVisibility(View.VISIBLE);
                 ArrayAdapter adapterShip = new ArrayAdapter(this, android.R.layout.simple_spinner_item, shippingEdit);
@@ -1539,7 +1432,6 @@ public class AddProductActivity extends AppCompatActivity {
                             UnitId = "18";
                         }
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
@@ -1560,13 +1452,70 @@ public class AddProductActivity extends AppCompatActivity {
                         } else {
                         }
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
             }
+          //  Log.e("Address",AddressMap);
             stock_et.setText(Pr_Stocks);
+            sp_state.setText(Pr_State);
+            sp_city.setText(Pr_City);
+            title_add_prod.setText(Pr_Name);
+            price_edittext.setText(Pr_Price);
+            min_order_et.setText(Pr_Quantity);
+            discount_et.setText(Pr_Discount);
+            unit_edit.setText(Pr_unit);
+            pincode_et.setText(Zipcode);
+            delivery_lead_time.setText(Pr_Days);
+            if (!Pr_StartDate.isEmpty() || !Pr_EndDate.isEmpty() || Pr_StartDate != null || Pr_EndDate != null) {
+                dis_start_date.setText(Pr_StartDate);
+                dis_end_date.setText(Pr_EndDate);
+            } else {
+                dis_start_date.setText("Discount Start Date");
+                dis_end_date.setText("Discount End Date");
+            }
+            setUpRecyclerView1(Pr_Image);
+            sp_state.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(AddProductActivity.this, "", Toast.LENGTH_SHORT).show();
+                }
+            });
+            sp_city.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(AddProductActivity.this, "", Toast.LENGTH_SHORT).show();
+                }
+            });
+            ll_eggs_type.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ll_eggs_type.setVisibility(View.GONE);
+                    spinner_eggs_types.setVisibility(View.VISIBLE);
+                }
+            });
+            ll_quality.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ll_quality.setVisibility(View.GONE);
+                    spinner_quality.setVisibility(View.VISIBLE);
+                }
+            });
+            ll_packtype.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ll_packtype.setVisibility(View.GONE);
+                    spinner_pack_type.setVisibility(View.VISIBLE);
+                }
+            });
+            ll_samplepacktype.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ll_samplepacktype.setVisibility(View.GONE);
+                    spinner_sample_pack_type.setVisibility(View.VISIBLE);
+                }
+            });
             discount_et.setText(Pr_Discount);
             min_order_et.setText(Pr_Quantity);
             price_edittext.setText(Pr_Price);
@@ -1592,7 +1541,6 @@ public class AddProductActivity extends AppCompatActivity {
                 .build();
 
         ProductsApi service = retrofit.create(ProductsApi.class);
-
         Call<JsonElement> callRetrofit = null;
 //        callRetrofit = service.getVendorServices(user_id);
         callRetrofit = service.getVendorServices(user_id);
@@ -1989,74 +1937,6 @@ public class AddProductActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void getCountryList() {
-        progressdialog();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(DZ_URL.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        UserApi service = retrofit.create(UserApi.class);
-
-        Call<JsonElement> callRetrofit = null;
-        callRetrofit = service.getCountries();
-
-        callRetrofit.enqueue(new Callback<JsonElement>() {
-            @Override
-            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                try {
-                    if (response.isSuccessful()) {
-                        progressDialog.dismiss();
-                        Log.d("Success Call", ">>>>" + call);
-                        Log.d("Success Call ", ">>>>" + response.body().toString());
-
-                        System.out.println("----------------------------------------------------");
-                        Log.d("Call request", call.request().toString());
-                        Log.d("Call request header", call.request().headers().toString());
-                        Log.d("Response raw header", response.headers().toString());
-                        Log.d("Response raw", String.valueOf(response.raw().body()));
-                        Log.d("Response code", String.valueOf(response.code()));
-                        System.out.println("----------------------------------------------------");
-                        if (response.body().toString() != null) {
-                            JSONObject root = null;
-                            try {
-                                root = new JSONObject(response.body().toString());
-                                String success = root.getString("success");
-                                if (success.equalsIgnoreCase("1")) {
-                                    JSONArray jsonArray = root.getJSONArray("country");
-                                    countryList = new ArrayList<>();
-                                    List<String> idList = new ArrayList<>();
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                                        countryList.add(jsonObject.getString("country_name"));
-                                        idList.add(jsonObject.getString("CountryCode"));
-                                    }
-                                    //In response data
-                                    progressDialog.dismiss();
-                                    showAlertDialog(true, countryList, idList);
-                                } else {
-
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<JsonElement> call, Throwable t) {
-                Log.d("Error Call", ">>>>" + call.toString());
-                Log.d("Error", ">>>>" + t.toString());
-                //  Toast.makeText(ProductsActivity.this, "Please login again", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
-    }
     private void getStatesList() {
         progressdialog();
         Retrofit retrofit = new Retrofit.Builder()
@@ -2230,8 +2110,6 @@ public class AddProductActivity extends AppCompatActivity {
             inputSearch.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                    // When user changed the Text
-                    // adapter.getFilter().filter(cs);
                     clickedSearch = "clicked";
                     if (isCountry) {
                         textlength = inputSearch.getText().length();
@@ -2336,14 +2214,6 @@ public class AddProductActivity extends AppCompatActivity {
 
             final ListView categoryListView = (ListView) dialogView.findViewById(R.id.categoryList);
             final EditText inputSearch = (EditText) dialogView.findViewById(R.id.inputSearch);
-           /* final ShimmerFrameLayout shimmerFrameLayout = dialogView.findViewById(R.id.shimmer_list_item);
-            shimmerFrameLayout.startShimmerAnimation();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    helper.stopShimmer(shimmerFrameLayout);
-                }
-            }, 3000);*/
             alertDialog = dialogBuilder.create();
             if (cityList.size() == 0) {
                 if (alertDialog != null)
@@ -2424,7 +2294,13 @@ public class AddProductActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        address_txt_map.setText(Product_Address_Map);
+        if(AddressMap.equalsIgnoreCase("true")){
+            textview_address.setVisibility(View.GONE);
+            address_txt_map.setVisibility(View.VISIBLE);
+            address_txt_map.setText(Product_Address_Map);   
+        }else{
+            textview_address.setVisibility(View.VISIBLE);
+        }
     }
     private void setUpRecyclerView(String image) {
         if (imagesList.size() > 0) {

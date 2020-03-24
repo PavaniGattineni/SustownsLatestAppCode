@@ -32,6 +32,7 @@ import com.sustowns.sustownsapp.helpers.Helper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -39,18 +40,20 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class StoreReceivedOrdersAdapter extends RecyclerView.Adapter<StoreReceivedOrdersAdapter.ViewHolder> {
     Context context;
     LayoutInflater inflater;
-    String user_email,pro_id,user_id,user_role,order_status,order_id,pay_method,complete_amount_status,paymentStatus;
+    String user_email,pro_id,userid,user_role,order_status,order_id,pay_method,complete_amount_status,paymentStatus,TotalProdPrice;
     PreferenceUtils preferenceUtils;
-    String[] order;
     ArrayList<OrderModel> orderModels;
     ProgressDialog progressDialog;
     Helper helper;
+    float TotalPriceStr,SerChargeFinal;
 
-    public StoreReceivedOrdersAdapter(StoreReceivedOrdersActivity context, ArrayList<OrderModel> orderModels) {
+    public StoreReceivedOrdersAdapter(Context context, ArrayList<OrderModel> orderModels) {
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
         this.orderModels = orderModels;
         helper = new Helper(context);
+        preferenceUtils = new PreferenceUtils(context);
+        userid = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ID,"");
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -68,7 +71,68 @@ public class StoreReceivedOrdersAdapter extends RecyclerView.Adapter<StoreReceiv
             viewHolder.orderName.setText(orderModels.get(position).getPr_title());
             viewHolder.order_no.setText(orderModels.get(position).getInvoice_no());
             viewHolder.orderDate.setText(orderModels.get(position).getOrder_date());
-            viewHolder.order_price.setText(orderModels.get(position).getTotalprice());
+            if(userid.equalsIgnoreCase(orderModels.get(position).getPr_userid())) {
+                if (orderModels.get(position).getDiscount().equalsIgnoreCase("null") || orderModels.get(position).getDiscount().equalsIgnoreCase("")) {
+                    viewHolder.order_price.setText(orderModels.get(position).getTotalprice());
+                   /* float quantityInt = Float.parseFloat(orderModels.get(position).getQuantity());
+                    float priceInt = Float.parseFloat(orderModels.get(position).getTotalprice());
+                    float ProdPriceStrFloat = priceInt * quantityInt;
+                    TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                    viewHolder.order_price.setText(TotalProdPrice);*/
+                } else {
+                    int OriginalPrice = Integer.parseInt(orderModels.get(position).getPrice());
+                    int DiscountStr = Integer.parseInt(orderModels.get(position).getDiscount());
+                    int DiscountPrice = OriginalPrice * DiscountStr;
+                    float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                    TotalPriceStr = Float.parseFloat(orderModels.get(position).getPrice()) - DisPriceStr;
+                    float quantityInt = Float.parseFloat(orderModels.get(position).getQuantity());
+                    float ProdPriceStrFloat = quantityInt * TotalPriceStr;
+                    TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                    viewHolder.order_price.setText(TotalProdPrice);
+                }
+            }else{
+                if (orderModels.get(position).getDiscount().equalsIgnoreCase("null")|| orderModels.get(position).getDiscount().equalsIgnoreCase("")) {
+                    if (orderModels.get(position).getService_charge().equalsIgnoreCase("0.00") || orderModels.get(position).getService_charge().equalsIgnoreCase("0") || orderModels.get(position).getService_charge().equalsIgnoreCase("")) {
+                        float quantityInt = Float.parseFloat(orderModels.get(position).getQuantity());
+                        float priceInt = Float.parseFloat(orderModels.get(position).getPrice());
+                        float ProdPriceStrFloat = priceInt * quantityInt;
+                        TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                        viewHolder.order_price.setText(TotalProdPrice);
+                    } else {
+                        Float ProdPriceF = Float.valueOf(orderModels.get(position).getPrice());
+                        Float ServiceChargeF = Float.valueOf(orderModels.get(position).getService_charge());
+                        Float finalServiceCharge = (ProdPriceF * ServiceChargeF) / 100;
+                        Float ProdPriceFinal = Float.valueOf(orderModels.get(position).getPrice());
+                        SerChargeFinal = ProdPriceFinal + finalServiceCharge;
+                        float quantityInt = Float.parseFloat(orderModels.get(position).getQuantity());
+                        float ProdPriceStrFloat = quantityInt * SerChargeFinal;
+                        TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                        viewHolder.order_price.setText(TotalProdPrice);
+                    }
+                }else {
+                    int OriginalPrice = Integer.parseInt(orderModels.get(position).getPrice());
+                    int DiscountStr = Integer.parseInt(orderModels.get(position).getDiscount());
+                    int DiscountPrice = OriginalPrice * DiscountStr;
+                    float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                    TotalPriceStr = Float.parseFloat(orderModels.get(position).getPrice()) - DisPriceStr;
+                    if (orderModels.get(position).getService_charge().equalsIgnoreCase("0.00") || orderModels.get(position).getService_charge().equalsIgnoreCase("0") || orderModels.get(position).getService_charge().equalsIgnoreCase("")) {
+                        float quantityInt = Float.parseFloat(orderModels.get(position).getQuantity());
+                        float ProdPriceStrFloat = quantityInt * TotalPriceStr;
+                        TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                        viewHolder.order_price.setText(TotalProdPrice);
+                    } else {
+                        Float ProdPriceF = Float.valueOf(orderModels.get(position).getPrice());
+                        Float ServiceChargeF = Float.valueOf(orderModels.get(position).getService_charge());
+                        Float finalServiceCharge = (ProdPriceF * ServiceChargeF) / 100;
+                        Float totalProdPriceF = Float.valueOf(TotalPriceStr);
+                        SerChargeFinal = totalProdPriceF + finalServiceCharge;
+                        float quantityInt = Float.parseFloat(orderModels.get(position).getQuantity());
+                        float ProdPriceStrFloat = quantityInt * SerChargeFinal;
+                        TotalProdPrice = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                        viewHolder.order_price.setText(TotalProdPrice);
+                    }
+                }
+            }
             if(order_status.equalsIgnoreCase("0") && orderModels.get(position).getPayu_status().equalsIgnoreCase("success")){
                 viewHolder.orderStatus.setText("Pending");
                // viewHolder.add_payment_btn.setVisibility(View.GONE);
@@ -113,8 +177,8 @@ public class StoreReceivedOrdersAdapter extends RecyclerView.Adapter<StoreReceiv
                 viewHolder.ll_paymentstatus.setVisibility(View.VISIBLE);
                 viewHolder.payment_status.setVisibility(View.VISIBLE);
                 viewHolder.payment_status.setText("Payment Process was failed");
-            }else{
-
+            }else if(paymentStatus.equalsIgnoreCase("null")){
+                viewHolder.ll_paymentstatus.setVisibility(View.GONE);
             }
         }
         viewHolder.add_transport_btn.setOnClickListener(new View.OnClickListener() {
@@ -181,12 +245,9 @@ public class StoreReceivedOrdersAdapter extends RecyclerView.Adapter<StoreReceiv
                         });
             }
         });
-
-
     }
     public void removeAt(int position) {
         //  notifyDataSetChanged();
-
     }
     public void progressdialog() {
         progressDialog = new ProgressDialog(context);

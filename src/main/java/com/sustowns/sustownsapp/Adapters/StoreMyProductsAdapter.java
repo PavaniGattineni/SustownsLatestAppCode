@@ -1,9 +1,11 @@
 package com.sustowns.sustownsapp.Adapters;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
@@ -12,13 +14,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.sustowns.sustownsapp.Activities.AddProductActivity;
 import com.sustowns.sustownsapp.Activities.EditTransportServices;
+import com.sustowns.sustownsapp.Activities.FileUtils;
 import com.sustowns.sustownsapp.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,6 +44,7 @@ import com.sustowns.sustownsapp.Models.ImageModel;
 import com.sustowns.sustownsapp.Models.MyProductsModel;
 import com.sustowns.sustownsapp.helpers.Helper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,6 +70,9 @@ public class StoreMyProductsAdapter extends RecyclerView.Adapter<StoreMyProducts
     ProgressDialog progressDialog;
     AlertDialog alertDialog;
     Helper helper;
+    ImageView remove_product;
+    EditText edit_price;
+    Button save_price;
 
     public StoreMyProductsAdapter(StoreMyProductsActivity context, List<MyProductsModel> myProductsModels) {
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -123,7 +138,7 @@ public class StoreMyProductsAdapter extends RecyclerView.Adapter<StoreMyProducts
                 i.putExtra("SamplePrice",myProductsModels.get(position).getSprice());
                 i.putExtra("Days",myProductsModels.get(position).getDays());
                 i.putExtra("SampleGrossWeight",myProductsModels.get(position).getSgweight());
-                i.putExtra("Address",myProductsModels.get(position).getAddress());
+                i.putExtra("AddressStr",myProductsModels.get(position).getAddress());
                 i.putExtra("StartDate",myProductsModels.get(position).getDate_started());
                 i.putExtra("EndDate",myProductsModels.get(position).getDate_end());
                 i.putExtra("SamplePackType",myProductsModels.get(position).getSpack_type());
@@ -136,7 +151,6 @@ public class StoreMyProductsAdapter extends RecyclerView.Adapter<StoreMyProducts
                 i.putExtra("SampleGrossWeightUnit",myProductsModels.get(position).getSgweight_unit());
                 i.putExtra("Zipcode",myProductsModels.get(position).getZipcode());
                 i.putExtra("Image",myProductsModels.get(position).getProd_image());
-               // i.putParcelableArrayListExtra("images", (ArrayList<? extends Parcelable>) myProductsModels.get(position).getImageModelList());
                 context.startActivity(i);
             }
         });
@@ -181,6 +195,33 @@ public class StoreMyProductsAdapter extends RecyclerView.Adapter<StoreMyProducts
                 context.startActivity(i);
             }
         });
+        viewHolder.edit_price_only.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog customdialog = new Dialog(context);
+                customdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                customdialog.setContentView(R.layout.edit_price_dialog);
+                customdialog.getWindow().setBackgroundDrawableResource(R.drawable.squre_corner_shape);
+                remove_product = (ImageView) customdialog.findViewById(R.id.remove_product);
+                edit_price = (EditText) customdialog.findViewById(R.id.edit_price);
+                save_price = (Button) customdialog.findViewById(R.id.save_price);
+                remove_product.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        customdialog.dismiss();
+                    }
+                });
+                save_price.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        prod_id = myProductsModels.get(position).getId();
+                        EditPrice();
+                        customdialog.dismiss();
+                    }
+                });
+                customdialog.show();
+            }
+        });
     }
     public void removeAt(int position) {
         notifyDataSetChanged();
@@ -191,7 +232,55 @@ public class StoreMyProductsAdapter extends RecyclerView.Adapter<StoreMyProducts
         progressDialog.setCancelable(true);
         progressDialog.show();
     }
-
+    public void EditPrice() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("productid",prod_id);
+            jsonObj.put("pr_userid", user_id);
+            jsonObj.put("pr_price", edit_price.getText().toString());
+            androidNetworkingEdit(jsonObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void androidNetworkingEdit(JSONObject jsonObject) {
+        progressdialog();
+        AndroidNetworking.post("https://www.sustowns.com/Storemanagementser/editprice")
+            .addJSONObjectBody(jsonObject) // posting java object
+            .setTag("test")
+            .setPriority(Priority.HIGH)
+            .build()
+            .getAsJSONObject(new JSONObjectRequestListener() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d("Response", "JSON : " + response);
+                    try {
+                        String message = response.getString("message");
+                        String success = response.getString("success");
+                        if (success.equalsIgnoreCase("1")) {
+                            Toast.makeText(context, "Price Updated Successfully", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            Intent i = new Intent(context, StoreMyProductsActivity.class);
+                            i.putExtra("Customizations","0");
+                            context.startActivity(i);
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        progressDialog.dismiss();
+                        e.printStackTrace();
+                        // Toast.makeText(ServiceManagementActivity.this, "No Subcategories Available.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onError(ANError error) {
+                    Log.d("Error", "ANError : " + error);
+                    Toast.makeText(context, "Something went wrong! please try again", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            });
+    }
     public void removeMyProduct(final int position) {
         prod_status = myProductsModels.get(position).getStatus();
         prod_id = myProductsModels.get(position).getId();
@@ -348,7 +437,7 @@ public class StoreMyProductsAdapter extends RecyclerView.Adapter<StoreMyProducts
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView,remove_product,edit_image;
+        ImageView imageView,remove_product,edit_price_only;
         TextView prod_name,prod_quantity,prod_price,prod_status,copy_prod,update_prod;
         LinearLayout ll_store_product;
         public ViewHolder(View view) {
@@ -362,6 +451,7 @@ public class StoreMyProductsAdapter extends RecyclerView.Adapter<StoreMyProducts
             copy_prod = (TextView) view.findViewById(R.id.copy_prod);
             update_prod = (TextView) view.findViewById(R.id.update_prod);
             ll_store_product = (LinearLayout) view.findViewById(R.id.ll_store_product);
+            edit_price_only = (ImageView) view.findViewById(R.id.edit_price_only);
 
         }
     }

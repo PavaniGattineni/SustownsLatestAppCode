@@ -8,7 +8,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.sustowns.sustownsapp.R;
 
 public class PaymentSuccessActivity extends AppCompatActivity {
@@ -47,13 +46,11 @@ public class PaymentSuccessActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
     }
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(PaymentSuccessActivity.this,MainActivity.class);
+        Intent i = new Intent(PaymentSuccessActivity.this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
     }
-
 }

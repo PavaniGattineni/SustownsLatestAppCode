@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:id="@+id/ll_progress"
+        android:visibility="gone"
         android:padding="10dp">
 
         <com.kofigyan.stateprogressbar.StateProgressBar

@@ -51,7 +51,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,icon,theme,label">
-        <activity android:name=".Activities.PaymentSuccessActivity"></activity>
+        <activity android:name=".Activities.GeneralAddProductActivity"></activity>
+        <activity android:name=".Activities.ReceivedOrdersClusterActivity" />
+        <activity android:name=".Activities.StockInventoriesActivity" />
+        <activity android:name=".Activities.OrdersDeliveriesClusterActivity" />
+        <activity android:name=".Activities.AddFacilitiesActivity" />
+        <activity android:name=".Activities.ClusterVendorsListActivity" />
+        <activity android:name=".Activities.PaymentSuccessActivity" />
         <activity android:name=".Activities.AddProductActivity" />
         <activity android:name=".Activities.ForgotPassword" />
         <activity
@@ -243,5 +249,15 @@
         <activity
             android:name=".Activities.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".Activities.SignUpClusterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".Activities.ClusterDashboardActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".Activities.ClusterFacilitiesListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
     </application>
+
 </manifest>

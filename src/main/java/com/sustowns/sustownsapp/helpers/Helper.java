@@ -265,6 +265,15 @@ public class Helper {
                 .setConfirmClickListener(listener)
                 .show();
     }
+    public void singlePayClickAlert(Activity context, int type, String title, String message, SweetAlertDialog.OnSweetClickListener listener) {
+        new SweetAlertDialog(context, type)
+            .setTitleText(title)
+            .setContentText(message)
+            .setConfirmText("Proceed")
+            .showCancelButton(false)
+            .setConfirmClickListener(listener)
+            .show();
+    }
 
     // Show progress bar
     public void showLoader(final Context context, final String title, final String message) {

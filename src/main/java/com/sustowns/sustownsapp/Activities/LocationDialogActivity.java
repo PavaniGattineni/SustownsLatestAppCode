@@ -35,6 +35,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.sustowns.sustownsapp.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.JsonElement;
@@ -76,10 +77,11 @@ public class LocationDialogActivity extends AppCompatActivity {
     String user_email,pro_id,user_id,user_role,order_status,pay_method,orderid,contractLocationStr="",InvoiceNoStr="",RandIdStr = "",clickedSearch = "";
     public static String Address = "";
     LinearLayout ll_shipping_details,ll_existing_address,ll_progress;
-    RadioButton existing_radiobtn, new_radiobtn;
+    String[] descriptionData = {"Cart", "Address", "Payment"};
+    StateProgressBar stateprogressbar;
     RadioGroup radioGroup;
     Button save_address_btn,save_address,close_drop_dialog;
-    String actionValue = "",countryId="",stateId="",cityId="",selectedAddress = "",UserId,productZipcode,totalAmount="";
+    String actionValue = "",countryId="",stateId="",cityId="",selectedAddress = "",UserId,productZipcode,totalItems = "",totalAmount="";
     ArrayList<GetAddressModel> getAddressModels;
     ExistingAddressAdapterContract existingAddressAdapter;
     ProgressDialog progressDialog;
@@ -111,11 +113,14 @@ public class LocationDialogActivity extends AppCompatActivity {
         UserId = getIntent().getStringExtra("UserId");
         productZipcode = getIntent().getStringExtra("productZipcode");
         totalAmount = getIntent().getStringExtra("TotalAmount");
+        totalItems = getIntent().getStringExtra("TotalItems");
     }
     private void initializeUI() {
         ll_progress = (LinearLayout) findViewById(R.id.ll_progress);
+        stateprogressbar = (StateProgressBar) findViewById(R.id.stateprogressbar);
         if(contractLocationStr.equalsIgnoreCase("3")){
             ll_progress.setVisibility(View.VISIBLE);
+            stateprogressbar.setStateDescriptionData(descriptionData);
         }
         cart_total_amount = (TextView) findViewById(R.id.cart_total_amount);
         cart_total_amount.setText("Amount : "+"INR "+totalAmount);
@@ -173,7 +178,7 @@ public class LocationDialogActivity extends AppCompatActivity {
         fax_address = (EditText) findViewById(R.id.fax_address);
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         getExistingAddresses();
-       // add_new_address = (TextView) findViewById(R.id.add_new_address);
+        add_new_address = (TextView) findViewById(R.id.add_new_address);
         save_address = (Button) findViewById(R.id.save_address);
         save_address.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +203,8 @@ public class LocationDialogActivity extends AppCompatActivity {
                     }
                 }else if(contractLocationStr.equalsIgnoreCase("3")){
                     Intent i = new Intent(LocationDialogActivity.this,ShippingAddressActivity.class);
+                    i.putExtra("TotalAmount",totalAmount);
+                    i.putExtra("TotalItems",totalItems);
                     startActivity(i);
                 }
             }

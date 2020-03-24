@@ -95,7 +95,7 @@ public class AddShippingServices extends AppCompatActivity {
     ImageView backarrow, three_dots_icon;
     Button save_service, liceneceImg, choose_vehicle_docs, choose_permit_img;
     PreferenceUtils preferenceUtils;
-    String user_id, transportStr, vehicleStr,SubCatId, profileString, SelectedButton,categoryStr,subCategoryStr,CatId;
+    String user_role,user_id, transportStr, vehicleStr,SubCatId, profileString, SelectedButton,categoryStr,subCategoryStr,CatId;
     LinearLayout ll_buyer_network, ll_custom_invoice, ll_customizations, ll_my_products, ll_shipping_type;
     RecyclerView recycler_view_myservices, multi_licence_img_recylerview, multi_permit_img_recylerview;
     String[] service = {"Service1", "Service2", "Service3", "Service4"};
@@ -214,6 +214,7 @@ public class AddShippingServices extends AppCompatActivity {
         helper = new Helper(AddShippingServices.this);
         preferenceUtils = new PreferenceUtils(AddShippingServices.this);
         user_id = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ID, "");
+        user_role = preferenceUtils.getStringFromPreference(PreferenceUtils.USER_ROLE,"");
         checkPermissions();
     }
     private void initializeUI() {
@@ -433,12 +434,16 @@ public class AddShippingServices extends AppCompatActivity {
         choose_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                categoriesList = new ArrayList<>();
-                List<String> idList = new ArrayList<>();
-                //In response data
-                categoriesList.add("Live Stock");
-                idList.add("144");
-                showAlertDialog1(true, categoriesList, idList);
+                if (user_role.equalsIgnoreCase("general")) {
+                    getCategoriesList();
+                } else {
+                    categoriesList = new ArrayList<>();
+                    List<String> idList = new ArrayList<>();
+                    //In response data
+                    categoriesList.add("Live Stock");
+                    idList.add("144");
+                    showAlertDialog1(true, categoriesList, idList);
+                }
             }
         });
         choose_sub_category = (TextView) findViewById(R.id.choose_sub_category);
@@ -670,9 +675,14 @@ public class AddShippingServices extends AppCompatActivity {
             service_vehicle_id.setText(VehicleIdNumber);
             min_load_service.setText(MinLoadStr);
             max_load_service.setText(MaxLoadStr);
-            choose_category.setText("Live Stock");
+            if(user_role.equalsIgnoreCase("poultry")) {
+                choose_category.setText("Live Stock");
+                categorySelectedList.add("144");
+            }else if(user_role.equalsIgnoreCase("general")){
+                choose_category.setText(CatIdStr);
+                categorySelectedList.add(Category);
+            }
             subCategorySelectedList.add(SubCatIdStr);
-            categorySelectedList.add("144");
             choose_sub_category.setText(SubCategory);
             setJsonObject(true);
             width_service.setText(WidthStr);
@@ -692,8 +702,6 @@ public class AddShippingServices extends AppCompatActivity {
         ll_prod_list = (LinearLayout) findViewById(R.id.ll_prod_list);
         ll_buyer_network = findViewById(R.id.ll_buyer_network);
         ll_add_service = (LinearLayout) findViewById(R.id.ll_add_service);
-
-
         three_dots_icon = findViewById(R.id.three_dots_icon);
         recycler_view_myservices = (RecyclerView) findViewById(R.id.recycler_view_myservices);
         LinearLayoutManager layoutManager = new LinearLayoutManager(AddShippingServices.this, LinearLayoutManager.VERTICAL, false);
@@ -711,8 +719,6 @@ public class AddShippingServices extends AppCompatActivity {
                         if (id == R.id.buyer_network) {
                             ll_buyer_network.setVisibility(View.VISIBLE);
                             ll_custom_invoice.setVisibility(View.GONE);
-
-
                         } else if (id == R.id.custom_invoice) {
                             ll_buyer_network.setVisibility(View.GONE);
                             ll_custom_invoice.setVisibility(View.VISIBLE);
@@ -799,7 +805,6 @@ public class AddShippingServices extends AppCompatActivity {
                         for (int i = 0; i < clipData.getItemCount(); i++) {
                             ClipData.Item item = clipData.getItemAt(i);
                             Uri uri = item.getUri();
-
                             //In case you need image's absolute path
                             String path = getRealPathFromURI(AddShippingServices.this, uri);
                         }
@@ -810,10 +815,8 @@ public class AddShippingServices extends AppCompatActivity {
         else {
             if (requestCode == PICKFILE_RESULT_CODE) {
                 if (resultCode == RESULT_OK) {
-
                     try {
                         returnUri = data.getData();
-
                    /*     if (filesize >= FILE_SIZE_LIMIT) {
                             Toast.makeText(this,"The selected file is too large. Selet a new file with size less than 2mb",Toast.LENGTH_LONG).show();
                         } else {*/
@@ -873,10 +876,8 @@ public class AddShippingServices extends AppCompatActivity {
             os = new FileOutputStream(dest);
             byte[] buffer = new byte[1024];
             int length;
-
             while ((length = is.read(buffer)) > 0) {
                 os.write(buffer, 0, length);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -885,7 +886,6 @@ public class AddShippingServices extends AppCompatActivity {
             os.close();
         }
     }
-
     public byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
@@ -927,7 +927,6 @@ public class AddShippingServices extends AppCompatActivity {
         c.close();
         return "";
     }
-
     private boolean checkPermissions() {
         int result;
         List<String> listPermissionsNeeded = new ArrayList<>();
@@ -945,20 +944,36 @@ public class AddShippingServices extends AppCompatActivity {
         return true;
     }
     public void setJsonObject(boolean isAlert) {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            JSONArray Product_ids = new JSONArray();
-            for (int i = 0; i < categorySelectedList.size(); i++) {
-                JSONObject CatidObj = new JSONObject();
-                CatidObj.put("Cat_id", "144");
-                Product_ids.put(CatidObj);
+        if(user_role.equalsIgnoreCase("poultry")) {
+            try {
+                JSONObject jsonObj = new JSONObject();
+                JSONArray Product_ids = new JSONArray();
+                for (int i = 0; i < categorySelectedList.size(); i++) {
+                    JSONObject CatidObj = new JSONObject();
+                    CatidObj.put("Cat_id", "144");
+                    Product_ids.put(CatidObj);
+                }
+                jsonObj.put("Product_ids", Product_ids);
+                Log.e("Product_ids", "" + jsonObj);
+                androidNetworking(jsonObj, isAlert);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            jsonObj.put("Product_ids", Product_ids);
-            Log.e("Product_ids", "" + jsonObj);
-
-            androidNetworking(jsonObj,isAlert);
-        } catch (Exception e) {
-            e.printStackTrace();
+        }else{
+            try {
+                JSONObject jsonObj = new JSONObject();
+                JSONArray Product_ids = new JSONArray();
+                for (int i = 0; i < categorySelectedList.size(); i++) {
+                    JSONObject CatidObj = new JSONObject();
+                    CatidObj.put("Cat_id", categorySelectedList.get(i));
+                    Product_ids.put(CatidObj);
+                }
+                jsonObj.put("Product_ids", Product_ids);
+                Log.e("Product_ids", "" + jsonObj);
+                androidNetworking(jsonObj,isAlert);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     public void androidNetworking(JSONObject jsonObject, final boolean isAlert) {
@@ -992,17 +1007,14 @@ public class AddShippingServices extends AppCompatActivity {
                                     }
                                     subcategoryIds.add(catObj.getString("id"));
                                     subcategoriesList.add(catObj.getString("title"));
-
                                 }
                                 for (int j = 0; j < getunitArray.length(); j++) {
                                     JSONObject unitObj = getunitArray.getJSONObject(j);
-
                                     ServiceUnitModel serviceUnitModel = new ServiceUnitModel(
                                             unitObj.getString("um_id"),
                                             unitObj.getString("unit_name"),
                                             "", "", "", ""
                                     );
-
                                     unitList.add(serviceUnitModel);
                                 }
                                 if (isAlert)
@@ -1034,7 +1046,6 @@ public class AddShippingServices extends AppCompatActivity {
                             Toast.makeText(AddShippingServices.this, "No Subcategories Available.", Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onError(ANError error) {
                         Log.d("Error", "ANError : " + error);
@@ -1243,6 +1254,78 @@ public class AddShippingServices extends AppCompatActivity {
             }
         });
     }
+    private void getCategoriesList() {
+        progressdialog();
+        Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(DZ_URL.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+        TransportApi service = retrofit.create(TransportApi.class);
+        Call<JsonElement> callRetrofit = null;
+        callRetrofit = service.getCategoriesList();
+
+        callRetrofit.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        progressDialog.dismiss();
+                        Log.d("Success Call", ">>>>" + call);
+                        Log.d("Success Call ", ">>>>" + response.body().toString());
+                        System.out.println("----------------------------------------------------");
+                        Log.d("Call request", call.request().toString());
+                        Log.d("Call request header", call.request().headers().toString());
+                        Log.d("Response raw header", response.headers().toString());
+                        Log.d("Response raw", String.valueOf(response.raw().body()));
+                        Log.d("Response code", String.valueOf(response.code()));
+                        System.out.println("----------------------------------------------------");
+                        if (response.body().toString() != null) {
+                            JSONObject root = null;
+                            try {
+                                root = new JSONObject(response.body().toString());
+                                String status = root.getString("status");
+                                String error = root.getString("error");
+                                JSONObject responseObj = root.getJSONObject("response");
+                                if (error.equalsIgnoreCase("false")) {
+                                    JSONArray jsonArray = responseObj.getJSONArray("data");
+                                    categoriesList = new ArrayList<>();
+                                    List<String> categoryIds = new ArrayList<>();
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject catObj = jsonArray.getJSONObject(i);
+
+                                        categoryIds.add(catObj.getString("id"));
+                                        categoriesList.add(catObj.getString("title"));
+                                    }
+                                  /*  if(UpdateStr.equalsIgnoreCase("1")) {
+                                        if (countCategory > 0) {
+                                            showAlertDialog1(true, categoriesList, categoryIds);
+                                        } else {
+                                        }
+                                        countCategory = countCategory + 1;
+                                    }else{*/
+                                    showAlertDialog1(true, categoriesList, categoryIds);
+                                    // }
+                                } else {
+                                    Toast.makeText(AddShippingServices.this, "No Categories ", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                Log.d("Error Call", ">>>>" + call.toString());
+                Log.d("Error", ">>>>" + t.toString());
+                //  Toast.makeText(ProductsActivity.this, "Please login again", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+    }
     private void showAlertDialog ( final boolean isTransport, final List<String> transportList,
                                    final List<String> idList){
         try {
@@ -1382,8 +1465,13 @@ public class AddShippingServices extends AppCompatActivity {
                             // Add sport if it is checked i.e.) == TRUE!
                             if (checked.valueAt(i)) {
                                 selectedItems.add(adapter.getItem(position));
-                                categorySelectedList.add("144");
-                                categorySelectedPosition.add(position);
+                                if(user_role.equalsIgnoreCase("general")){
+                                    categorySelectedList.add(categoryIdList.get(position));
+                                    categorySelectedPosition.add(position);
+                                }else {
+                                    categorySelectedList.add("144");
+                                    categorySelectedPosition.add(position);
+                                }
                             }
                         }
                         StringBuilder stringBuilder = new StringBuilder();
@@ -1395,7 +1483,11 @@ public class AddShippingServices extends AppCompatActivity {
                                     stringBuilder.append(selectedItems.get(i) + ", ");
                                 }
                             }
-                            choose_category.setText("Live Stock");
+                            if(user_role.equalsIgnoreCase("poultry")) {
+                                choose_category.setText("Live Stock");
+                            }else{
+                                choose_category.setText(stringBuilder.toString());
+                            }
                             choose_sub_category.setText("");
                             choose_sub_category.setHint("Choose Sub Category");
                             alertDialog1.dismiss();

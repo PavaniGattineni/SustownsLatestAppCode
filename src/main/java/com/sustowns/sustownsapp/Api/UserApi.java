@@ -2,8 +2,10 @@ package com.sustowns.sustownsapp.Api;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.sustowns.sustownsapp.Models.PlaceOrderModel;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -16,16 +18,27 @@ public interface UserApi {
     @GET(DZ_URL.HOME_PRODUCTS)
     Call<JsonElement> getHomeProducts();
 
+    @GET(DZ_URL.GET_GEN_HOME_PRODUCTS)
+    Call<JsonElement> getGeneralHomeProducts();
+    
     @GET(DZ_URL.CART_COUNT)
     Call<JsonElement> cartCount(@Query("userid") String userid);
 
     @POST(DZ_URL.VENDOR_SIGNUP)
     Call<JsonElement> vendorSignup(@Query("name") String name, @Query("username") String username, @Query("phone") String phone, @Query("email") String email,
                                    @Query("businessname") String businessname, @Query("password") String password, @Query("role") String role, @Query("country") String country,@Query("state") String state,@Query("city") String city,@Query("pincode") String pincode,@Query("vendorsubcat") String vendorsubcat);
-
+    @POST(DZ_URL.CLUSTER_REG)
+    Call<JsonElement> clusterRegistration(@Query("name") String name, @Query("username") String username, @Query("phone") String phone, @Query("email") String email,
+                                   @Query("businessname") String businessname, @Query("password") String password, @Query("country") String country,@Query("state") String state,@Query("city") String city,@Query("pincode") String pincode);
+    @POST(DZ_URL.VENDOR_REG_BYCLUSTER)
+    Call<JsonElement> vendorRegByCluster(@Query("name") String name, @Query("username") String username, @Query("phone") String phone, @Query("email") String email,
+                                   @Query("businessname") String businessname, @Query("password") String password, @Query("role") String role, @Query("country") String country,@Query("state") String state,@Query("city") String city,@Query("pincode") String pincode,@Query("user_id") String user_id,@Query("vendorsubcat") String vendorsubcat);
     @GET(DZ_URL.STORE_POULTRY)
-    Call<JsonElement> StorePoultryProducts();
-
+    Call<JsonElement> StorePoultryProducts(@Query("userid") String userid);
+    
+    @GET(DZ_URL.GET_GEN_STORE_PRODUCTS)
+    Call<JsonElement> StoreGeneralProducts(@Query("userid") String userid);
+    
     @GET(DZ_URL.PRODUCT_DETAILS)
     Call<JsonElement> productDetails(@Query("userid") String userid, @Query("pid") String pid);
 
@@ -90,4 +103,7 @@ public interface UserApi {
 
     @GET(DZ_URL.GET_BANK_DETAILS_PROFILE)
     Call<JsonElement> getBankDetailsList(@Query("user_id") String user_id);
+
+    @POST(DZ_URL.PLACE_ORDER_API)
+    Call<JsonObject>placeOrderApi(@Body PlaceOrderModel placeOrderModel);
 }

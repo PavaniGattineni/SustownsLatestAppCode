@@ -626,14 +626,14 @@ public class PaymentContractsActvity  extends AppCompatActivity {
             jsonObj.put("quotedid",quoteId);
             jsonObj.put("pay_type","instant");
             jsonObj.put("jobquatid",jobQuoteId);
-            jsonObj.put("amount",amount);
-            jsonObj.put("mode","");
+            jsonObj.put("amount",amountStr);
+            jsonObj.put("mode","DC");
             jsonObj.put("mihpayid","");
             jsonObj.put("firstname",preferenceUtils.getStringFromPreference(PreferenceUtils.FULL_NAME,""));
             jsonObj.put("country","India");
             jsonObj.put("email",preferenceUtils.getStringFromPreference(PreferenceUtils.USER_EMAIL,""));
             jsonObj.put("phone",preferenceUtils.getStringFromPreference(PreferenceUtils.MOBILE,""));
-            jsonObj.put("bankcode","");
+            jsonObj.put("bankcode","CC");
             jsonObj.put("PG_TYPE","");
             jsonObj.put("bank_ref_num","");
             androidNetworkingPayUFailure(jsonObj);
@@ -810,16 +810,17 @@ public class PaymentContractsActvity  extends AppCompatActivity {
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("userid", user_id);
-            jsonObj.put("txnid",txnid);
+           // jsonObj.put("txnid",transactionId);
+            jsonObj.put("txnid",transactionId);
             jsonObj.put("order_ran",orderRandId);
             jsonObj.put("service_id",serviceId);
-            jsonObj.put("amount",amount);
+            jsonObj.put("amount",amountStr);
             jsonObj.put("transport_id",transportId);
-            jsonObj.put("mode",mode);
+            jsonObj.put("mode","DC");
             jsonObj.put("mihpayid",mihpayid);
-            jsonObj.put("PG_TYPE",PG_TYPE);
-            jsonObj.put("bank_ref_num",bank_ref_num);
-            jsonObj.put("bankcode",bankCode);
+            jsonObj.put("PG_TYPE","");
+            jsonObj.put("bank_ref_num","");
+            jsonObj.put("bankcode","CC");
             androidNetworkingPayUFailureLogistics(jsonObj);
         } catch (Exception e) {
             e.printStackTrace();
@@ -871,16 +872,16 @@ public class PaymentContractsActvity  extends AppCompatActivity {
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("userid", user_id);
-            jsonObj.put("txnid",txnid);
+            jsonObj.put("txnid",transactionId);
             jsonObj.put("order_ran",orderRandId);
             jsonObj.put("service_id",serviceId);
-            jsonObj.put("amount",amount);
+            jsonObj.put("amount",amountStr);
             jsonObj.put("transport_id",transportId);
-            jsonObj.put("mode",mode);
-            jsonObj.put("mihpayid",mihpayid);
-            jsonObj.put("PG_TYPE",PG_TYPE);
-            jsonObj.put("bank_ref_num",bank_ref_num);
-            jsonObj.put("bankcode",bankCode);
+            jsonObj.put("mode","DC");
+            jsonObj.put("mihpayid","");
+            jsonObj.put("PG_TYPE","");
+            jsonObj.put("bank_ref_num","");
+            jsonObj.put("bankcode","CC");
             androidNetworkingPayUFailureContractLogistics(jsonObj);
         } catch (Exception e) {
             e.printStackTrace();
@@ -997,9 +998,9 @@ public class PaymentContractsActvity  extends AppCompatActivity {
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("userid", user_id);
-            jsonObj.put("txnid",txnid);
-            jsonObj.put("amount",amount);
-            jsonObj.put("mode",mode);
+            jsonObj.put("txnid",transactionId);
+            jsonObj.put("amount",amountStr);
+            jsonObj.put("mode","DC");
             jsonObj.put("mihpayid",mihpayid);
             jsonObj.put("discount","");
             jsonObj.put("net_amount",amount);
@@ -1007,9 +1008,9 @@ public class PaymentContractsActvity  extends AppCompatActivity {
             jsonObj.put("firstname",preferenceUtils.getStringFromPreference(PreferenceUtils.FULL_NAME,""));
             jsonObj.put("email",preferenceUtils.getStringFromPreference(PreferenceUtils.USER_EMAIL,""));
             jsonObj.put("phone",preferenceUtils.getStringFromPreference(preferenceUtils.MOBILE,""));
-            jsonObj.put("PG_TYPE",PG_TYPE);
-            jsonObj.put("bank_ref_num",bank_ref_num);
-            jsonObj.put("bankcode",bankCode);
+            jsonObj.put("PG_TYPE","");
+            jsonObj.put("bank_ref_num","");
+            jsonObj.put("bankcode","CC");
             androidNetworkingMakeOfferPayUFailure(jsonObj);
         } catch (Exception e) {
             e.printStackTrace();
@@ -1077,7 +1078,6 @@ public class PaymentContractsActvity  extends AppCompatActivity {
          * Surl --> Success url is where the transaction response is posted by PayU on successful transaction
          * Furl --> Failre url is where the transaction response is posted by PayU on failed transaction
          */
-
         mPaymentParams.setSurl("https://payu.herokuapp.com/success");
         mPaymentParams.setFurl("https://payu.herokuapp.com/failure");
         mPaymentParams.setNotifyURL(mPaymentParams.getSurl());  //for lazy pay
@@ -1087,7 +1087,6 @@ public class PaymentContractsActvity  extends AppCompatActivity {
         mPaymentParams.setUdf3("udf3");
         mPaymentParams.setUdf4("udf4");
         mPaymentParams.setUdf5("udf5");
-
         /**
          * These are used for store card feature. If you are not using it then user_credentials = "default"
          * user_credentials takes of the form like user_credentials = "merchant_key : user_id"
@@ -1101,7 +1100,6 @@ public class PaymentContractsActvity  extends AppCompatActivity {
     public void generateHashFromSDK(PaymentParams mPaymentParams, String salt) {
         PayuHashes payuHashes = new PayuHashes();
         PostData postData = new PostData();
-
         // payment Hash;
         checksum = null;
         checksum = new PayUChecksum();

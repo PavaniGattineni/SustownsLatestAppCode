@@ -1199,7 +1199,6 @@ public class EditTransportServices extends AppCompatActivity {
             }
             jsonObj.put("Product_ids", Product_ids);
             Log.e("Product_ids", "" + jsonObj);
-
             androidNetworking(jsonObj,isAlert);
         } catch (Exception e) {
             e.printStackTrace();

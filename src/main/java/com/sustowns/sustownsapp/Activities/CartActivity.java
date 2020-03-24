@@ -119,7 +119,13 @@ public class CartActivity extends AppCompatActivity implements DataListener {
                 Intent i = new Intent(CartActivity.this, ShippingAddressActivity.class);
                 i.putExtra("TotalAmount",order_total);
                 i.putExtra("TotalItems",total_items);
+               // i.putExtra("ContractLocation","3");
                 startActivity(i);
+               /* Intent i = new Intent(CartActivity.this, LocationDialogActivity.class);
+                i.putExtra("TotalAmount",order_total);
+                i.putExtra("TotalItems",total_items);
+                i.putExtra("ContractLocation","3");
+                startActivity(i);*/
             }
         });
         remove_all_items.setOnClickListener(new View.OnClickListener() {
@@ -576,6 +582,7 @@ public class CartActivity extends AppCompatActivity implements DataListener {
                                             String shiping_amount = Obj.getString("shiping_amount");
                                             String shipping_ven_service_id = Obj.getString("shipping_ven_service_id");
                                             String pr_stocks = Obj.getString("pr_stocks");
+                                            String pr_userid = Obj.getString("pr_userid");
                                             String pr_min = Obj.getString("pr_min");
                                             String image = imagepath + pro_img;
 
@@ -607,6 +614,7 @@ public class CartActivity extends AppCompatActivity implements DataListener {
                                             cartListModel.setShipping_ven_service_id(shipping_ven_service_id);
                                             cartListModel.setPr_min(pr_min);
                                             cartListModel.setPr_stocks(pr_stocks);
+                                            cartListModel.setPr_userid(pr_userid);
                                             cartServerList.add(cartListModel);
                                         }
                                         cartAmountTotal = Double.parseDouble(order_total);

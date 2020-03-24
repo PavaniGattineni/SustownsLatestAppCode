@@ -77,7 +77,7 @@ public class ShippingAddress extends AppCompatActivity {
     AlertDialog alertDialog,alertDialog1;
     Button save_address_btn,close_dialog;
     String countryStr, mobile, clickedSearch = "", order_id, title, id, quantity, price;
-    String name, company_name, email, state, user_id="",countryId="",stateId="",cityId="",selectedAddress = "";
+    String name, company_name, email, state, user_id="",countryId="IN",stateId="",cityId="",selectedAddress = "";
     String[] country = {"India", "Algeria", "USA", "UK"};
     ProgressDialog progressDialog;
     CheckBox checkbox;
@@ -90,10 +90,12 @@ public class ShippingAddress extends AppCompatActivity {
     ArrayList<String> statesList = new ArrayList<>();
     ArrayList<String> citiesList = new ArrayList<>();
     int textlength = 0;
+    Spinner spinner_country_reg;
     ArrayList<String> selectedCountryList = new ArrayList<String>();
     ArrayList<String> selectedCountryIdList = new ArrayList<String>();
     public static String ShippingAddress = "";
     public static TextView address_txt_map_shipping;
+    String[] Country = {"India"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,13 +129,27 @@ public class ShippingAddress extends AppCompatActivity {
         mobile_address = (EditText) findViewById(R.id.mobile_address_shipping);
         pincode_address = (EditText) findViewById(R.id.pincode_address_shipping);
         fax_address = (EditText) findViewById(R.id.fax_address_shipping);
-        spinner_countrydialog = (TextView) findViewById(R.id.spinner_country);
+        spinner_country_reg = (Spinner) findViewById(R.id.spinner_country_reg);
+        ArrayAdapter country = new ArrayAdapter(ShippingAddress.this, android.R.layout.simple_spinner_item, Country);
+        country.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spinner_country_reg.setAdapter(country);
+        spinner_country_reg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String coutry = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+       /* spinner_countrydialog = (TextView) findViewById(R.id.spinner_country);
         spinner_countrydialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getCountryList();
             }
-        });
+        });*/
         address_town = (TextView) findViewById(R.id.address_town_shipping);
         address_town.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -765,7 +781,6 @@ public class ShippingAddress extends AppCompatActivity {
             jsonObj.put("city",cityId);
             jsonObj.put("phone",mobileAddress);
             jsonObj.put("fax",faxAddress);
-
             androidNetworkingAddress(jsonObj);
         } catch (Exception e) {
             e.printStackTrace();

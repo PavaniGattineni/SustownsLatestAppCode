@@ -27,6 +27,8 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.kofigyan.stateprogressbar.StateProgressBar;
+import com.sustowns.sustownsapp.Models.PlaceOrderModel;
 import com.sustowns.sustownsapp.R;
 import com.google.common.base.Splitter;
 import com.google.gson.Gson;
@@ -70,7 +72,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
     PreferenceUtils preferenceUtils;
     Spinner spinner_country, spinner_country_billing;
     Button place_order_btn, close_dialog;
-    String countryStr, mobile, countryStrBilling, order_id, title, id, quantity, price;
+    String countryStr, mobile, countryStrBilling, title, id, quantity, price;
     String name, company_name, email, first_name, last_name, address1, address2, state, town, pincode, fax, country_st, user_id, selectedRadioBtn;
     String[] country = {"India", "Algeria", "USA", "UK"};
     RadioButton radioButton,cards_checkbox,netbanking_checkbox,upi_checkbox,payumoney_checkbox;
@@ -82,8 +84,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
     LinearLayout ll_bank_details, ll_payment_gateway_temscond, ll_logistics_tems_conditions, ll_vendor_tems_conditions;
     TextView paybybank_orderstatus,acc_name, acc_no, acc_ifsccode, acc_address,terms_conditions, acc_note,name_payment,email_payment,phone_payment,total_items_txt,total_amount_txt;;
     ArrayList<AddToCartModel> addToCartModels;
-    String billing_company, billing_email, billing_fname, billing_lname, billing_address1, billing_address2, billing_postalcode,
-            billing_state, billing_town, billing_mobile, billing_fax;
+    String[] descriptionData = {"Cart", "Address", "Payment"};
     EditText company_billing, email_billing, first_name_billing, last_name_billing, address1_billing, address2_billing,
             state_billing, city_billing, mobile_billing, pincode_billing, fax_billing;
     EditText name_address, company_address, email_address, first_name_address, last_name_address, address1_address, address2_address,
@@ -92,7 +93,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
     ArrayList<AddToCartModel> myList;
     RadioButton paybank_radiobtn, payu_radiobutton;
     String paymentType = "",userName,userEmail,userMobile,totalAmount,totalItems,PayUorderid;
-
+    StateProgressBar stateprogressbar;
     private String merchantKey = "swpahz", salt = "h7dXPGlF", transactionId, userCredentials;
     // These will hold all the payment parameters
     private PaymentParams mPaymentParams;
@@ -104,6 +105,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
     WebServices webServices;
     Helper helper;
     LinearLayout ll_payu_options;
+
     String bankCode="",mihpayid="",mode="",status,txnid="" ,amount = "",net_amount_debit="",firstname,phone,hash,payment_source,PG_TYPE="",bank_ref_num="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +122,6 @@ public class ShippingAddressActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         // getCountryList();
-
     }
 
     private void initializeValues() {
@@ -145,6 +146,8 @@ public class ShippingAddressActivity extends AppCompatActivity {
         myList = getIntent().getParcelableExtra("CartList");
         totalAmount = getIntent().getStringExtra("TotalAmount");
         totalItems = getIntent().getStringExtra("TotalItems");
+        stateprogressbar = (StateProgressBar) findViewById(R.id.stateprogressbar);
+        stateprogressbar.setStateDescriptionData(descriptionData);
         name_payment = (TextView) findViewById(R.id.name_payment);
         email_payment = (TextView) findViewById(R.id.email_payment);
         phone_payment = (TextView) findViewById(R.id.phone_payment);
@@ -371,7 +374,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
                         //  payByBankDetails();
                     }
                 } else {
-                    Toast.makeText(ShippingAddressActivity.this, "To continue,you should agree terms and condditions", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShippingAddressActivity.this, "To continue,you should agree terms and conditions", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -519,13 +522,120 @@ public class ShippingAddressActivity extends AppCompatActivity {
     }
     public void setPayuObject() {
         try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("userid", user_id);
-            androidNetworkingPayU(jsonObj);
+            JSONObject jsonObj1 = new JSONObject();
+            jsonObj1.put("userid", user_id);
+            androidNetworkingPayU(jsonObj1);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    public void androidNetworkingPayU(JSONObject jsonObject) {
+        progressdialog();
+        AndroidNetworking.post("https://www.sustowns.com/Checkoutservice/placeorderserv/")
+            .addJSONObjectBody(jsonObject) // posting java object
+            .setTag("test")
+            .setPriority(Priority.HIGH)
+            .build()
+            .getAsJSONObject(new JSONObjectRequestListener() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d("Response", "JSON : " + response);
+                    try {
+                        JSONObject response1 = response.getJSONObject("response");
+                        PayUorderid = response1.getString("orderid");
+                        String message = response1.getString("message");
+                        String success = response1.getString("success");
+                        if (success.equalsIgnoreCase("1")) {
+                            progressDialog.dismiss();
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(ShippingAddressActivity.this, message, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        progressDialog.dismiss();
+                        // Toast.makeText(ServiceManagementActivity.this, "No Subcategories Available.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onError(ANError error) {
+                    Log.d("Error", "ANError : " + error);
+                    progressDialog.dismiss();
+                }
+            });
+    }
+/*
+    private void setPayuObject() {
+        progressdialog();
+        Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
+        Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(DZ_URL.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build();
+        UserApi service = retrofit.create(UserApi.class);
+        PlaceOrderModel placeOrderModel = new PlaceOrderModel();
+        placeOrderModel.setUserid(user_id);
+
+        Call<JsonObject> callRetrofit = null;
+        callRetrofit = service.placeOrderApi(placeOrderModel);
+
+        callRetrofit.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("Success Call ", ">>>>" + response.body().toString());
+
+                System.out.println("----------------------------------------------------");
+                Log.d("Call request", call.request().toString());
+                Log.d("Call request header", call.request().headers().toString());
+                Log.d("Response raw header", response.headers().toString());
+                Log.d("Response raw", String.valueOf(response.raw().body()));
+                Log.d("Response code", String.valueOf(response.code()));
+                System.out.println("----------------------------------------------------");
+                Log.d("Success Call", ">>>>" + call);
+
+                if (response.body().toString() != null) {
+
+                    if (response != null) {
+                        String searchResponse = response.body().toString();
+                        Log.d("Reg", "Response  >>" + searchResponse.toString());
+
+                        if (searchResponse != null) {
+                            JSONObject root = null;
+                            Integer orderId;
+                            try {
+                                root = new JSONObject(searchResponse);
+                                JSONObject responseObject = root.getJSONObject("response");
+                                orderId = responseObject.getInt("orderid");
+                                PayUorderid = String.valueOf(orderId);
+                                String message = responseObject.getString("message");
+                                String success = responseObject.getString("success");
+                                if(success.equalsIgnoreCase("1")){
+                                    Toast.makeText(ShippingAddressActivity.this, message, Toast.LENGTH_SHORT).show();   
+                                }else{
+                                    
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            progressDialog.dismiss();
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(ShippingAddressActivity.this, "Something went wrong! please try again", Toast.LENGTH_SHORT).show();
+                Log.d("Error Call", ">>>>" + call.toString());
+                Log.d("Error", ">>>>" + t.toString());
+                progressDialog.dismiss();
+            }
+        });
+    }
+*/
+
+    /*
     public void androidNetworkingPayU(JSONObject jsonObject) {
         progressdialog();
         AndroidNetworking.post("https://www.sustowns.com/Checkoutservice/placeorderserv/")
@@ -537,17 +647,19 @@ public class ShippingAddressActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("Response", "JSON : " + response);
-                        try {
+                        try { 
                             JSONObject responseObj = response.getJSONObject("response");
                             PayUorderid = responseObj.getString("orderid");
                             String message = responseObj.getString("message");
                             String success = responseObj.getString("success");
                             if (success.equalsIgnoreCase("1")) {
                                 progressDialog.dismiss();
-                               /* Toast.makeText(ShippingAddressActivity.this, "Thank you for Transaction and Sustowns Team Will Verify Transaction within 48 Hours", Toast.LENGTH_SHORT).show();
+                               */
+/* Toast.makeText(ShippingAddressActivity.this, "Thank you for Transaction and Sustowns Team Will Verify Transaction within 48 Hours", Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(ShippingAddressActivity.this, StoreReceivedOrdersActivity.class);
                                 i.putExtra("Message","Thank you for Transaction and Sustowns Team Will Verify Transaction within 48 Hours");
-                                startActivity(i);*/
+                                startActivity(i);*//*
+
                                // progressDialog.dismiss();
                             } else {
                                 progressDialog.dismiss();
@@ -566,17 +678,18 @@ public class ShippingAddressActivity extends AppCompatActivity {
                     }
                 });
     }
+*/
     public void setPayUSuccess() {
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("userid", user_id);
             jsonObj.put("txnid",txnid);
             jsonObj.put("orderid",PayUorderid);
-            jsonObj.put("amount",amount);
+            jsonObj.put("amount",totalAmount);
             jsonObj.put("mode",mode);
             jsonObj.put("mihpayid",mihpayid);
             jsonObj.put("discount","");
-            jsonObj.put("net_amount",net_amount_debit);
+            jsonObj.put("net_amount",totalAmount);
             jsonObj.put("firstname",preferenceUtils.getStringFromPreference(PreferenceUtils.FULL_NAME,""));
             jsonObj.put("email",preferenceUtils.getStringFromPreference(PreferenceUtils.USER_EMAIL,""));
             jsonObj.put("phone",preferenceUtils.getStringFromPreference(PreferenceUtils.MOBILE,""));
@@ -605,13 +718,13 @@ public class ShippingAddressActivity extends AppCompatActivity {
                             String success = responseObj.getString("success");
                             if (success.equalsIgnoreCase("1")) {
                                 progressDialog.dismiss();
-                                Toast.makeText(ShippingAddressActivity.this, "", Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(ShippingAddressActivity.this, StoreReceivedOrdersActivity.class);
+                                Toast.makeText(ShippingAddressActivity.this, "Your Payment is Successful", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(ShippingAddressActivity.this, PaymentSuccessActivity.class);
                                 i.putExtra("Message","");
                                 startActivity(i);
                             } else {
                                 progressDialog.dismiss();
-                                Toast.makeText(ShippingAddressActivity.this, message, Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(ShippingAddressActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -619,7 +732,6 @@ public class ShippingAddressActivity extends AppCompatActivity {
                             // Toast.makeText(ServiceManagementActivity.this, "No Subcategories Available.", Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onError(ANError error) {
                         Log.d("Error", "ANError : " + error);
@@ -637,7 +749,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
             jsonObj.put("mode","DC");
             jsonObj.put("mihpayid","");
             jsonObj.put("discount","");
-            jsonObj.put("net_amount",net_amount_debit);
+            jsonObj.put("net_amount",totalAmount);
             jsonObj.put("firstname",preferenceUtils.getStringFromPreference(PreferenceUtils.FULL_NAME,""));
             jsonObj.put("email",preferenceUtils.getStringFromPreference(PreferenceUtils.USER_EMAIL,""));
             jsonObj.put("phone",preferenceUtils.getStringFromPreference(PreferenceUtils.MOBILE,""));
@@ -824,8 +936,8 @@ public class ShippingAddressActivity extends AppCompatActivity {
                 mode = map.get("mode");
                 status = map.get("status");
                 txnid  = map.get("txnid");
-                amount = map.get("amount");
-                net_amount_debit = map.get("net_amount_debit");
+                totalAmount = map.get("amount");
+                totalAmount = map.get("net_amount_debit");
                 firstname = map.get("firstname");
                 email = map.get("email");
                 phone = map.get("phone");
@@ -833,18 +945,25 @@ public class ShippingAddressActivity extends AppCompatActivity {
                 payment_source = map.get("payment_source");
                 PG_TYPE = map.get("PG_TYPE");
                 bank_ref_num = map.get("bank_ref_num");
-                Helper helper = new Helper(ShippingAddressActivity.this);
-                helper.singleClickAlert(ShippingAddressActivity.this, SweetAlertDialog.SUCCESS_TYPE, "Success", "Payment is successfully completed.",
+               // Toast.makeText(ShippingAddressActivity.this,"", Toast.LENGTH_SHORT).show();
+                setPayUSuccess();
+                // Helper helper = new Helper(ShippingAddressActivity.this);
+/*
+                helper.singlePayClickAlert(ShippingAddressActivity.this, SweetAlertDialog.SUCCESS_TYPE, "Proceed", "Click Proceed to Continue  ",
                         new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                 sweetAlertDialog.dismissWithAnimation();
-                                setPayUSuccess();
                                 //Write the next set of code in the success
                             }
                         });
+*/
             } else {
-                setPayUFailure();
+                try {
+                    setPayUFailure();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 // Toast.makeText(this, getString(R.string.could_not_receive_data), Toast.LENGTH_LONG).show();
             }
         }

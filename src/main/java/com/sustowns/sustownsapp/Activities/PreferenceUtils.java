@@ -9,6 +9,8 @@ public class PreferenceUtils {
     public static final String UserName = "username";
     public static final String FULL_NAME = "fullname";
     public static final String USER_ROLE = "user_role";
+    public static final String USER_TYPE = "user_type";
+    public static final String ORDERID = "orderid";
     public static final String Password = "password";
     public static final String USER_EMAIL = "user_email";
     public static final String MOBILE = "mobile";

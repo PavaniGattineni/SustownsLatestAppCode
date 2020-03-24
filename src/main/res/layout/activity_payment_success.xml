@@ -60,6 +60,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="@color/colorPrimaryDark"
         android:padding="10dp">
         <com.kofigyan.stateprogressbar.StateProgressBar
@@ -118,24 +119,29 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:text="After order is placed to check the order status"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp" />
+                android:text="To Check Your Orders "
+                android:layout_marginRight="10dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/btn_background_color"
                 android:textSize="16sp"
-                android:text="Click My Orders"
+                android:text="Go To My Orders"
                 android:id="@+id/paybybank_orderstatus"
                 android:textStyle="bold"
                 android:layout_marginRight="10dp" />
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

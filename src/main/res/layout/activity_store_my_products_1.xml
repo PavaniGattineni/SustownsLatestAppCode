@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible"
             android:layout_margin="10dp">
 
             <android.support.v7.widget.CardView
@@ -137,83 +136,127 @@
                             android:background="@color/black" />
 
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="1"
-                            android:text="Product Category *"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
-
-                        <Spinner
-                            android:id="@+id/spinner_prod_category"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:padding="10dp"
-                            android:spinnerMode="dropdown"></Spinner>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.1dp"
-                            android:layout_marginRight="15dp"
-                            android:background="@color/black" />
-
-                    </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_weight="1"
                         android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="1"
-                            android:text="Select Sector *"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
-
-                        <Spinner
-                            android:id="@+id/spinner_sector"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:padding="10dp"
-                            android:spinnerMode="dropdown"></Spinner>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginRight="15dp"
-                            android:background="@color/black" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:text="Choose Category *"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/choose_category"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:hint="Choose Category"
+                                android:padding="10dp"
+                                android:textColor="@color/black" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.1dp"
+                                android:layout_marginRight="15dp"
+                                android:background="@color/black" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll_choose_subcategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="7dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:text="Choose SubCategory *"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/choose_sub_category"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:hint="Choose SubCategory"
+                                android:padding="10dp"
+                                android:textColor="@color/black" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.1dp"
+                                android:layout_marginRight="15dp"
+                                android:background="@color/black" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:text="Select Sector *"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
+
+                            <Spinner
+                                android:id="@+id/spinner_sector"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:padding="10dp"
+                                android:spinnerMode="dropdown"></Spinner>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.1dp"
+                                android:layout_marginRight="15dp"
+                                android:background="@color/black" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="5dp">
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -222,10 +265,10 @@
                                 android:layout_weight="1"
                                 android:text="Listing Type *"
                                 android:textColor="@color/black"
-                                android:textSize="16sp" />
+                                android:textSize="15sp" />
 
                             <Spinner
-                                android:id="@+id/spinner_list_type"
+                                android:id="@+id/spinner_prod_category"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
@@ -235,78 +278,51 @@
 
                             <View
                                 android:layout_width="match_parent"
-                                android:layout_height="0.5dp"
+                                android:layout_height="0.1dp"
                                 android:layout_marginRight="15dp"
                                 android:background="@color/black" />
 
                         </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:padding="5dp"
-                            android:visibility="gone">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left"
-                                android:layout_marginTop="10dp"
-                                android:background="@null"
-                                android:text="Image"
-                                android:textColor="#000000"
-                                android:textSize="16sp" />
-
-                            <Button
-                                android:layout_width="180dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:text="Choose File"
-                                android:textAllCaps="false" />
-                        </LinearLayout>
-
                     </LinearLayout>
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
                         android:background="@null"
-                        android:text="Image"
+                        android:padding="7dp"
+                        android:text="Image *"
+                        android:textStyle="bold"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
-
-                    <Button
-                        android:id="@+id/choosefile_btn"
-                        android:layout_width="180dp"
+                        android:textSize="15sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="Choose File"
-                        android:textAllCaps="false" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
                         android:layout_marginTop="10dp"
-                        android:background="@null"
-                        android:text="Image"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:orientation="horizontal">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:id="@+id/imageview"
+                            android:visibility="gone"
+                            android:src="@drawable/no_image_available"/>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profile_img"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/no_image_available" />
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/images_recyclerView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:scrollbars="horizontal" />
 
+                        <ImageButton
+                            android:id="@+id/confirm_add_icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+                            android:background="@color/appcolor"
+                            android:padding="10dp"
+                            android:src="@mipmap/add" />
+                    </LinearLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -316,22 +332,19 @@
                         android:padding="5dp"
                         android:text="Product Attribute : "
                         android:textColor="#000000"
-                        android:textSize="16sp" />
-
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
-
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
-                            android:orientation="vertical">
-
+                            android:orientation="vertical"
+                            android:padding="5dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -345,92 +358,101 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:hint="unit"
+                                android:layout_marginTop="5dp"
                                 android:inputType="numberDecimal"
                                 android:textSize="16sp" />
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="5dp">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Choose Unit *"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/choose_unit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:hint="Choose Unit"
+                                android:padding="10dp"
+                                android:textColor="@color/black" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.1dp"
+                                android:layout_marginRight="15dp"
+                                android:background="@color/black" />
+
+                        </LinearLayout>
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Select Unit"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Price"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
 
-                        <Spinner
-                            android:id="@+id/spinner_unit"
-                            android:layout_width="match_parent"
+                            <EditText
+                                android:id="@+id/price_edittext"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Price"
+                                android:layout_marginTop="5dp"
+                                android:inputType="numberDecimal"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:padding="7dp"
-                            android:spinnerMode="dropdown"></Spinner>
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Choose Currency*"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="@color/black" />
+                            <TextView
+                                android:id="@+id/choose_currency"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:hint="Choose Currency"
+                                android:padding="10dp"
+                                android:textColor="@color/black" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.1dp"
+                                android:layout_marginRight="15dp"
+                                android:background="@color/black" />
+                        </LinearLayout>
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Price"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
-
-                        <EditText
-                            android:id="@+id/price_edittext"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Price"
-                            android:inputType="numberDecimal"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Select Currency"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
-
-                        <Spinner
-                            android:id="@+id/spinner_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:padding="7dp"
-                            android:spinnerMode="dropdown"></Spinner>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="@color/black" />
-                    </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -447,10 +469,10 @@
                             android:textSize="16sp" />
 
                         <Spinner
+                            android:id="@+id/spinner_pack_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:id="@+id/spinner_pack_type"
                             android:layout_marginTop="5dp"
                             android:layout_weight="1"
                             android:spinnerMode="dropdown"></Spinner>
@@ -619,11 +641,11 @@
                             android:textSize="16sp" />
 
                         <EditText
+                            android:id="@+id/sample_gross_weight_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:hint="gross unit weight"
-                            android:id="@+id/sample_gross_weight_et"
                             android:inputType="numberDecimal"
                             android:textSize="16sp" />
 
@@ -730,11 +752,11 @@
                             android:textSize="16sp" />
 
                         <Spinner
+                            android:id="@+id/spinner_received_offers"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:layout_marginTop="5dp"
-                            android:id="@+id/spinner_received_offers"
                             android:layout_weight="1"
                             android:spinnerMode="dropdown"></Spinner>
 
@@ -764,11 +786,11 @@
                             android:textSize="16sp" />
 
                         <EditText
+                            android:id="@+id/delivery_lead_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:hint="delivery time"
-                            android:id="@+id/delivery_lead_time"
                             android:inputType="number"
                             android:textSize="16sp" />
 
@@ -916,29 +938,41 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Select Sample Unit"
+                            android:layout_weight="1"
+                            android:text="Choose Sample Unit *"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
-                        <Spinner
-                            android:id="@+id/spinner_sample_unit"
+                        <TextView
+                            android:id="@+id/choose_sampleunit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
-                            android:padding="7dp"
-                            android:spinnerMode="dropdown"></Spinner>
+                            android:hint="Choose Sample Unit"
+                            android:padding="10dp"
+                            android:textColor="@color/black" />
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
+                            android:layout_height="0.1dp"
+                            android:layout_marginRight="15dp"
                             android:background="@color/black" />
+                        <!--  <Spinner
+                              android:id="@+id/spinner_country"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_gravity="right"
+                              android:layout_marginTop="5dp"
+                              android:layout_weight="1"
+                              android:spinnerMode="dropdown"></Spinner>
+-->
                     </LinearLayout>
 
                     <LinearLayout
@@ -1218,6 +1252,7 @@
                             android:inputType="numberDecimal"
                             android:textSize="16sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1487,20 +1522,40 @@
                             android:text="Shipping sizes: *"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerview_shipping_sizes"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:overScrollMode="never"></android.support.v7.widget.RecyclerView>
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="5dp">
 
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="0.5dp"
-                            android:layout_marginRight="20dp"
-                            android:background="@color/black" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:text="Choose Options *"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
 
+                            <TextView
+                                android:id="@+id/choose_shipping_sizes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:hint="Choose Options"
+                                android:padding="10dp"
+                                android:textColor="@color/black" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.1dp"
+                                android:layout_marginRight="15dp"
+                                android:background="@color/black" />
+
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -1550,32 +1605,33 @@
                         android:orientation="vertical">
 
                         <CheckBox
+                            android:id="@+id/checkbox_international"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="International"
-                            android:id="@+id/checkbox_international"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
                         <CheckBox
+                            android:id="@+id/checkbox_domestic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Domestic"
-                            android:id="@+id/checkbox_domestic"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
+                        android:id="@+id/ll_international_freight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:visibility="gone"
-                        android:id="@+id/ll_international_freight"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1615,6 +1671,7 @@
                                 android:layout_height="0.5dp"
                                 android:layout_marginRight="15dp"
                                 android:background="@color/black" />
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1639,6 +1696,7 @@
                                 android:layout_marginRight="15dp"
                                 android:background="@color/black" />
                         </LinearLayout>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -1662,6 +1720,7 @@
                             android:layout_height="0.5dp"
                             android:layout_marginRight="15dp"
                             android:background="@color/black" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -1686,20 +1745,22 @@
                             android:layout_marginRight="15dp"
                             android:background="@color/black" />
                     </LinearLayout>
+
                     <LinearLayout
+                        android:id="@+id/ll_domestic_freight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:visibility="gone"
-                        android:id="@+id/ll_domestiic_freight"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Domestic Freight"
+                            android:id="@+id/freight_title"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -1733,6 +1794,7 @@
                                 android:layout_height="0.5dp"
                                 android:layout_marginRight="15dp"
                                 android:background="@color/black" />
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1757,6 +1819,7 @@
                                 android:layout_marginRight="15dp"
                                 android:background="@color/black" />
                         </LinearLayout>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -1780,6 +1843,7 @@
                             android:layout_height="0.5dp"
                             android:layout_marginRight="15dp"
                             android:background="@color/black" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -1810,11 +1874,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:gravity="center"
                         android:layout_marginTop="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/backgroundapp_transparent_blue"
+                        android:gravity="center"
                         android:padding="10dp"
                         android:text="Add Product"
                         android:textAllCaps="false"

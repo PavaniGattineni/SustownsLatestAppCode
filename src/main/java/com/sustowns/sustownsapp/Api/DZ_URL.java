@@ -2,8 +2,9 @@ package com.sustowns.sustownsapp.Api;
 
 public interface DZ_URL {
 
-    String BASE_URL = "https://www.sustowns.com/";
-    // String BASE_URL = "https://www.dev.sustowns.com/";
+       String BASE_URL = "https://www.sustowns.com/";           //  LIVE URL
+    // String BASE_URL = "https://www.dev.sustowns.com/";   // DEV URL
+    // String BASE_URL = "https://www.new.sustowns.com/";     // NEW URL
 
     String LOGIN = "Sustownsservice/login/";
     String HOME_PRODUCTS = "Sustownsservice/home";
@@ -67,6 +68,7 @@ public interface DZ_URL {
     String ADD_NEW_ADDRESS = "Sustownsservice/addnew_address";
     String EXISTING_ADDRESS = "Sustownsservice/existing_address";
     String SENT_ADDRESS = "Sustownsservice/sentexit_address";
+    String PLACE_ORDER_API = "Checkoutservice/placeorderserv/";
     // contracts
     String BID_CONTRACTS_COMPLETE = "Bidcontractservice/bidcomplete";
     String BID_CONTRACTS_ADD_DOCUMENT = "Bidcontractservice/bidapprovequote";
@@ -120,5 +122,24 @@ public interface DZ_URL {
     String GET_SLIDER_IMAGES = "Sustownsservice/banner_images";
     String GET_VENDOR_CATEGORIES_LIST = "Sustownsservice/get_vendorsubcat";
     String GET_BANK_DETAILS_PROFILE = "Sustownsservice/get_bankdetails/";
+    // cluster signup
+    String CLUSTER_REG = "Transportservices/franchiseregistration?";
+    String VENDOR_REG_BYCLUSTER = "transportservices/franchisevendorreg?";
+    String CLUSTER_VENDORS_LIST = "Clusterservices/franchisevendorlist/";
+    String VENDOR_IDS_LIST = "Clusterservices/get_vendorlist/";
+    String GET_VENDORS_DATA = "Clusterservices/get_vendorsdata/";
+    String ASSIGN_VENDOR = "Clusterservices/assign_vendor/";
+    String TRANSPORTERS_LIST = "Clusterservices/get_transportlist/";
+    String VENDOR_SALES = "Clusterservices/receivedlist/";
+    String VENDOR_PURCHASES = "Clusterservices/purchasedlist/";
+    
+    // For General
+    String GET_GEN_HOME_PRODUCTS = "Sustownsservice/homegeneral";
+    String GET_GEN_STORE_PRODUCTS = "Sustownsservice/storegeneral";
+    String GET_GEN_WEIGHT_UNIT_LIST = "Storemanagementser/get_weight_unit";
+    String GET_GEN_SAMPLE_WEIGHT_UNITLIST = "Storemanagementser/get_sampleweight_unit";
+    String GET_CURRENCY_LIST = "Storemanagementser/get_currency";
+    String GET_GEN_SHIPPING_TYPES = "Storemanagementser/get_shiptypes";
+    String GET_GEN_AIRLIST = "Storemanagementser/get_airlist";
 }
 

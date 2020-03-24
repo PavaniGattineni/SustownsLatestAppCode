@@ -717,7 +717,6 @@
                                 android:maxLength="18"
                                 android:textStyle="bold"
                                 android:padding="5dp"
-                                android:text="product price"
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
 
@@ -766,8 +765,6 @@
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:visibility="gone" />
-
-
                     <Button
                         android:id="@+id/addtocart"
                         android:layout_width="100dp"
@@ -792,6 +789,20 @@
                         android:textSize="16sp" />
 
                 </LinearLayout>
+                <Button
+                    android:id="@+id/buy_now_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@color/yellow"
+                    android:padding="5dp"
+                    android:paddingBottom="10dp"
+                    android:text="Buy Now"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/ll_descriptions"

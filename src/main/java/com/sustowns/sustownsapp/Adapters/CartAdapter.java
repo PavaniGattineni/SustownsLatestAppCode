@@ -37,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,12 +91,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 quantity = viewHolder.quantity_edit.getText().toString().trim();
@@ -111,16 +109,61 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             viewHolder.name.setText(cartServerModelList.get(position).getName());
             viewHolder.quantity_edit.setText(cartServerModelList.get(position).getQty());
             viewHolder.quantity_text.setText(cartServerModelList.get(position).getQty());
-           if(cartServerModelList.get(position).getDiscount().equalsIgnoreCase("")||cartServerModelList.get(position).getDiscount().equalsIgnoreCase("null")){
-                viewHolder.prod_price1.setVisibility(View.GONE);
-                viewHolder.dollar.setText("Price : INR "+cartServerModelList.get(position).getPrice_qty());
+            viewHolder.dollar.setText("Price : INR "+cartServerModelList.get(position).getPrice_qty());
+          /*  if(user_id.equalsIgnoreCase(cartServerModelList.get(position).getPr_userid())){
+                if(cartServerModelList.get(position).getDiscount().equalsIgnoreCase("")||cartServerModelList.get(position).getDiscount().equalsIgnoreCase("null")){
+                    viewHolder.prod_price1.setVisibility(View.GONE);
+                    viewHolder.dollar.setText("Price : INR "+cartServerModelList.get(position).getPrice_qty());
+                }else {
+                    int OriginalPrice = Integer.parseInt(cartServerModelList.get(position).getMrp());
+                    int DiscountStr = Integer.parseInt(cartServerModelList.get(position).getDiscount());
+                    int DiscountPrice = OriginalPrice * DiscountStr;
+                    float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                    float TotalPriceStr = Float.parseFloat(cartServerModelList.get(position).getMrp()) - DisPriceStr;
+                    float PriceQty = Float.valueOf(cartServerModelList.get(position).getQty())*TotalPriceStr;
+                    String Price = new DecimalFormat("##.##").format(PriceQty);
+                    viewHolder.dollar.setText("Price : INR " +Price);
+                }
             }else{
-               // viewHolder.prod_price1.setVisibility(View.VISIBLE);
-                int OriginalPrice = Integer.parseInt(cartServerModelList.get(position).getMrp())*Integer.parseInt(cartServerModelList.get(position).getQty());
-                int cartPrice = OriginalPrice + Integer.parseInt(cartServerModelList.get(position).getProductser_chargeAmount());
-                viewHolder.prod_price1.setText(String.valueOf(cartPrice));
-                viewHolder.dollar.setText("Price : INR "+cartServerModelList.get(position).getPrice_qty());
-            }
+                    if (cartServerModelList.get(position).getDiscount().equalsIgnoreCase("") || cartServerModelList.get(position).getDiscount().equalsIgnoreCase("null")) {
+                        viewHolder.prod_price1.setVisibility(View.GONE);
+                        if(cartServerModelList.get(position).getProductser_chargeAmount().equalsIgnoreCase("0") || cartServerModelList.get(position).getProductser_chargeAmount().equalsIgnoreCase("")) {
+                            viewHolder.dollar.setText("Price : INR " + cartServerModelList.get(position).getPrice_qty());
+                        }else{
+                            Float ProdPriceF = Float.valueOf(cartServerModelList.get(position).getMrp());
+                            Float ServiceChargeF = Float.valueOf(cartServerModelList.get(position).getProductser_chargeAmount());
+                            Float finalServiceCharge = (ProdPriceF * ServiceChargeF) / 100;
+                            Float totalProdPriceF = Float.valueOf(cartServerModelList.get(position).getMrp());
+                            float SerChargeFinal = totalProdPriceF + finalServiceCharge;
+                            float TotalPrice = Float.valueOf(cartServerModelList.get(position).getQty())*SerChargeFinal;
+                            String TotalProdPrice = new DecimalFormat("##.##").format(TotalPrice);
+                            viewHolder.dollar.setText("Price : INR " + TotalProdPrice);
+                        }
+                    } else {
+                        if (cartServerModelList.get(position).getProductser_chargeAmount().equalsIgnoreCase("0") || cartServerModelList.get(position).getProductser_chargeAmount().equalsIgnoreCase("")) {
+                            int OriginalPrice = Integer.parseInt(cartServerModelList.get(position).getMrp());
+                            int DiscountStr = Integer.parseInt(cartServerModelList.get(position).getDiscount());
+                            int DiscountPrice = OriginalPrice * DiscountStr;
+                            float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                            float TotalPriceStr = Float.parseFloat(cartServerModelList.get(position).getMrp()) - DisPriceStr;
+                            float quantityInt = Float.parseFloat(cartServerModelList.get(position).getQty());
+                            float ProdPriceStrFloat = quantityInt * TotalPriceStr;
+                            String Price = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                            viewHolder.dollar.setText("Price : INR " + Price);
+                        } else {
+                            int OriginalPrice = Integer.parseInt(cartServerModelList.get(position).getMrp());
+                            int DiscountStr = Integer.parseInt(cartServerModelList.get(position).getDiscount());
+                            int DiscountPrice = OriginalPrice * DiscountStr;
+                            float DisPriceStr = Float.parseFloat(String.valueOf(DiscountPrice)) / 100;
+                            float TotalPriceStr = Float.parseFloat(cartServerModelList.get(position).getMrp()) - DisPriceStr;
+                            float SerChargeFinal = TotalPriceStr + Float.valueOf(cartServerModelList.get(position).getProductser_chargeAmount());
+                            float quantityInt = Float.parseFloat(cartServerModelList.get(position).getQty());
+                            float ProdPriceStrFloat = quantityInt * SerChargeFinal;
+                            String Price = new DecimalFormat("##.##").format(ProdPriceStrFloat);
+                            viewHolder.dollar.setText("Price : INR " + Price);
+                        }
+                    }
+            }*/
             viewHolder.cart_prod_code.setText("Product Code : "+cartServerModelList.get(position).getPro_code());
             //    if(cartServerModelList.get(position).getShipping_type().equalsIgnoreCase("1")){
             if(cartServerModelList.get(position).getShiping_amount().equalsIgnoreCase("null")){

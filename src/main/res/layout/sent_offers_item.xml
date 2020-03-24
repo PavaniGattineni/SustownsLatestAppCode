@@ -16,7 +16,7 @@
         app:cardElevation="6dp">
 
         <LinearLayout
-            android:id="@+id/order1"
+            android:id="@+id/ll_sent_offers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_square_edges_drawable"
